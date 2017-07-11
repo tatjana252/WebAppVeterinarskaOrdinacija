@@ -40,7 +40,7 @@ public class MBUtil{
     @PostConstruct
     public void init() {
        
-        ResourceBundle bundle = ResourceBundle.getBundle("resources.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
         String usluga = bundle.getString("pet_services");
         String ljubimac = bundle.getString("pet");
         String poseta = bundle.getString("appointments");

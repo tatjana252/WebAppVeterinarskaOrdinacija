@@ -35,7 +35,7 @@ public class MBUsluga implements Serializable {
     private Usluga u;
     private Usluga odabranaUsluga;
     private String poruka;
-    private final ResourceBundle bundle = ResourceBundle.getBundle("resources.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+    private final ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
     @Inject
     private LazyDataModelUsluga lazydmUsluga;

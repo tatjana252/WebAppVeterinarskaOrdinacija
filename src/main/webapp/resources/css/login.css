@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: Philosopher-Regular;
-    src: url("#{resource['font/CODE Bold.ttf']}");
+/*    src: url("#{resource['font/CODE Bold.ttf']}");*/
 }
 
 html,body {
