@@ -14,7 +14,7 @@
         
         <!-- <message-bundle>poruke.porukeValidatora</message-bundle>        -->
         <resource-bundle>
-            <base-name>resources.messages</base-name>
+            <base-name>internationalization.messages</base-name>
             <var>i18</var>            
         </resource-bundle>
         
