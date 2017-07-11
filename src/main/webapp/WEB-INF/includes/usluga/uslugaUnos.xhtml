@@ -27,7 +27,7 @@
                                 <f:selectItems value="#{mbUsluga.ucitajTipoveUsluga()}" var="tu" itemValue="#{tu}" itemLabel="#{tu.naziv}" />
                             </p:selectOneMenu>
                             <p:message for="cbTipUsluge" />
-                            <p:commandButton value="Sacuvaj" action="#{mbUsluga.sacuvaj()}" id="btnSacuvaj"  update=":frmUsluga msgsUnos">
+                            <p:commandButton value="Sacuvaj" action="#{mbUsluga.sacuvaj()}" id="btnSacuvaj"  update=":frmUsluga :frmUsluga:msgsUnos">
                             </p:commandButton>
                         </h:panelGrid>
                         

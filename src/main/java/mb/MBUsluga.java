@@ -70,9 +70,9 @@ public class MBUsluga implements Serializable {
         try {
             kontroler.sacuvaj(u);
             u = new Usluga();
-        //    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(bundle.getString("service_saved")));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(bundle.getString("service_saved")));
         } catch (Exception ex) {
-          //  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(bundle.getString("service_not_saved")));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(bundle.getString("service_not_saved")));
         }
         return null;
     }
