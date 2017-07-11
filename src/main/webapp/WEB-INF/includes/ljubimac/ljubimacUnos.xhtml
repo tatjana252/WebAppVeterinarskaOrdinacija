@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <div id="center" >
+            <h3>#{i18.add_new_pet_service}</h3>
+            <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" />
+            <h:form id="frmVlasnik"  >
+                <p:commandButton value="Blash" icon="ui-icon-extlink" actionListener="#{mbLjubimac.otvoriDialog}" update="@this" process="@this">
+                    <p:ajax event="dialogReturn" listener="#{mbLjubimac.vlasnikOdabran}" update=":frmVlasnik" />
+                </p:commandButton>
+                <p:commandButton value="Obrisi" actionListener="#{mbLjubimac.obrisiVlasnika}" update="@this" process="@this">
+                    <p:ajax listener="#{mbLjubimac.obrisiVlasnika}" update=":frmVlasnik" />
+                </p:commandButton>
+                <h:panelGrid columns="2"  styleClass="ui-noborder tblusluga" >
+
+                    <h:outputLabel for="petOwnerName" value="#{i18.service_name}" />
+                    <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;" />
+
+                    <h:outputLabel for="petOwnerLastname" value="#{i18.price}" />
+                    <p:inputText id="petOwnerLastname" value="#{mbLjubimac.ljubimac.vlasnikid.prezime}" />
+
+                    <h:outputLabel for="petOwnerJMBG" value="#{i18.price}" />
+                    <p:inputText id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" />
+
+                    <h:outputLabel for="petOwnerAddress" value="#{i18.price}" />
+                    <p:inputText id="petOwnerAddress" value="#{mbLjubimac.ljubimac.vlasnikid.adresa}" />
+
+                    <h:outputLabel for="petOwnerNumber" value="#{i18.price}" />
+                    <p:inputText id="petOwnerNumber" value="#{mbLjubimac.ljubimac.vlasnikid.brojtelefona}" />
+
+
+
+
+                    <!--p:commandButton value="Sacuvaj" action="" id="btnSacuvaj"  update=":frmVlasnik ">
+                    </p:commandButton-->
+                </h:panelGrid>
+
+            </h:form>
+
+        </div>
+
+    </body>
+</html>
+

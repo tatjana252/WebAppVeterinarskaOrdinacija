@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/WEB-INF/pages/template/base.xhtml">
+
+            <ui:define name="left">
+                <h:outputStylesheet name="css/left-menu.css"/>
+                <div class="bhoechie-tab-menu" style="margin-top: 2em;">
+                    <div class="list-group">
+                        <h:form id="left-menu">
+                            <h:commandLink action="#{mbLjubimac.promeniStranicu(1)}" 
+                                           styleClass="list-group-item #{mbLjubimac.stranica eq 'WEB-INF/includes/ljubimac/ljubimacPregled.xhtml' ? 'active' : ''} text-center"
+                                           >
+                                <h4 class="glyphicon glyphicon-search"></h4><br/>#{i18.search}
+                                <f:ajax execute="@this" render=":center :left-menu" />
+                            </h:commandLink>
+                            <h:commandLink action="#{mbLjubimac.promeniStranicu(2)}" 
+                                           styleClass="list-group-item #{mbLjubimac.stranica eq 'WEB-INF/includes/ljubimac/ljubimacIzmena.xhtml' ? 'active' : ''} text-center" >
+                                <h4 class="glyphicon glyphicon-pencil"></h4><br/>#{i18.edit}
+                                <f:ajax execute="@this" render=":center :left-menu"  />
+                            </h:commandLink>
+                            <h:commandLink action="#{mbLjubimac.promeniStranicu(3)}" 
+                                           styleClass="list-group-item #{mbLjubimac.stranica eq 'WEB-INF/includes/ljubimac/ljubimacUnos.xhtml' ? 'active' : ''} text-center" >
+                                <h4 class="glyphicon glyphicon-plus"></h4><br/>#{i18.add_new}
+                                <f:ajax execute="@this" render=":center :left-menu" />
+                            </h:commandLink>
+                        </h:form>
+                    </div>
+                </div>
+            </ui:define>
+
+            <ui:define name="right">
+            </ui:define>
+
+            <ui:define name="content">
+                <h:panelGrid id="center">
+                    <ui:include src="#{mbLjubimac.stranica}"></ui:include>
+                </h:panelGrid>
+            </ui:define>
+
+        </ui:composition>
+</html>
+

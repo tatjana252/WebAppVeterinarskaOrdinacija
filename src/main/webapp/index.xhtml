@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <title>Veterinarska ordinacija</title>
+        <h:outputStylesheet name="css/login.css"/>
+    </h:head>
+    <h:body>
+        <div id="login">
+            <h1>Login</h1>
+            <hr/>
+            <h:form>
+                <h:panelGrid id="grid" cellpadding="5" columns="2" >
+                    <f:facet name="header">
+                        <p:messages id="messages" autoUpdate="true"/>
+                    </f:facet>
+                </h:panelGrid>
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="txtKorIme">#{i18.username}</h:outputLabel>
+
+                    <p:inputText id="txtKorIme" value="#{mbKorisnik.korisnik.korisnikid}" required="true">
+                        <f:validateLength minimum="2"/>
+                        <p:clientValidator event="keyup" />
+                    </p:inputText>
+                    <h:message errorStyle="color:red" for="txtKorIme" />
+                    <p:spacer/>
+                    <h:outputLabel for="txtKorSifra">#{i18.password}</h:outputLabel>
+
+                    <h:inputSecret id="txtKorSifra" value="#{mbKorisnik.korisnik.pass}"  >
+                        <f:validateLength minimum="5"/>
+                    </h:inputSecret>
+                    <h:message for="txtKorSifra" />
+                    <p:spacer/>
+                </h:panelGrid>
+                <p:commandButton value="Prijavi se" id="login" action="#{mbKorisnik.login()}"  />    
+            </h:form>
+        </div>
+
+    </h:body>
+</html>
+

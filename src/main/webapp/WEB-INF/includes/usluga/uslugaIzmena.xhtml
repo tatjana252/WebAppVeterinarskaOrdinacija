@@ -1,0 +1,103 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div style="max-width: inherit;">
+
+        <h3 class="first">#{i18.pet_service_edit}</h3>
+         <h:form id="frmdtUsluga">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:dataTable id="dtUsluge" value="#{mbUsluga.lazydmUsluga1}"  widgetVar="uslugeTable"
+                         var="usluga" paginator="true" rows="10" rowKey="#{usluga.uslugaid}"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,15" sortBy="#{usluga.tipuslugeid.naziv}"
+                         style="width: 100%;" selectionMode="single" 
+                         selection="#{mbUsluga.odabranaUsluga}"
+                         lazy="true" 
+                         editable="true"
+                         emptyMessage="#{i18.empty_message}"
+                         >
+                <p:ajax event="rowEdit" listener="#{mbUsluga.onRowEdit}" update=":frmdtUsluga:msgs" />
+
+                <p:column headerText="#{i18.service_name}" sortBy="#{usluga.naziv}" filterBy="#{usluga.naziv}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{usluga.naziv}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInputNaziv" value="#{usluga.naziv}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="#{i18.price}" sortBy="#{usluga.cena}">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{usluga.cena}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="modelInputCena" value="#{usluga.cena}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+
+                <p:column headerText="#{i18.service_type}" sortBy="#{usluga.tipuslugeid.naziv}" filterBy="#{usluga.tipuslugeid.naziv}" >
+                    <f:facet name="filter" >
+                        <h:selectOneMenu id="cbTipUsluge2" converter="#{tipuslugeCNV}" style="width: 20em; padding: 0; color: black;" onchange="PF('uslugeTable').filter()" >
+                            <f:selectItem itemLabel="Izaberi tip..." itemValue="" />
+                            <f:selectItems value="#{mbUsluga.ucitajTipoveUsluga()}" var="tipusluge" itemLabel="#{tipusluge.naziv}" itemValue="#{tipusluge}" />
+                        </h:selectOneMenu>
+                    </f:facet>
+                    
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{usluga.tipuslugeid.naziv}" /></f:facet>
+                        <f:facet name="input">
+
+                            <h:selectOneMenu id="cbTipUsluge3" value="#{usluga.tipuslugeid}" converter="#{tipuslugeCNV}" style="width: 20em;
+                                             padding: 0;">
+                                <f:selectItems value="#{mbUsluga.ucitajTipoveUsluga()}" var="tipusluge" itemLabel="#{tipusluge.naziv}" itemValue="#{tipusluge}"  />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton process="dtUsluge" actionListener="#{mbUsluga.prikaziUslugu}" update=":frmdtUsluga:detaljiUsluge" icon="ui-icon-search" value="View" oncomplete="PF('detaljiUsluge').show()" />
+                </f:facet>
+
+
+            </p:dataTable>
+            <p:dialog header="#{i18.pet_service_details}" widgetVar="detaljiUsluge" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="detaljiUsluge" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty mbUsluga.odabranaUsluga}" columnClasses="label,value" styleClass="ui-noborder" style="text-align:center;">
+                        <h:outputText value="Naziv:" />
+                        <h:outputText value="#{mbUsluga.odabranaUsluga.naziv}" />
+
+                        <h:outputText value="Cena:" />
+                        <h:outputText value="RSD #{mbUsluga.odabranaUsluga.cena}" />
+
+                        <h:outputText value="Tip usluge:" />
+                        <h:outputText value="#{mbUsluga.odabranaUsluga.tipuslugeid.naziv}" />
+
+                        <p:commandButton process="detaljiUsluge" actionListener="#{mbUsluga.obrisiUslugu}" update=":frmdtUsluga:dtUsluge" icon="ui-icon-delete" value="Obrisi" oncomplete="PF('obavestenje').show()" />
+
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+
+            <p:dialog header="" widgetVar="obavestenje" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="obavestenje" style="text-align:center;">
+                    <h:outputText value="#{mbUsluga.poruka}" />
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+
+    </div>
+</html>
+

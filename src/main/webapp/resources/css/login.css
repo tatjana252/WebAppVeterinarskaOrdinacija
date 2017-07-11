@@ -1,0 +1,55 @@
+
+
+@font-face {
+    font-family: Philosopher-Regular;
+    src: url("#{resource['font/CODE Bold.ttf']}");
+}
+
+html,body {
+    font-family: 'Philosopher-Regular', sans-serif;
+    font-size: 1.05em;
+    height:100%;
+    width:100%;
+    margin:0;
+}
+body {
+    display:flex;
+    text-align: center;
+    background-image:url("#{resource['images:pets.jpg']}");
+    background-repeat:no-repeat;
+    background-position:center bottom; /* or 0&#37; 100% */
+
+}
+form {
+    margin:auto;/* nice thing of auto margin if display:flex; it center both horizontal and vertical :) */
+}
+
+#login{
+    padding: 40px 50px 40px 50px;
+    margin:auto;/* nice thing of auto margin if display:flex; it center both horizontal and vertical :) */
+    border-color: #282053;
+    border-width: 2px;
+    border-style: groove;
+    border-radius: 5px;
+    box-shadow: 10px 10px 5px #2C202C;
+    background-color: white;
+    background-clip: border-box;
+
+    -webkit-box-shadow: 0px 0px 74px 7px #2C202C;
+    -moz-box-shadow: 0px 0px 74px 7px #2C202C;
+    box-shadow: 0px 0px 74px 7px #2C202C;
+        margin-top: 3%;
+}
+
+input{
+    color: #777;
+    padding-left: 10px;
+    margin: 10px;
+    margin-top: 12px;
+    margin-left: 18px;
+    width: 290px;
+    height: 35px;
+    border: 1px solid #c7d0d2;
+    border-radius: 2px;
+    box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .4), 0 0 0 5px #f5f7f8;
+}

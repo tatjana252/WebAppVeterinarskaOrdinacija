@@ -1,0 +1,93 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jun 30, 2017, 10:08:34 PM
+    Author     : hp
+*/
+
+#content{
+    min-height: 100%;
+    margin: 0 auto;
+    display:block;
+    -webkit-box-shadow: 0px 0px 26px 2px rgba(79,58,79,0.47);
+    -moz-box-shadow: 0px 0px 26px 2px rgba(79,58,79,0.47);
+    box-shadow: 0px 0px 26px 2px rgba(79,58,79,0.47);
+    padding: 2em;
+
+}
+
+.styleFilterCommandButton-BackgroundColor,
+.ui-widget-content .styleFilterCommandButton-BackgroundColor,
+.ui-widget-header .styleFilterCommandButton-BackgroundColor
+{
+    background-image:none;
+    background-color: #ee4400;  
+}
+
+
+
+table{
+    border-color: transparent;
+    text-align: left;
+}
+
+td{
+    border: 0px hidden;
+    background: none;
+    padding: 10px;
+}
+
+tr{
+    border: 0px hidden;
+    border-color: transparent;
+    background: none;
+
+}
+
+.tblusluga{
+    margin: 10px auto;
+
+}
+
+#center{
+    margin: 0 auto;
+    text-align: center;
+}
+
+/*.ui-selectonemenu{
+     width: 20em;
+    padding: 0;
+}*/
+.ui-selectonemenu-label{
+    width: -moz-calc(20em - 16px);
+    /* WebKit */
+    width: -webkit-calc(20em - 16px);
+    /* Opera */
+    width: -o-calc(20em - 16px);
+    /* Standard */
+    width: calc(20em - 16px);
+}  
+
+.ui-spinner-input{
+  /*  margin-left: -16px;*/
+    /* Firefox */
+    width: -moz-calc(21em - 16px);
+    /* WebKit */
+    width: -webkit-calc(21em - 16px);
+    /* Opera */
+    width: -o-calc(21em - 16px);
+    /* Standard */
+    width: calc(21em - 16px);
+}
+
+.ui-selectonemenu-trigger.ui-state-default.ui-corner-right{
+    width: 1.5em;
+}
+
+.ui-panelgrid .ui-panelgrid-cell{
+    color: black;
+}
+

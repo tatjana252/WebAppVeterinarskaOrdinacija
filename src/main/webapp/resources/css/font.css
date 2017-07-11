@@ -1,0 +1,11 @@
+
+
+@font-face{ 
+font-family: 'CODE';
+src: url("#{resource['font/CODE Bold.otf']}");
+
+}
+body{
+    font-family: 'CODE';
+    
+}

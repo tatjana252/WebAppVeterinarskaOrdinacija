@@ -1,0 +1,67 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div style="max-width: inherit;">
+
+        <h3 class="first">#{i18.pet_services}</h3>
+        <h:form id="frmdtUslugaPregled">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:dataTable id="dtUslugePregled" value="#{mbUsluga.lazydmUsluga}" 
+                         var="usluga" paginator="true" rows="10" rowKey="#{usluga.uslugaid}"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         sortBy="#{usluga.tipuslugeid.naziv}"
+                         expandableRowGroups="true"
+                         rowsPerPageTemplate="5,10,15"
+                         style="width: 100%;" selectionMode="single" 
+                         selection="#{mbUsluga.odabranaUsluga}"
+                         lazy="true" 
+                         emptyMessage="#{i18.empty_message}"
+                         >
+                <p:headerRow>
+                    <p:column colspan="2" >
+                        <h:outputText value="#{usluga.tipuslugeid.naziv}" />
+                    </p:column>
+                </p:headerRow>
+
+                <p:column headerText="Naziv" sortBy="#{usluga.naziv}" filterBy="#{usluga.naziv}">
+                    <h:outputText value="#{usluga.naziv}" />
+                </p:column>
+
+                <p:column headerText="Cena" sortBy="#{usluga.cena}">
+                    <h:outputText value="#{usluga.cena}" />
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton process="dtUslugePregled" actionListener="#{mbUsluga.prikaziUslugu}" update=":frmdtUslugaPregled:detaljiUsluge" icon="ui-icon-search" value="View" oncomplete="PF('detaljiUsluge').show()" />
+                </f:facet>
+
+
+            </p:dataTable>
+            <p:dialog header="#{i18.pet_service_details}" widgetVar="detaljiUsluge" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="detaljiUsluge" >
+                    <p:panelGrid  columns="2" rendered="#{not empty mbUsluga.odabranaUsluga}" columnClasses="label,value" style="text-align:center;" styleClass="ui-noborder">
+                        <h:outputText value="#{i18.service_name}" />
+                        <h:outputText value="#{mbUsluga.odabranaUsluga.naziv}" />
+
+                        <h:outputText value="#{i18.price}" />
+                        <h:outputText value="RSD #{mbUsluga.odabranaUsluga.cena}" />
+
+                        <h:outputText value="#{i18.service_type}" />
+                        <h:outputText value="#{mbUsluga.odabranaUsluga.tipuslugeid.naziv}" />
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+
+    </div>
+</html>
+
