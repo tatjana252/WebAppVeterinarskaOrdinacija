@@ -8,6 +8,7 @@ package services;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 /**
  * Jersey REST client generated for REST resource:LjubimacFacadeREST
@@ -31,6 +32,20 @@ public class LjubimacREST {
     public LjubimacREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("ljubimac");
+    }
+
+    public <T> T ucitajVrsteZivotinja(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("vrstezivotinja");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    }
+
+    public Response sacuvajLjubimca_XML(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+    }
+
+    public Response sacuvajLjubimca_JSON(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
     public <T> T ucitajVlasnike_XML(Class<T> responseType) throws ClientErrorException {

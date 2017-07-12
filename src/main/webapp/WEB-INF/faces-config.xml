@@ -17,16 +17,10 @@
             <base-name>internationalization.messages</base-name>
             <var>i18</var>            
         </resource-bundle>
-        
         <locale-config>
             <default-locale>sr_RS</default-locale>            
-
         </locale-config>
-    
-        
-    
     </application>
-    
 </faces-config>
 
 

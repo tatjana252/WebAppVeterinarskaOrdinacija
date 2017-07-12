@@ -11,6 +11,7 @@ import domen.Search;
 import domen.Tipusluge;
 import domen.Usluga;
 import domen.Vlasnik;
+import domen.Vrstazivotinje;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,6 +140,36 @@ public class Kontroler implements Serializable{
         GenericType<List<Vlasnik>> gt = new GenericType<List<Vlasnik>>(){};
         List<Vlasnik> vlasnici = getObject(response, gt);
         return vlasnici;
+    }
+List<Vrstazivotinje> vrsteZivotinja;
+    public List<Vrstazivotinje> ucitajVrsteZivotinje() throws Exception {
+        LjubimacREST ljubimacREST = new LjubimacREST();
+        Response response = ljubimacREST.ucitajVrsteZivotinja(Response.class);
+        GenericType<List<Vrstazivotinje>> gt = new GenericType<List<Vrstazivotinje>>(){};
+        vrsteZivotinja = getObject(response, gt);
+        return vrsteZivotinja;
+    }
+
+    public Object vratiVrstuZivotinje(String value) {
+        if(vrsteZivotinja != null){
+        for (Vrstazivotinje vrstazivotinje : vrsteZivotinja) {
+            if(vrstazivotinje.getNaziv().equals(value)){
+                System.out.println(vrstazivotinje.getNaziv());
+                return vrstazivotinje;
+            }
+        }}
+        return null;
+    }
+
+    public String sacuvaj(Ljubimac ljubimac) throws Exception {
+        try{
+        LjubimacREST ljubimacREST = new LjubimacREST();
+        Response response = ljubimacREST.sacuvajLjubimca_XML(ljubimac);
+        return getObject(response, String.class);
+        }catch(Exception e){
+            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, e);
+            throw e;
+        }
     }
     
 }

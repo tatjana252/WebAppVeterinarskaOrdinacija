@@ -109,7 +109,7 @@ public class Vrstazivotinje implements Serializable {
 
     @Override
     public String toString() {
-        return "domen.Vrstazivotinje[ vrstazivotinjeid=" + vrstazivotinjeid + " ]";
+        return vrstazivotinjeid+"";
     }
     
 }

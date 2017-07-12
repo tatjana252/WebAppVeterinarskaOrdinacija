@@ -7,24 +7,36 @@ package mb;
 
 import domen.Ljubimac;
 import domen.Vlasnik;
+import domen.Vrstazivotinje;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import kontroler.Kontroler;
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -36,6 +48,8 @@ public class MBLjubimac implements Serializable {
 
     private String stranica;
     private Ljubimac ljubimac;
+       private final ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
 
     @Inject
     Kontroler kontroler;
@@ -50,11 +64,10 @@ public class MBLjubimac implements Serializable {
     public void init() {
         stranica = "WEB-INF/includes/ljubimac/ljubimacPregled.xhtml";
         ljubimac = new Ljubimac();
-        ljubimac.setVlasnikid(new Vlasnik());
+        ljubimac.setVlasnikid(new Vlasnik(-1));
     }
 
     public void promeniStranicu(int stranica) {
-        System.out.println("Ljubimac menja stranicu");
         switch (stranica) {
             case 1:
                 this.stranica = "WEB-INF/includes/ljubimac/ljubimacPregled.xhtml";
@@ -99,25 +112,47 @@ public class MBLjubimac implements Serializable {
         options.put("draggable", true);
         options.put("modal", true);
         RequestContext.getCurrentInstance().openDialog("vlasnik", options, null);
-        }
+    }
 
     public void selectPetOwnerFromDialog(Vlasnik vlasnik) {
-        System.out.println("selectPetOwnerFromDialog");
         ljubimac.setVlasnikid(vlasnik);
         RequestContext.getCurrentInstance().closeDialog(vlasnik);
     }
 
     public void vlasnikOdabran(SelectEvent event) {
-        System.out.println("vlasnikOdabran");
-        ljubimac.setVlasnikid((Vlasnik) event.getObject());
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pet Owner Selected", "");
 
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-    
-    public void obrisiVlasnika(){
-        System.out.println("Vlasnik obrisan");
-        ljubimac.setVlasnikid(new Vlasnik());
+
+    public void obrisiVlasnika() {
+        ljubimac.setVlasnikid(new Vlasnik(-1));
+    }
+
+    public List<Vrstazivotinje> ucitajVrsteZivotinje() {
+        try {
+            return kontroler.ucitajVrsteZivotinje();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public void sacuvaj() {
+        try {
+            kontroler.sacuvaj(ljubimac);
+            ljubimac = new Ljubimac();
+        ljubimac.setVlasnikid(new Vlasnik(-1));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ljubimac je sacuvan!"));
+        } catch (Exception ex) {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ljubimac nije sacuvan!"));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void postavidatumrodjenja(SelectEvent e) {
+        ljubimac.setDatumrodjenja((Date)e.getObject());
+
     }
 
 }

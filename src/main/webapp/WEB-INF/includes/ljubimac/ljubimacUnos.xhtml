@@ -1,4 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -8,44 +7,188 @@
 
     <body>
 
-        <div id="center" >
-            <h3>#{i18.add_new_pet_service}</h3>
+        <div id="center" class="container-fluid">
+            <h3>#{i18.add_new_pet}</h3>
             <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" />
-            <h:form id="frmVlasnik"  >
-                <p:commandButton value="Blash" icon="ui-icon-extlink" actionListener="#{mbLjubimac.otvoriDialog}" update="@this" process="@this">
-                    <p:ajax event="dialogReturn" listener="#{mbLjubimac.vlasnikOdabran}" update=":frmVlasnik" />
-                </p:commandButton>
-                <p:commandButton value="Obrisi" actionListener="#{mbLjubimac.obrisiVlasnika}" update="@this" process="@this">
-                    <p:ajax listener="#{mbLjubimac.obrisiVlasnika}" update=":frmVlasnik" />
-                </p:commandButton>
-                <h:panelGrid columns="2"  styleClass="ui-noborder tblusluga" >
+            <h:form id="frmLjubimac"  >
+                <div class ="row">
+                    <div class ="col-md-6 col-sm-6" style="
+    background-color: #dddddd;
+    margin: 10px;
+">
+                        <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
 
-                    <h:outputLabel for="petOwnerName" value="#{i18.service_name}" />
-                    <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;" />
+                            <p:row style="text-align: center">
+                                <p:column colspan="2" style="text-align: center">
+                                    <h3 style="text-align:center">#{i18.pet_owner_details}</h3>
+                                    <hr style="height: 4px;margin: 0;color: white;background-color: white;border: none;" />
+                                </p:column>  
+                            </p:row>
 
-                    <h:outputLabel for="petOwnerLastname" value="#{i18.price}" />
-                    <p:inputText id="petOwnerLastname" value="#{mbLjubimac.ljubimac.vlasnikid.prezime}" />
+                            <p:row>
+                                <p:column><h:outputLabel value="" styleClass="labels" /></p:column>                               
+                                <p:column>
+                                    <p:commandButton value="#{i18.select_pet_owner}" icon="ui-icon-extlink" actionListener="#{mbLjubimac.otvoriDialog}" update="@this" process="@this">
+                                        <p:ajax event="dialogReturn" listener="#{mbLjubimac.vlasnikOdabran}" update=":frmLjubimac" />
+                                    </p:commandButton>
+                                    <p:spacer width="10"/>
+                                    <p:commandButton value="#{i18.delete}" actionListener="#{mbLjubimac.obrisiVlasnika}" update="@this" process="@this">
+                                        <p:ajax listener="#{mbLjubimac.obrisiVlasnika}" update=":frmLjubimac" />
+                                    </p:commandButton>
+                                </p:column>  
+                            </p:row>
 
-                    <h:outputLabel for="petOwnerJMBG" value="#{i18.price}" />
-                    <p:inputText id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" />
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="petOwnerName" value="#{i18.name}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;" />
+                                </p:column>  
+                            </p:row>
 
-                    <h:outputLabel for="petOwnerAddress" value="#{i18.price}" />
-                    <p:inputText id="petOwnerAddress" value="#{mbLjubimac.ljubimac.vlasnikid.adresa}" />
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="petOwnerLastname" value="#{i18.last_name}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="petOwnerLastname" value="#{mbLjubimac.ljubimac.vlasnikid.prezime}" style="width:20em;"/>
+                                </p:column>
+                            </p:row>
 
-                    <h:outputLabel for="petOwnerNumber" value="#{i18.price}" />
-                    <p:inputText id="petOwnerNumber" value="#{mbLjubimac.ljubimac.vlasnikid.brojtelefona}" />
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="petOwnerJMBG" value="#{i18.jmbg}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="petOwnerAddress" value="#{i18.address}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="petOwnerAddress" value="#{mbLjubimac.ljubimac.vlasnikid.adresa}" style="width:20em;"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="petOwnerNumber" value="#{i18.phone_number}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="petOwnerNumber" value="#{mbLjubimac.ljubimac.vlasnikid.brojtelefona}" style="width:20em; margin-bottom: 68px;"/>
+                                </p:column>
+                            </p:row>
+                        </h:panelGrid>
+                    </div>
+                    <div class ="col-md-6 col-sm-6" style="
+    background-color: #dddddd;
+    margin: 10px;
+">
+                        <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
+                            <p:row style="text-align: center">
+                                <p:column colspan="2" style="text-align: center">
+                                    <h3 style="text-align:center">#{i18.pet_details}</h3>
+                                    <hr style="height: 4px;margin: 0;color: white;background-color: white;border: none;" />
+                                </p:column>  
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="petName" value="#{i18.pet_name}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="petName" value="#{mbLjubimac.ljubimac.ime}" style="width:20em;"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row><p:column>
+                                    <h:outputLabel for="petDateOfBirth" value="#{i18.date_of_birth}" styleClass="labels" /></p:column><p:column>
+                                    <p:calendar id="petDateOfBirth" value="#{mbLjubimac.ljubimac.datumrodjenja}" pattern="dd-MM-yyyy" inputStyle="width:20em;" >
+                                        <p:ajax event="dateSelect" listener="#{mbLjubimac.postavidatumrodjenja}" update=":frmLjubimac:petDateOfBirth" />
+                                    </p:calendar></p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="cbVrstaZivotinje" value="#{i18.pet_species}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneMenu id="cbVrstaZivotinje" value="#{mbLjubimac.ljubimac.vrstazivotinjeid}" converter="#{vrstazivotinjeCNV}" style="width: 20em; vertical-align: middle;
+                                                     padding: 0;">
+                                        <f:selectItems value="#{mbLjubimac.ucitajVrsteZivotinje()}" var="tu" itemValue="#{tu}" itemLabel="#{tu.naziv}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="animalBreed" value="#{i18.animal_breed}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="animalBreed" value="#{mbLjubimac.ljubimac.rasa}" style="width:20em;"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="chipID" value="#{i18.pet_chip_id}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="chipID" value="#{mbLjubimac.ljubimac.sifracipa}" type="number" style="width:20em;"/>
+                                </p:column>
+                            </p:row>
+
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel for="pol" value="#{i18.sex}" styleClass="labels" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectOneButton value="#{mbLjubimac.ljubimac.pol}">
+                                        <f:selectItem itemLabel="#{i18.male}" itemValue="M" />
+                                        <f:selectItem itemLabel="#{i18.female}" itemValue="Z" />
+                                    </p:selectOneButton>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+                                <p:column><h:outputLabel value="" styleClass="labels" /></p:column>        
+                                <p:column >
+                                    <p:commandButton value="#{i18.save}" action="#{mbLjubimac.sacuvaj}" id="btnSacuvaj"  update=":frmLjubimac :msgsUnosLjubimca" process="@form" style="margin-bottom: 20px;">
+                                    </p:commandButton> 
+                                </p:column>
+                            </p:row>
+                        </h:panelGrid>
 
 
 
-
-                    <!--p:commandButton value="Sacuvaj" action="" id="btnSacuvaj"  update=":frmVlasnik ">
-                    </p:commandButton-->
-                </h:panelGrid>
-
+                    </div>       
+                </div>
             </h:form>
 
         </div>
 
     </body>
+    
+    <style>
+        .rowColor{
+            background: #dddddd;
+        }
+        
+        .rowColor td{
+            padding-top: 20px;
+        }.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}
+.row > [class*='col-'] {
+	 display: flex;
+	 flex-direction: column;
+}
+    </style>
 </html>
 

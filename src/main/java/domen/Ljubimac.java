@@ -109,6 +109,7 @@ public class Ljubimac implements Serializable {
 
     public void setIme(String ime) {
         this.ime = ime;
+        System.out.println(this.ime);
     }
 
     public String getSifracipa() {

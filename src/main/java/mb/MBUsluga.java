@@ -90,10 +90,10 @@ public class MBUsluga implements Serializable {
             Usluga izmena = (Usluga) event.getObject();
             kontroler.izmeniUslugu(izmena);
             FacesMessage msg = new FacesMessage(bundle.getString("service_changed"));
-         //   FacesContext.getCurrentInstance().addMessage(null, msg);
+           FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(bundle.getString("service_not_changed"));
-          //  FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
 

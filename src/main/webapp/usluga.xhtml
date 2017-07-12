@@ -12,22 +12,19 @@
                 <div class="bhoechie-tab-menu" style="margin-top: 2em;">
                     <div class="list-group">
                         <h:form id="left-menu">
-                            <h:commandLink action="#{mbUsluga.promeniStranicu(1)}" 
+                            <p:commandLink action="#{mbUsluga.promeniStranicu(1)}" 
                                            styleClass="list-group-item #{mbUsluga.stranica eq 'WEB-INF/includes/usluga/uslugaPregled.xhtml' ? 'active' : ''} text-center"
-                                           >
+                                            update=":center :left-menu" style="outline: none;" >
                                 <h4 class="glyphicon glyphicon-search"></h4><br/>#{i18.search}
-                                <f:ajax execute="@this" render=":center :left-menu" />
-                            </h:commandLink>
-                            <h:commandLink action="#{mbUsluga.promeniStranicu(2)}" 
-                                           styleClass="list-group-item #{mbUsluga.stranica eq 'WEB-INF/includes/usluga/uslugaIzmena.xhtml' ? 'active' : ''} text-center" >
+                            </p:commandLink>
+                            <p:commandLink action="#{mbUsluga.promeniStranicu(2)}" 
+                                           styleClass="list-group-item #{mbUsluga.stranica eq 'WEB-INF/includes/usluga/uslugaIzmena.xhtml' ? 'active' : ''} text-center"  update=":center :left-menu" style="outline: none;" >
                                 <h4 class="glyphicon glyphicon-pencil"></h4><br/>#{i18.edit}
-                                <f:ajax execute="@this" render=":center :left-menu"  />
-                            </h:commandLink>
-                            <h:commandLink action="#{mbUsluga.promeniStranicu(3)}" 
-                                           styleClass="list-group-item #{mbUsluga.stranica eq 'WEB-INF/includes/usluga/uslugaUnos.xhtml' ? 'active' : ''} text-center" >
+                            </p:commandLink>
+                            <p:commandLink action="#{mbUsluga.promeniStranicu(3)}" 
+                                           styleClass="list-group-item #{mbUsluga.stranica eq 'WEB-INF/includes/usluga/uslugaUnos.xhtml' ? 'active' : ''} text-center" update=":center :left-menu" style="outline: none;" >
                                 <h4 class="glyphicon glyphicon-plus"></h4><br/>#{i18.add_new}
-                                <f:ajax execute="@this" render=":center :left-menu" />
-                            </h:commandLink>
+                            </p:commandLink>
                         </h:form>
                     </div>
                 </div>

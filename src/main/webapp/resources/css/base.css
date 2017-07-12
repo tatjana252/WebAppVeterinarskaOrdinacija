@@ -37,7 +37,7 @@ table{
 td{
     border: 0px hidden;
     background: none;
-    padding: 10px;
+    padding: 10px 20px;
 }
 
 tr{
@@ -50,6 +50,11 @@ tr{
 .tblusluga{
     margin: 10px auto;
 
+}
+
+.labels{
+    width: 9em;
+    margin-left: 20px;
 }
 
 #center{

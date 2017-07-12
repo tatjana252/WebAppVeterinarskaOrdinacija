@@ -31,10 +31,6 @@ public class LoginFilter implements Filter {
         else{
             chain.doFilter(req, resp);
         }
-
-        //sends request to next resource
-
-
     }
 
     @Override
