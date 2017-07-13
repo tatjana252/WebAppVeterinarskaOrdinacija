@@ -39,7 +39,7 @@ public class MBUsluga implements Serializable {
 
     @Inject
     private LazyDataModelUsluga lazydmUsluga;
-
+    
     @Inject
     private LazyDataModelUsluga lazydmUsluga1;
 
@@ -50,6 +50,8 @@ public class MBUsluga implements Serializable {
     public void setLazydmUsluga1(LazyDataModelUsluga lazydmUsluga1) {
         this.lazydmUsluga1 = lazydmUsluga1;
     }
+    
+    
 
     @Inject
     Kontroler kontroler;

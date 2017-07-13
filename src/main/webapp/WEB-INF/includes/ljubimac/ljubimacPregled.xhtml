@@ -10,6 +10,58 @@
 
     <div style="max-width: inherit;">
 
+        <h3 class="first">#{i18.pets}</h3>
+        <h:form id="frmdtLjubimciPregled">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:dataTable id="dtLjubimciPregled" value="#{mbLjubimac.lazydmLjubimac}" 
+                         var="ljubimac" paginator="true" rows="10" rowKey="#{ljubimac.ljubimacid}"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink}"
+                         sortBy="#{ljubimac.ime}"
+                         expandableRowGroups="true"
+                         rowsPerPageTemplate="5,10,15"
+                         style="width: 100%;" selectionMode="single" 
+                         selection="#{mbLjubimac.ljubimac}"
+                         lazy="true" 
+                         emptyMessage="#{i18.empty_message}"
+                         >
+
+                <p:column headerText="#{i18.name}" sortBy="#{ljubimac.ime}" filterBy="#{ljubimac.ime}">
+                    <h:outputText value="#{ljubimac.ime}" />
+                </p:column>
+
+                <p:column headerText="#{i18.pet_species}" sortBy="#{ljubimac.vrstazivotinjeid.naziv}"  filterBy="#{ljubimac.vrstazivotinjeid.naziv}">
+                    <h:outputText value="#{ljubimac.vrstazivotinjeid.naziv}" />
+                </p:column>
+                
+                <p:column headerText="#{i18.animal_breed}" sortBy="#{ljubimac.rasa}" filterBy="#{ljubimac.rasa}" >
+                    <h:outputText value="#{ljubimac.rasa}" />
+                </p:column>
+                
+                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{ljubimac.sifracipa}" filterBy="#{ljubimac.sifracipa}" >
+                    <h:outputText value="#{ljubimac.sifracipa}" />
+                </p:column>
+                
+                <p:column headerText="#{i18.date_of_birth}" >
+                    <h:outputText value="#{ljubimac.getDatumrodjenjaString()}" />
+                </p:column>
+
+                <p:column headerText="#{i18.name}" sortBy="#{ljubimac.vlasnikid.ime}" filterBy="#{ljubimac.vlasnikid.ime}" >
+                    <h:outputText value="#{ljubimac.vlasnikid.ime}" />
+                </p:column>
+                
+                <p:column headerText="#{i18.last_name}" sortBy="#{ljubimac.vlasnikid.prezime}" filterBy="#{ljubimac.vlasnikid.prezime}" >
+                    <h:outputText value="#{ljubimac.vlasnikid.prezime}" />
+                </p:column>
+                
+                <f:facet name="footer">
+                    <p:commandButton process="dtLjubimciPregled" actionListener="#{mbLjubimac.prikaziLjubimca}" update=":center" icon="ui-icon-search" value="#{i18.details}" />
+                </f:facet>
+
+
+            </p:dataTable>
+        </h:form>
+
+
 
 
     </div>

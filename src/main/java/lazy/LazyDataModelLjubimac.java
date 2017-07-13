@@ -5,6 +5,7 @@
  */
 package lazy;
 
+import domen.Ljubimac;
 import domen.Usluga;
 import java.util.List;
 import java.util.Map;
@@ -24,50 +25,50 @@ import org.primefaces.model.SortOrder;
  */
 @Named
 @Stateless
-public class LazyDataModelUsluga extends LazyDataModel<Usluga> {
+public class LazyDataModelLjubimac extends LazyDataModel<Ljubimac> {
     @Inject
     Kontroler kontroler;
 
-    public LazyDataModelUsluga() {
+    public LazyDataModelLjubimac() {
 
     }
     
     @PostConstruct
     public void init(){
         try {
-            this.setRowCount(kontroler.ucitajUsluge().size());
+            this.setRowCount(kontroler.ucitajLjubimce().size());
         } catch (Exception ex) {
             this.setRowCount(0);
         }
     }
     
     @Override
-    public Object getRowKey(Usluga usluga) {
-        return usluga.getUslugaid();
+    public Object getRowKey(Ljubimac ljubimac) {
+        return ljubimac.getLjubimacid();
     }    
 
     @Override
-    public List<Usluga> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+    public List<Ljubimac> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         try {
             for (Map.Entry<String, Object> entry : filters.entrySet()) {
                 String key = entry.getKey();
                 Object value = entry.getValue();
                 filters.replace(key, String.valueOf(value));
             }
-            List<Usluga> usluge = kontroler.pretrazi(first, pageSize, sortField, sortOrder, filters);
-            return usluge;
+            List<Ljubimac> ljubimci = kontroler.pretraziLjubimce(first, pageSize, sortField, sortOrder, filters);
+            return ljubimci;
         } catch (Exception ex) {
-            Logger.getLogger(LazyDataModelUsluga.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LazyDataModelLjubimac.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
 
     @Override
-    public Usluga getRowData(String rowKey) {
-       List<Usluga> usluge = (List<Usluga>) getWrappedData();
-        for (Usluga usluga : usluge) {
-            if(usluga.getUslugaid() == Integer.parseInt(rowKey)){
-                return usluga;
+    public Ljubimac getRowData(String rowKey) {
+       List<Ljubimac> ljubimci = (List<Ljubimac>) getWrappedData();
+        for (Ljubimac ljubimac : ljubimci) {
+            if(ljubimac.getLjubimacid()== Integer.parseInt(rowKey)){
+                return ljubimac;
             }
         }
         return null;
