@@ -6,6 +6,7 @@
 package domen;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -122,6 +123,10 @@ public class Ljubimac implements Serializable {
 
     public Date getDatumrodjenja() {
         return datumrodjenja;
+    }
+    
+    public String getDatumrodjenjaString() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(datumrodjenja);
     }
 
     public void setDatumrodjenja(Date datumrodjenja) {

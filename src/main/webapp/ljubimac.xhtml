@@ -18,11 +18,6 @@
                                 <h4 class="glyphicon glyphicon-search"></h4><br/>#{i18.search}
                             
                             </p:commandLink>
-                            <p:commandLink action="#{mbLjubimac.promeniStranicu(2)}" 
-                                           styleClass="list-group-item #{mbLjubimac.stranica eq 'WEB-INF/includes/ljubimac/ljubimacIzmena.xhtml' ? 'active' : ''} text-center" update=":center :left-menu " style="outline: none;" >
-                                <h4 class="glyphicon glyphicon-pencil"></h4><br/>#{i18.edit}
-                              
-                            </p:commandLink>
                             <p:commandLink action="#{mbLjubimac.promeniStranicu(3)}" 
                                            styleClass="list-group-item #{mbLjubimac.stranica eq 'WEB-INF/includes/ljubimac/ljubimacUnos.xhtml' ? 'active' : ''} text-center" update=":center :left-menu " style="outline: none;" >
                                 <h4 class="glyphicon glyphicon-plus"></h4><br/>#{i18.add_new}

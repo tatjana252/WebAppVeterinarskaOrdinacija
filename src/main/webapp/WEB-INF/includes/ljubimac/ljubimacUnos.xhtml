@@ -8,14 +8,11 @@
     <body>
 
         <div id="center" class="container-fluid">
-            <h3>#{i18.add_new_pet}</h3>
+            <h3>#{mbLjubimac.izmena ? i18.pet : i18.add_new_pet}</h3>
             <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" />
             <h:form id="frmLjubimac"  >
                 <div class ="row">
-                    <div class ="col-md-6 col-sm-6" style="
-    background-color: #dddddd;
-    margin: 10px;
-">
+                    <div class ="col-md-6 col-sm-6" style="background-color:#dddddd;margin:10px;">
                         <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
 
                             <p:row style="text-align: center">
@@ -43,7 +40,7 @@
                                     <h:outputLabel for="petOwnerName" value="#{i18.name}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;" />
+                                    <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;"/>
                                 </p:column>  
                             </p:row>
 
@@ -61,7 +58,7 @@
                                     <h:outputLabel for="petOwnerJMBG" value="#{i18.jmbg}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;"/>
+                                    <p:inputText id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;" readonly="#{mbLjubimac.izmena and mbLjubimac.stariVlasnik}"/>
                                 </p:column>
                             </p:row>
 
@@ -84,10 +81,7 @@
                             </p:row>
                         </h:panelGrid>
                     </div>
-                    <div class ="col-md-6 col-sm-6" style="
-    background-color: #dddddd;
-    margin: 10px;
-">
+                    <div class ="col-md-6 col-sm-6" style="background-color: #dddddd;margin: 10px;">
                         <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
                             <p:row style="text-align: center">
                                 <p:column colspan="2" style="text-align: center">
@@ -101,13 +95,13 @@
                                     <h:outputLabel for="petName" value="#{i18.pet_name}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="petName" value="#{mbLjubimac.ljubimac.ime}" style="width:20em;"/>
+                                    <p:inputText id="petName" value="#{mbLjubimac.ljubimac.ime}" style="width:20em;" readonly="#{mbLjubimac.izmena}"/>
                                 </p:column>
                             </p:row>
 
                             <p:row><p:column>
                                     <h:outputLabel for="petDateOfBirth" value="#{i18.date_of_birth}" styleClass="labels" /></p:column><p:column>
-                                    <p:calendar id="petDateOfBirth" value="#{mbLjubimac.ljubimac.datumrodjenja}" pattern="dd-MM-yyyy" inputStyle="width:20em;" >
+                                    <p:calendar id="petDateOfBirth" value="#{mbLjubimac.ljubimac.datumrodjenja}" pattern="dd-MM-yyyy" inputStyle="width:20em;" readonly="#{mbLjubimac.izmena}">
                                         <p:ajax event="dateSelect" listener="#{mbLjubimac.postavidatumrodjenja}" update=":frmLjubimac:petDateOfBirth" />
                                     </p:calendar></p:column>
                             </p:row>
@@ -118,7 +112,7 @@
                                 </p:column>
                                 <p:column>
                                     <p:selectOneMenu id="cbVrstaZivotinje" value="#{mbLjubimac.ljubimac.vrstazivotinjeid}" converter="#{vrstazivotinjeCNV}" style="width: 20em; vertical-align: middle;
-                                                     padding: 0;">
+                                                     padding: 0;" disabled="#{mbLjubimac.izmena}">
                                         <f:selectItems value="#{mbLjubimac.ucitajVrsteZivotinje()}" var="tu" itemValue="#{tu}" itemLabel="#{tu.naziv}" />
                                     </p:selectOneMenu>
                                 </p:column>
@@ -129,7 +123,7 @@
                                     <h:outputLabel for="animalBreed" value="#{i18.animal_breed}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="animalBreed" value="#{mbLjubimac.ljubimac.rasa}" style="width:20em;"/>
+                                    <p:inputText id="animalBreed" value="#{mbLjubimac.ljubimac.rasa}" style="width:20em;" />
                                 </p:column>
                             </p:row>
 
@@ -147,7 +141,7 @@
                                     <h:outputLabel for="pol" value="#{i18.sex}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneButton value="#{mbLjubimac.ljubimac.pol}">
+                                    <p:selectOneButton value="#{mbLjubimac.ljubimac.pol}" disabled="#{mbLjubimac.izmena}" id="pol">
                                         <f:selectItem itemLabel="#{i18.male}" itemValue="M" />
                                         <f:selectItem itemLabel="#{i18.female}" itemValue="Z" />
                                     </p:selectOneButton>
@@ -156,7 +150,7 @@
                             <p:row>
                                 <p:column><h:outputLabel value="" styleClass="labels" /></p:column>        
                                 <p:column >
-                                    <p:commandButton value="#{i18.save}" action="#{mbLjubimac.sacuvaj}" id="btnSacuvaj"  update=":frmLjubimac :msgsUnosLjubimca" process="@form" style="margin-bottom: 20px;">
+                                    <p:commandButton value="#{mbLjubimac.izmena ? i18.change : i18.save}  " action="#{mbLjubimac.sacuvaj}" id="btnSacuvaj"  update=":frmLjubimac :msgsUnosLjubimca" process="@form" style="margin-bottom: 20px;">
                                     </p:commandButton> 
                                 </p:column>
                             </p:row>
