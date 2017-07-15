@@ -2,10 +2,61 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:include src="ljubimacUnos.xhtml"></ui:include>
     
-    <ui:include src="../poseta/posetaPregled.xhtml"></ui:include>
-    
+    <h3>#{i18.visits}</h3>
+    <h:form id="frmdtPosetePregled" style="width: 99%;">
+        <p:growl id="msgs" showDetail="true"/>
+        <p:dataTable id="dtPosetePregled" value="#{mbLjubimac.ljubimac.posetaList}" 
+                     var="poseta" paginator="true" rows="10" rowKey="#{poseta.posetaid}"
+                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink}"
+                     sortBy="#{poseta.datum}"
+                     expandableRowGroups="true"
+                     rowsPerPageTemplate="5,10,15"
+                     style="width: 99%;"
+                     emptyMessage="#{i18.empty_message}"
+                     >
+
+            <p:column style="width:32px">
+                <p:rowToggler />
+            </p:column>
+
+            <p:column headerText="#{i18.visit_date}" sortBy="#{poseta.datumString}" filterBy="#{poseta.datumString}">
+                <h:outputText value="#{poseta.datumString}" />
+            </p:column>
+
+            <p:column headerText="#{i18.name}" sortBy="#{ljubimac.vlasnikid.ime}" filterBy="#{ljubimac.vlasnikid.ime}" >
+                <h:outputText value="#{mbLjubimac.vratiOpis(poseta)}" />
+            </p:column>
+
+            <p:rowExpansion>
+                <p:dataList value="#{poseta.stavkaposeteList}" var="stavkaPosete" type="none" emptyMessage="#{i18.empty_message}" style="vertical-align: middle;margin-top: 20px;margin-bottom: 20px;">
+                    <f:facet name="header">
+                        #{i18.items}
+                    </f:facet>
+                    <p:panelGrid >
+                        <p:outputLabel for="txtAreaOpis" value="#{stavkaPosete.usluga.naziv}" styleClass="col-md-3" style="margin-top: 5px; "/>
+                        <p:inputTextarea id="txtAreaOpis" rows="1" cols="33" value="#{stavkaPosete.opis}"  styleClass="col-md-9" style="margin-top: 5px;"/>
+                    </p:panelGrid>
+                </p:dataList>
+            </p:rowExpansion>
+
+
+        </p:dataTable>
+    </h:form>
+    <style>
+        #frmdtPosetePregled .ui-widget-content{
+            padding: 10px 20px;
+        }
+        .ui-widget-content .ui-expanded-row{
+            background: #D4FB98;
+        }
+    </style>
+
+
 </html>
 

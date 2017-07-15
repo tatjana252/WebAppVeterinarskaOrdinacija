@@ -81,6 +81,10 @@ public class Ljubimac implements Serializable {
     private Vlasnik vlasnikid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ljubimacid")
     private List<Poseta> posetaList;
+    
+    public String getDatumrodjenjaString() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(datumrodjenja);
+    }
 
     public Ljubimac() {
     }
@@ -110,7 +114,6 @@ public class Ljubimac implements Serializable {
 
     public void setIme(String ime) {
         this.ime = ime;
-        System.out.println(this.ime);
     }
 
     public String getSifracipa() {
@@ -123,10 +126,6 @@ public class Ljubimac implements Serializable {
 
     public Date getDatumrodjenja() {
         return datumrodjenja;
-    }
-    
-    public String getDatumrodjenjaString() {
-        return new SimpleDateFormat("dd.MM.yyyy").format(datumrodjenja);
     }
 
     public void setDatumrodjenja(Date datumrodjenja) {

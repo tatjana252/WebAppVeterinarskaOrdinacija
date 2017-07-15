@@ -7,6 +7,7 @@ package kontroler;
 
 import domen.Korisnik;
 import domen.Ljubimac;
+import domen.Poseta;
 import domen.Search;
 import domen.Tipusluge;
 import domen.Usluga;
@@ -22,11 +23,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import mb.LjubimacREST;
 import mb.MBKorisnik;
 import mb.MBUsluga;
 import org.primefaces.model.SortOrder;
 import services.KorisnikREST;
+import services.LjubimacREST;
 import services.UslugaREST;
 
 /**
@@ -201,10 +202,12 @@ public class Kontroler implements Serializable {
         return (List<Ljubimac>) getObject(response, gt);
     }
 
-    public Ljubimac prikaziLjubimca(Ljubimac odabraniLjubimac) throws Exception {
+    public List<Poseta> prikaziLjubimca(Ljubimac odabraniLjubimac) throws Exception {
         LjubimacREST ljubimacREST = new LjubimacREST();
         Response response = ljubimacREST.prikaziLjubimca_XML(odabraniLjubimac);
-        return (Ljubimac) getObject(response, Ljubimac.class);
+        GenericType<List<Poseta>> gt = new GenericType<List<Poseta>>() {
+        };
+        return (List<Poseta>) getObject(response, gt);
     }
     
     public String izmeni(Ljubimac ljubimac){

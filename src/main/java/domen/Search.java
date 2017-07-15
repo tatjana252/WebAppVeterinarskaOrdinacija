@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author hp
  */
+
 @XmlRootElement
 public class Search implements Serializable{
 

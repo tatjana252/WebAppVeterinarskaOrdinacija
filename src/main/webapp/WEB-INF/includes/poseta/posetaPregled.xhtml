@@ -4,12 +4,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
     <h:body>
-               <h:form id="frmdtPosetePregled">
-                   <p:growl id="msgs" showDetail="true"/>
+        <h:form id="frmdtPosetePregled">
+            <p:growl id="msgs" showDetail="true"/>
             <p:dataTable id="dtPosetePregled" value="#{mbLjubimac.lazydmLjubimac}" 
                          var="ljubimac" paginator="true" rows="10" rowKey="#{ljubimac.ljubimacid}"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink}"
@@ -22,6 +19,10 @@
                          emptyMessage="#{i18.empty_message}"
                          >
 
+                <p:column style="width:16px">
+                    <p:rowToggler />
+                </p:column>
+
                 <p:column headerText="#{i18.name}" sortBy="#{ljubimac.ime}" filterBy="#{ljubimac.ime}">
                     <h:outputText value="#{ljubimac.ime}" />
                 </p:column>
@@ -29,15 +30,15 @@
                 <p:column headerText="#{i18.pet_species}" sortBy="#{ljubimac.vrstazivotinjeid.naziv}"  filterBy="#{ljubimac.vrstazivotinjeid.naziv}">
                     <h:outputText value="#{ljubimac.vrstazivotinjeid.naziv}" />
                 </p:column>
-                
+
                 <p:column headerText="#{i18.animal_breed}" sortBy="#{ljubimac.rasa}" filterBy="#{ljubimac.rasa}" >
                     <h:outputText value="#{ljubimac.rasa}" />
                 </p:column>
-                
+
                 <p:column headerText="#{i18.pet_chip_id}" sortBy="#{ljubimac.sifracipa}" filterBy="#{ljubimac.sifracipa}" >
                     <h:outputText value="#{ljubimac.sifracipa}" />
                 </p:column>
-                
+
                 <p:column headerText="#{i18.date_of_birth}" >
                     <h:outputText value="#{ljubimac.getDatumrodjenjaString()}" />
                 </p:column>
@@ -45,14 +46,30 @@
                 <p:column headerText="#{i18.name}" sortBy="#{ljubimac.vlasnikid.ime}" filterBy="#{ljubimac.vlasnikid.ime}" >
                     <h:outputText value="#{ljubimac.vlasnikid.ime}" />
                 </p:column>
-                
+
                 <p:column headerText="#{i18.last_name}" sortBy="#{ljubimac.vlasnikid.prezime}" filterBy="#{ljubimac.vlasnikid.prezime}" >
                     <h:outputText value="#{ljubimac.vlasnikid.prezime}" />
                 </p:column>
                 
-                <f:facet name="footer">
-                    <p:commandButton process="dtLjubimciPregled" actionListener="#{mbLjubimac.prikaziLjubimca}" update=":center" icon="ui-icon-search" value="#{i18.details}" />
+                <p:rowExpansion>
+            <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
+                <f:facet name="header">
+                    <p:graphicImage name="demo/images/car/#{car.brand}-big.gif"/> 
                 </f:facet>
+ 
+                <h:outputText value="Id:" />
+                <h:outputText value="#{car.id}" />
+ 
+                <h:outputText value="Year" />
+                <h:outputText value="#{car.year}" />
+ 
+                <h:outputText value="Color:" />
+                <h:outputText value="#{car.color}" style="color:#{car.color}"/>
+ 
+                <h:outputText value="Price" />
+                <h:outputText value="$#{car.price}" />
+            </p:panelGrid>
+        </p:rowExpansion>
 
 
             </p:dataTable>
