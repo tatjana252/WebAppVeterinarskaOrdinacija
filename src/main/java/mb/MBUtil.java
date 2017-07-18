@@ -25,7 +25,6 @@ public class MBUtil{
     List<Page> pages;
 
     public List<Page> getPages() {
-        System.out.println(FacesContext.getCurrentInstance().getViewRoot().getViewId());
         return pages;
     }
 

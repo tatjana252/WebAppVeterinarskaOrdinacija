@@ -19,6 +19,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import kontroler.Kontroler;
@@ -194,4 +195,6 @@ public class MBLjubimac implements Serializable {
         }
         return opis;
     }
+    
+   
 }

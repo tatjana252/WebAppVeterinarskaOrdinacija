@@ -107,7 +107,7 @@ public class Poseta implements Serializable {
     public void setLjubimacid(Ljubimac ljubimacid) {
         this.ljubimacid = ljubimacid;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

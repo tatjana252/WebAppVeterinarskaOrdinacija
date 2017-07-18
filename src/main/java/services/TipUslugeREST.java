@@ -11,11 +11,11 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 /**
- * Jersey REST client generated for REST resource:KorisnikFacadeREST
- * [korisnik]<br>
+ * Jersey REST client generated for REST resource:TipUslugeFacadeREST
+ * [tipusluge]<br>
  * USAGE:
  * <pre>
- *        KorisnikREST client = new KorisnikREST();
+ *        TipUslugeREST client = new TipUslugeREST();
  *        Object response = client.XXX(...);
  *        // do whatever with response
  *        client.close();
@@ -23,19 +23,25 @@ import javax.ws.rs.core.Response;
  *
  * @author hp
  */
-public class KorisnikREST {
+public class TipUslugeREST {
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/VeterinarskaOrdinacijaREST/api";
 
-    public KorisnikREST() {
+    public TipUslugeREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("korisnik");
+        webTarget = client.target(BASE_URI).path("tipusluge");
     }
 
-    public Response login(Object requestEntity) throws ClientErrorException {
-        return webTarget.path("login").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+    public Response prikazi() throws ClientErrorException {
+        return webTarget.path("prikazi").request().post(null, Response.class);
+    }
+
+    public <T> T ucitajSve(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("ucitajsve");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
     public void close() {

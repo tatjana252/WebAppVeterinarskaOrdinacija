@@ -33,22 +33,50 @@ public class UslugaREST {
         webTarget = client.target(BASE_URI).path("usluga");
     }
 
-    public void promeni_XML(Object requestEntity, String id) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
+    public Response prikazi_XML(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("prikazi").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
     }
 
-    public void promeni_JSON(Object requestEntity, String id) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
+    public Response prikazi_JSON(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("prikazi").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
-    public String countREST() throws ClientErrorException {
+    public Response sacuvaj_XML(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+    }
+
+    public Response sacuvaj_JSON(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
+    }
+
+    public Response izmeni_XML(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("izmeni").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+    }
+
+    public Response izmeni_JSON(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("izmeni").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
+    }
+
+    public <T> T ucitajSve_XML(Class<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
-        resource = resource.path("count");
-        return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).get(String.class);
+        resource = resource.path("vratisve");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    }
+
+    public <T> T ucitajSve_JSON(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("vratisve");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
     public Response pretrazi(Object requestEntity) throws ClientErrorException {
         return webTarget.path("pretraga").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+    }
+
+    public Response obrisi(Object requestEntity) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("obrisi");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
     }
 
     public <T> T ucitajTipoveUsluga(Class<T> responseType) throws ClientErrorException {
@@ -61,50 +89,6 @@ public class UslugaREST {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{naziv}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-    }
-
-    public Response sacuvajUslugu_XML(Object requestEntity) throws ClientErrorException {
-        return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
-    }
-
-    public Response sacuvajUslugu_JSON(Object requestEntity) throws ClientErrorException {
-        return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
-    }
-
-    public <T> T findRange_XML(Class<T> responseType, String from, String to) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{from, to}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-    }
-
-    public <T> T findRange_JSON(Class<T> responseType, String from, String to) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{from, to}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
-    }
-
-    public <T> T ucitajUsluge_XML(Class<T> responseType) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path("vratisve");
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-    }
-
-    public <T> T ucitajUsluge_JSON(Class<T> responseType) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path("vratisve");
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
-    }
-
-    public Response prikaziUslugu_XML(Object requestEntity) throws ClientErrorException {
-        return webTarget.path("prikazi").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
-    }
-
-    public Response prikaziUslugu_JSON(Object requestEntity) throws ClientErrorException {
-        return webTarget.path("prikazi").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
-    }
-
-    public void remove(String id) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
 
     public void close() {

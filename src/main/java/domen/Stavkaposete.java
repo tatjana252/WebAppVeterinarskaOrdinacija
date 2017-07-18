@@ -11,6 +11,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -35,18 +36,22 @@ public class Stavkaposete implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
+    
     protected StavkaposetePK stavkaposetePK;
     @Size(max = 1000)
     @Column(name = "opis", length = 1000)
     private String opis;
     @JoinColumn(name = "uslugaid", referencedColumnName = "uslugaid", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
+    @MapsId("uslugaid")
     private Usluga usluga;
     @JoinColumn(name = "posetaid", referencedColumnName = "posetaid", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
+    @MapsId("posetaid")
     private Poseta poseta;
 
     public Stavkaposete() {
+        this.stavkaposetePK = new StavkaposetePK();
     }
 
     public Stavkaposete(StavkaposetePK stavkaposetePK) {
@@ -79,6 +84,7 @@ public class Stavkaposete implements Serializable {
 
     public void setUsluga(Usluga usluga) {
         this.usluga = usluga;
+        stavkaposetePK.setUslugaid(usluga.getUslugaid());
     }
 
     public Poseta getPoseta() {
@@ -88,6 +94,7 @@ public class Stavkaposete implements Serializable {
     @XmlTransient
     public void setPoseta(Poseta poseta) {
         this.poseta = poseta;
+        stavkaposetePK.setPosetaid(poseta.getPosetaid());
     }
 
     @Override

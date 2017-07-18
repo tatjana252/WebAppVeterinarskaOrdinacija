@@ -11,11 +11,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 /**
- * Jersey REST client generated for REST resource:KorisnikFacadeREST
- * [korisnik]<br>
+ * Jersey REST client generated for REST resource:PosetaFacadeREST [poseta]<br>
  * USAGE:
  * <pre>
- *        KorisnikREST client = new KorisnikREST();
+ *        PosetaREST client = new PosetaREST();
  *        Object response = client.XXX(...);
  *        // do whatever with response
  *        client.close();
@@ -23,19 +22,23 @@ import javax.ws.rs.core.Response;
  *
  * @author hp
  */
-public class KorisnikREST {
+public class PosetaREST {
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/VeterinarskaOrdinacijaREST/api";
 
-    public KorisnikREST() {
+    public PosetaREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("korisnik");
+        webTarget = client.target(BASE_URI).path("poseta");
     }
 
-    public Response login(Object requestEntity) throws ClientErrorException {
-        return webTarget.path("login").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+    public Response sacuvaj_XML(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+    }
+
+    public Response sacuvaj_JSON(Object requestEntity) throws ClientErrorException {
+        return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
     }
 
     public void close() {

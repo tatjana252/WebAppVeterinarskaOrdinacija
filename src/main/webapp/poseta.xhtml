@@ -1,17 +1,40 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition template="/WEB-INF/pages/template/base.xhtml">
 
             <ui:define name="left">
+                
+                <h:outputStylesheet name="css/left-menu.css"/>
+                <div class="bhoechie-tab-menu" style="margin-top: 2em;">
+                    <div class="list-group">
+                        <h:form id="left-menu">
+                            <p:commandLink action="#{mbPoseta.promeniStranicu(1)}" 
+                                           styleClass="list-group-item #{mbPoseta.stranica eq 'WEB-INF/includes/poseta/posetaPregled.xhtml' ? 'active' : ''} text-center" update=":center :left-menu " style="outline: none;"
+                                           >
+                                <h4 class="glyphicon glyphicon-search"></h4><br/>#{i18.search}
+                            
+                            </p:commandLink>
+                            <p:commandLink action="#{mbPoseta.promeniStranicu(2)}" 
+                                           styleClass="list-group-item #{mbPoseta.stranica eq 'WEB-INF/includes/poseta/posetaUnos.xhtml' ? 'active' : ''} text-center" update=":center :left-menu " style="outline: none;" >
+                                <h4 class="glyphicon glyphicon-plus"></h4><br/>#{i18.add_new}
+                              
+                            </p:commandLink>
+                        </h:form>
+                    </div>
+                </div>
             </ui:define>
 
             <ui:define name="right">
             </ui:define>
 
             <ui:define name="content">
-                
+                <h:panelGrid id="center">
+                    <ui:include src="#{mbPoseta.stranica}"></ui:include>
+                </h:panelGrid>
             </ui:define>
 
         </ui:composition>

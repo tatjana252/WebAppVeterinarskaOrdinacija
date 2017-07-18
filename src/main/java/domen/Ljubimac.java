@@ -83,10 +83,15 @@ public class Ljubimac implements Serializable {
     private List<Poseta> posetaList;
     
     public String getDatumrodjenjaString() {
+        try{
         return new SimpleDateFormat("dd.MM.yyyy").format(datumrodjenja);
+        }catch(Exception e){
+            return "";
+        }
     }
 
     public Ljubimac() {
+        vrstazivotinjeid = new Vrstazivotinje();
     }
 
     public Ljubimac(Integer ljubimacid) {

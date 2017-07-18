@@ -8,14 +8,13 @@ package services;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 
 /**
- * Jersey REST client generated for REST resource:KorisnikFacadeREST
- * [korisnik]<br>
+ * Jersey REST client generated for REST resource:VlasnikFacadeREST
+ * [vlasnik]<br>
  * USAGE:
  * <pre>
- *        KorisnikREST client = new KorisnikREST();
+ *        VlasnikREST client = new VlasnikREST();
  *        Object response = client.XXX(...);
  *        // do whatever with response
  *        client.close();
@@ -23,19 +22,27 @@ import javax.ws.rs.core.Response;
  *
  * @author hp
  */
-public class KorisnikREST {
+public class VlasnikREST {
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/VeterinarskaOrdinacijaREST/api";
 
-    public KorisnikREST() {
+    public VlasnikREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("korisnik");
+        webTarget = client.target(BASE_URI).path("vlasnik");
     }
 
-    public Response login(Object requestEntity) throws ClientErrorException {
-        return webTarget.path("login").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+    public <T> T ucitajSve_XML(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("vratisve");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    }
+
+    public <T> T ucitajSve_JSON(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("vratisve");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
     public void close() {
