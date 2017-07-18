@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="frmdtLjubimciPregled" style="padding: 0">
+            <p:growl id="msgs" showDetail="true"/>
+            <p:dataTable id="dtLjubimciPregled" value="#{mbPoseta.lazydmLjubimac}" 
+                         var="ljubimac" paginator="true" rows="10" rowKey="#{ljubimac.ljubimacid}"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink}"
+                         sortBy="#{ljubimac.ime}"
+                         expandableRowGroups="true"
+                         rowsPerPageTemplate="5,10,15"
+                         style="width: 99%; padding: 0" selectionMode="single" 
+                         selection="#{mbPoseta.poseta.ljubimacid}"
+                         lazy="true"
+                         emptyMessage="#{i18.empty_message}"
+                         >
+
+                <p:column headerText="#{i18.name}" sortBy="#{ljubimac.ime}" filterBy="#{ljubimac.ime}">
+                    <h:outputText value="#{ljubimac.ime}" />
+                </p:column>
+
+                <p:column headerText="#{i18.pet_species}" sortBy="#{ljubimac.vrstazivotinjeid.naziv}"  filterBy="#{ljubimac.vrstazivotinjeid.naziv}">
+                    <h:outputText value="#{ljubimac.vrstazivotinjeid.naziv}" />
+                </p:column>
+                
+                <p:column headerText="#{i18.animal_breed}" sortBy="#{ljubimac.rasa}" filterBy="#{ljubimac.rasa}" >
+                    <h:outputText value="#{ljubimac.rasa}" />
+                </p:column>
+                
+                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{ljubimac.sifracipa}" filterBy="#{ljubimac.sifracipa}" >
+                    <h:outputText value="#{ljubimac.sifracipa}" />
+                </p:column>
+                
+                <p:column headerText="#{i18.name}" sortBy="#{ljubimac.vlasnikid.ime}" filterBy="#{ljubimac.vlasnikid.ime}" >
+                    <h:outputText value="#{ljubimac.vlasnikid.ime}" />
+                </p:column>
+                
+                <p:column headerText="#{i18.last_name}" sortBy="#{ljubimac.vlasnikid.prezime}" filterBy="#{ljubimac.vlasnikid.prezime}" >
+                    <h:outputText value="#{ljubimac.vlasnikid.prezime}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+</html>
+

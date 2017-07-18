@@ -6,6 +6,7 @@
 package converter;
 
 import domen.Tipusluge;
+import domen.Usluga;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -21,9 +22,10 @@ import kontroler.Kontroler;
  *
  * @author hp
  */
-@Named("tipuslugeCNV")
+
+@Named("uslugaCNV")
 @RequestScoped
-public class TipUslugeConverter implements Converter {
+public class UslugaConverter implements Converter{
 
     @Inject
     Kontroler kontroler;
@@ -31,23 +33,22 @@ public class TipUslugeConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         try {
-            if (value == null || value.isEmpty()) {
-                return null;
-            }
-            return kontroler.vratiTipUsluge(value);
+            if (value==null || value.isEmpty()) return null;
+            return kontroler.vratiUslugu(value);
         } catch (Exception ex) {
-            Logger.getLogger(TipUslugeConverter.class.getName()).log(Level.SEVERE, null, ex);
+          Logger.getLogger(UslugaConverter.class.getName()).log(Level.SEVERE, null, ex);
+          
             return null;
         }
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if (value instanceof Tipusluge) {
-            Tipusluge tu = (Tipusluge) value;
-            return tu.getNaziv() + "";
+        if (value instanceof Usluga){
+            Usluga tu = (Usluga) value;
+            return tu.getNaziv()+"";
         }
         return "";
     }
-
+    
 }

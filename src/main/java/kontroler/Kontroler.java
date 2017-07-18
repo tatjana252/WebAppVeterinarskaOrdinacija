@@ -8,6 +8,7 @@ package kontroler;
 import domen.Korisnik;
 import domen.Ljubimac;
 import domen.Poseta;
+import domen.Request;
 import domen.Search;
 import domen.Tipusluge;
 import domen.Usluga;
@@ -15,11 +16,15 @@ import domen.Vlasnik;
 import domen.Vrstazivotinje;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -37,6 +42,13 @@ import services.UslugaREST;
 @Named("Kontroler")
 @ApplicationScoped
 public class Kontroler implements Serializable {
+    
+    @Inject
+    MBKorisnik mbKorisnik;
+    
+    public Request getRequest(Object obj){
+        return new Request(mbKorisnik.getKorisnik(), obj);
+    }
 
     public Korisnik login(Korisnik korisnik) throws Exception {
         KorisnikREST korisnikREST = new KorisnikREST();
@@ -66,10 +78,8 @@ public class Kontroler implements Serializable {
 
     public String sacuvaj(Usluga u) throws Exception {
         try {
-            System.out.println("POZIVAM SERVIS");
             UslugaREST uslugaREST = new UslugaREST();
-            Response response = uslugaREST.sacuvajUslugu_XML(u);
-            System.out.println("vracam odg");
+            Response response = uslugaREST.sacuvaj_XML(getRequest(u));
             return getObject(response, String.class);
         } catch (Exception e) {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, e);
@@ -79,7 +89,7 @@ public class Kontroler implements Serializable {
 
     public List<Usluga> ucitajUsluge() throws Exception {
         UslugaREST uslugaREST = new UslugaREST();
-        Response response = uslugaREST.ucitajUsluge_XML(Response.class);
+        Response response = uslugaREST.ucitajSve_XML(Response.class);
         GenericType<List<Usluga>> gt = new GenericType<List<Usluga>>() {
         };
         return (List<Usluga>) getObject(response, gt);
@@ -87,7 +97,7 @@ public class Kontroler implements Serializable {
 
     public Usluga prikaziUslugu(Usluga odabranaUsluga) throws Exception {
         UslugaREST uslugaRest = new UslugaREST();
-        Response response = uslugaRest.prikaziUslugu_XML(odabranaUsluga);
+        Response response = uslugaRest.prikazi_XML(getRequest(odabranaUsluga));
         Usluga usluga = getObject(response, Usluga.class);
         return usluga;
     }
@@ -103,13 +113,18 @@ public class Kontroler implements Serializable {
     }
 
     private <T> T getObject(Response response, GenericType<T> type) throws Exception {
-        if (Response.Status.fromStatusCode(response.getStatus()) == Response.Status.NOT_FOUND) {
-            String odg = response.readEntity(String.class);
-            throw new Exception(odg);
-        } else if (Response.Status.fromStatusCode(response.getStatus()) == Response.Status.OK) {
-            return response.readEntity(type);
+        try {
+            if (Response.Status.fromStatusCode(response.getStatus()) == Response.Status.NOT_FOUND) {
+                String odg = response.readEntity(String.class);
+                throw new Exception(odg);
+            } else if (Response.Status.fromStatusCode(response.getStatus()) == Response.Status.OK) {
+                return response.readEntity(type);
+            }
+        } catch (Exception ne) {
+            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ne);
+            throw new Exception("");
         }
-        throw new Exception("");
+        return null;
     }
 
     public List<Usluga> pretrazi(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
@@ -128,13 +143,13 @@ public class Kontroler implements Serializable {
 
     public void izmeniUslugu(Usluga izmena) {
         UslugaREST uslugaREST = new UslugaREST();
-        uslugaREST.promeni_XML(izmena, izmena.getUslugaid() + "");
+        uslugaREST.izmeni_XML(getRequest(izmena));
 
     }
 
     public void obrisiUslugu(Usluga odabranaUsluga) {
         UslugaREST uslugaREST = new UslugaREST();
-        uslugaREST.remove(odabranaUsluga.getUslugaid() + "");
+        uslugaREST.obrisi(getRequest(odabranaUsluga));
     }
 
     public List<Vlasnik> ucitajVlasnike() throws Exception {
@@ -171,7 +186,7 @@ public class Kontroler implements Serializable {
     public String sacuvaj(Ljubimac ljubimac) throws Exception {
         try {
             LjubimacREST ljubimacREST = new LjubimacREST();
-            Response response = ljubimacREST.sacuvajLjubimca_XML(ljubimac);
+            Response response = ljubimacREST.sacuvaj_XML(getRequest(ljubimac));
             return getObject(response, String.class);
         } catch (Exception e) {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, e);
@@ -195,8 +210,8 @@ public class Kontroler implements Serializable {
     }
 
     public List<Ljubimac> ucitajLjubimce() throws Exception {
-         LjubimacREST ljubimacREST = new LjubimacREST();
-        Response response = ljubimacREST.ucitajLjubimce_XML(Response.class);
+        LjubimacREST ljubimacREST = new LjubimacREST();
+        Response response = ljubimacREST.ucitajSve_XML(Response.class);
         GenericType<List<Ljubimac>> gt = new GenericType<List<Ljubimac>>() {
         };
         return (List<Ljubimac>) getObject(response, gt);
@@ -204,16 +219,53 @@ public class Kontroler implements Serializable {
 
     public List<Poseta> prikaziLjubimca(Ljubimac odabraniLjubimac) throws Exception {
         LjubimacREST ljubimacREST = new LjubimacREST();
-        Response response = ljubimacREST.prikaziLjubimca_XML(odabraniLjubimac);
+        Response response = ljubimacREST.prikazi_XML(getRequest(odabraniLjubimac));
         GenericType<List<Poseta>> gt = new GenericType<List<Poseta>>() {
         };
         return (List<Poseta>) getObject(response, gt);
     }
-    
-    public String izmeni(Ljubimac ljubimac){
+
+    public String izmeni(Ljubimac ljubimac) {
         LjubimacREST ljubimacREST = new LjubimacREST();
-        ljubimacREST.izmeniLjubimca_XML(ljubimac);
+        ljubimacREST.izmeni_XML(getRequest(ljubimac));
         return "";
     }
+
+    public List<SelectItem> vratiKategorijeUsluga() throws Exception {
+        ArrayList<SelectItem> categories = new ArrayList<>();
+        List<Tipusluge> tipoviUsluga = ucitajTipoveUsluga();
+        List<Usluga> usluge = ucitajUsluge();
+        for (Tipusluge tipusluge : tipoviUsluga) {
+            SelectItemGroup grupa = new SelectItemGroup(tipusluge.getNaziv().toUpperCase());
+            List<SelectItem> uslugel = new ArrayList<>();
+            for (int i = 0; i < usluge.size(); i++) {
+                if (usluge.get(i).getTipuslugeid().getNaziv() == null ? tipusluge.getNaziv() == null : usluge.get(i).getTipuslugeid().getNaziv().equals(tipusluge.getNaziv())) {
+                    uslugel.add(new SelectItem(usluge.get(i), usluge.get(i).getNaziv()));
+                    usluge.remove(usluge.get(i));
+                }
+            }
+            SelectItem[] items = new SelectItem[uslugel.size()];
+            for (int i = 0; i < items.length; i++) {
+                items[i] = uslugel.get(i);
+            }
+            
+            grupa.setSelectItems(items);
+            categories.add(grupa);
+        }
+        return categories;
+    }
+
+    public Object vratiUslugu(String value) throws Exception {
+        List<Usluga> usluge = ucitajUsluge();
+        for (Usluga usluga : usluge) {
+            if(usluga.getNaziv().equals(value)) return usluga;
+        }
+        return null;
+    }
+
+    public void sacuvajPosetu(Poseta poseta) {
+    }
+
+    
 
 }

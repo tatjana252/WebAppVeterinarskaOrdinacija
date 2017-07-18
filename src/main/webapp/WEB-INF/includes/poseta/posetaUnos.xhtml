@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:body>
+        <div id="center" class="container-fluid">
+            <h2 style="text-align: left; margin-bottom: 10px;">Dodaj posetu</h2>
+            <p:growl id="msgsUnosPosete" showDetail="true" sticky="true" />
+            <div class ="row">
+                <h:form id="frmDatum" >
+                    <h:panelGrid class="col-md-12 col-sm-12" style="text-align: left; margin: 10px 0;">
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel for="petVisitDate" value="#{i18.visit_date}" style="width: 9em;" />
+                            </p:column>
+                            <p:column>
+                                <p:calendar id="petVisitDate" value="#{mbPoseta.poseta.datum}" pattern="dd-MM-yyyy" inputStyle="width:20em;">
+                                    <p:ajax event="dateSelect" listener="#{mbPoseta.postaviDatum}" update=":frmDatum:petVisitDate" />
+                                </p:calendar>
+
+                            </p:column>  
+                        </p:row>
+                    </h:panelGrid>
+                </h:form>
+                <h:form id="frmLjubimac"  >
+                    <div class ="col-md-12 col-sm-12" style="text-align:left; padding: 0;" >
+                        <div class="col-md-6 col-sm-6">
+                        <div style="border: 5px #dddddd solid;display: inline-block;text-align: left;padding: 15px; padding-top: 0;" >
+                            <h:panelGrid styleClass="ui-noborder formaLjubimac"  id="grid" style="margin: 0; width:auto;">
+
+                                <p:row >
+                                    <p:column colspan="2" >
+                                        <h3 style="text-align:left;font-size: 20px;">#{i18.pet_details}</h3>
+                                        <hr style="height: 4px;margin: 0;background-color: #dddddd;border: none;" />
+                                    </p:column>  
+                                </p:row>
+                                <p:row>                             
+                                    <p:column colspan="2">
+                                        <p:commandButton value="#{i18.select_pet_owner}" icon="ui-icon-extlink" update="@this" process="@this" onclick="PF('dlg').show();">
+                                        </p:commandButton>
+                                        <p:spacer width="10"/>
+                                        <p:commandButton value="#{i18.delete}" actionListener="#{mbPoseta.obrisiLjubimca}" update="@this" process="@this">
+                                            <p:ajax listener="#{mbPoseta.obrisiLjubimca}" update=":frmLjubimac:grid" />
+                                        </p:commandButton>
+                                    </p:column>
+
+                                </p:row><hr style="height: 4px;margin: 0;background-color: #dddddd;border: none;" />
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="petName" value="#{i18.pet_name}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel id="petName" value="#{mbPoseta.poseta.ljubimacid.ime}" style="min-width: 15em;padding-left: 5px;"/>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row><p:column>
+                                        <h:outputLabel for="petDateOfBirth" value="#{i18.date_of_birth}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel id="petDateOfBirth" value="#{mbPoseta.poseta.ljubimacid.datumrodjenjaString}" style="min-width: 15em;padding-left: 5px;"/>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="cbVrstaZivotinje" value="#{i18.pet_species}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel id="cbVrstaZivotinje" value="#{mbPoseta.poseta.ljubimacid.vrstazivotinjeid.naziv}" style="min-width: 15em;padding-left: 5px;"/>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="animalBreed" value="#{i18.animal_breed}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel id="animalBreed" value="#{mbPoseta.poseta.ljubimacid.rasa}"  style="min-width: 15em;padding-left: 5px;"/>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="chipID" value="#{i18.pet_chip_id}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel id="chipID" value="#{mbPoseta.poseta.ljubimacid.sifracipa}" style="min-width: 15em;padding-left: 5px;"/>
+                                    </p:column>
+                                </p:row>
+
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="pol" value="#{i18.gender}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneButton value="#{mbPoseta.poseta.ljubimacid.pol}" disabled="true" id="pol" style="min-width: 15em;padding-left: 5px;">
+                                            <f:selectItem itemLabel="#{i18.male}" itemValue="M" />
+                                            <f:selectItem itemLabel="#{i18.female}" itemValue="Z" />
+                                        </p:selectOneButton>
+                                    </p:column>
+                                </p:row>
+
+                            </h:panelGrid>
+                        </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <p:graphicImage url="#{resource['images:slika.jpg']}" style="width: 100%;"/>
+                        </div>
+                    </div>
+                    <p:dialog header="#{i18.select_pet}" widgetVar="dlg" resizable="false" width="50%" >
+                        <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto;text-align: center;" >
+                            <ui:include src="/WEB-INF/includes/poseta/posetaIzborLjubimca.xhtml"/>
+                            <f:facet name="footer">
+                                <p:commandButton value="#{i18.select}" update=":frmLjubimac:grid" form=":frmLjubimac" process=":frmLjubimac"
+                                                 oncomplete="handlePetSelection()" style="margin: 0 auto;"/>
+                            </f:facet>  
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                <div class ="col-md-12 col-sm-12" style="background-color:#dddddd;margin:10px;" id = "multiselectUsluga">
+                    <h:form id="frmStavkaPosete">
+                        <h:panelGrid styleClass="ui-noborder tblusluga col-md-12" rowClasses="rowColor" >
+                            <p:row >
+                                <p:column colspan="2" >
+                                    <h3 style="text-align:left;font-size: 20px;">Unesi stavke</h3>
+                                    <hr style="height: 4px;margin: 0;background-color: white;border: none;" />
+                                </p:column>  
+                            </p:row>
+                            <p:row>
+                                <p:multiSelectListbox value="#{mbPoseta.novastavkaposete.usluga}" effect="slide" header="#{i18.service_type}" showHeaders="true" style="padding: 20px; width: 50em;" styleClass="col col-md-8" converter="#{uslugaCNV}">
+                                    <f:selectItems value="#{mbPoseta.vratiKategorijeUsluga()}"  />
+                                </p:multiSelectListbox>
+
+                                <p:column class="col col-md-4">
+                                    <div class="col col-md-4" style="padding: 20px; padding-left: 0; ">
+                                        <div>
+                                            <h:outputLabel for="visitDescription" value="#{i18.details}" style="width: 9em;"  />
+                                        </div>
+                                        <div>
+                                            <p:inputTextarea id="visitDescription" rows="8" cols="33" value="#{mbPoseta.novastavkaposete.opis}"/>
+                                        </div>
+                                        <div>
+                                            <p:commandButton value="Dodaj stavku" icon="ui-icon-plusthick" form=":frmStavkaPosete" update=":frmStavkaPosete :msgsUnosPosete" process=":frmStavkaPosete" action="#{mbPoseta.dodajStavku()}" />
+                                        </div>
+                                    </div>
+                                </p:column>
+                            </p:row>
+                            <p:row>
+
+                                <p:column>
+                                    <div>
+                                        <h3 style="text-align:left;font-size: 18px;">Unete stavke</h3>
+                                        <hr style="height: 4px;margin: 0;background-color: white;border: none;" />
+                                        <ui:include src="/WEB-INF/includes/poseta/posetaStavka.xhtml" />
+                                        <hr style="height: 4px;margin: 0;background-color: white;border: none;" />
+                                    </div>
+                                </p:column>
+                            </p:row>
+                        </h:panelGrid>
+                    </h:form>
+                </div>
+            </div>
+            <h:form id="frmPoseta">
+                <p:commandButton class="btn btn-lg" value="Sačuvaj posetu" icon="ui-icon-plusthick" form=":frmPoseta" update="@all" process="@this" action="#{mbPoseta.sacuvajPosetu()}" style="border: #dddddd;margin-top:20px;
+                                 border-style: solid;" />
+            </h:form>
+        </div>
+    </h:body>
+
+    <style>
+        #multiselectUsluga .ui-multiselectlistbox .ui-multiselectlistbox-item{
+            padding: 3px;
+            white-space: normal;
+        }
+
+        #multiselectUsluga .ui-multiselectlistbox .ui-multiselectlistbox-listcontainer{
+            width: 49%;
+        }
+
+        #frmLjubimac .formaLjubimac td{
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #frmStavkaPosete textarea {
+            width:100%;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        function handlePetSelection() {
+            PF('dlg').hide();
+        }
+    </script>
+</html>
+

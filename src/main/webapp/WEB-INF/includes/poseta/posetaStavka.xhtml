@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <p:dataTable id="dtStavkePosete" value="#{mbPoseta.poseta.stavkaposeteList}"  widgetVar="stavkePoseteTable"
+                 var="stavka" paginator="true" rows="10"
+                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 rowsPerPageTemplate="5,10,15"
+                 style="width: 99%;" selectionMode="single" 
+                 rowKey="#{stavka.stavkaposetePK.stavkaposeteid}"
+                 editable="true"
+                 emptyMessage=""
+                 >
+
+        <p:column headerText="R.B." 
+                 style="width: 50px;text-align: center">
+                <h:outputText value="#{stavka.stavkaposetePK.stavkaposeteid}" />
+        </p:column>
+
+        <p:column headerText="#{i18.price}" sortBy="#{stavka.usluga.tipuslugeid.naziv}">
+          <h:outputText value="#{stavka.usluga.tipuslugeid.naziv}" />
+        </p:column>
+
+
+        <p:column headerText="#{i18.service_type}" sortBy="#{stavka.usluga.naziv}" filterBy="#{stavka.usluga.naziv}" >
+           <h:outputText value="#{stavka.usluga.naziv}" />
+        </p:column>
+        
+        <p:column headerText="#{i18.service_type}" sortBy="#{stavka.usluga.naziv}" filterBy="#{stavka.usluga.naziv}" >
+           <h:outputText value="#{stavka.opis}" />
+        </p:column>
+
+        <p:column style="width: 5em;text-align: center" headerText="#{i18.edit}">
+            <p:commandButton update=":frmStavkaPosete" icon="ui-icon-pencil" title="#{i18.edit}" actionListener="#{mbPoseta.izmeniStavku(stavka)}">
+            </p:commandButton>
+        </p:column>
+        
+        <p:column style="width: 5em;text-align: center" headerText="#{i18.delete}">
+            <p:commandButton update=":frmStavkaPosete" icon="ui-icon-closethick" title="#{i18.delete}" actionListener="#{mbPoseta.obrisiStavku(stavka)}">
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
+</html>
+
