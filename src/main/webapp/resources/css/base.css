@@ -52,6 +52,10 @@ tr{
 
 }
 
+tblformaunos{
+    margin: 0px auto;
+}
+
 .labels{
     width: 9em;
     margin-left: 20px;
