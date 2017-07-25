@@ -5,12 +5,11 @@
  */
 package mb;
 
+import constants.WebConstants;
 import domen.Ljubimac;
 import domen.Poseta;
 import domen.Stavkaposete;
 import domen.StavkaposetePK;
-import domen.Usluga;
-import domen.Vlasnik;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -22,17 +21,14 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import kontroler.Kontroler;
 import lazy.LazyDataModelLjubimac;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -52,6 +48,9 @@ public class MBPoseta implements Serializable {
     
     @Inject
     private Kontroler kontroler;
+    
+//    @EJB(mappedName="WebConstants")
+//    WebConstants webConstants;
 
     public LazyDataModelLjubimac getLazydmLjubimac() {
         return lazydmLjubimac;

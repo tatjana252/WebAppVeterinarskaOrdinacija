@@ -29,12 +29,21 @@ public class MBKorisnik implements Serializable {
 
     private Korisnik korisnik;
     private boolean loggedIn;
-
+    private Locale locale;
     @Inject
     Kontroler kontroler;
 
     public MBKorisnik() {
         korisnik = new Korisnik();
+    }
+
+    @PostConstruct
+    public void init() {
+        try{
+        locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+        }catch(Exception we){
+            locale = new Locale("sr", "RS");
+        }
     }
 
     public String login() throws Exception {
@@ -53,18 +62,18 @@ public class MBKorisnik implements Serializable {
         return loggedIn;
     }
 
-//    private int locale = 2;
-//
-//    public void changeLocale(int i) {
-//        switch (i) {
-//            case 1:
-//                FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.ENGLISH);
-//                break;
-//            case 2:
-//                FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("sr", "RS"));
-//                break;
-//        }
-//    }
+    public void changeLocale(int i) {
+        switch (i) {
+            case 1:
+                locale= Locale.ENGLISH;
+                break;
+            case 2:
+                locale = new Locale("sr", "RS");
+                break;
+        }
+          FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+              
+    }
 
     /**
      * ****** GETERI I SETERI ****
@@ -77,13 +86,21 @@ public class MBKorisnik implements Serializable {
         this.korisnik = korisnik;
     }
 
-//    public int getLocale() {
-//        return locale;
-//    }
-//
-//    public void setLocale(int locale) {
-//        this.locale = locale;
-//    }
+    public Locale getLocale() {
+        return locale;
+    }
     
+     public String getLanguage() {
+        return locale.getLanguage();
+    }
+     
+     public String getLanguageString(){
+        if(getLanguage().equals("en")){
+            return "English";
+        }
+        if(getLanguage().equals("sr")){
+            return "Srpski";
+        }return "";
+     }
 
 }

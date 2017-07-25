@@ -11,9 +11,9 @@
             <h3>#{mbLjubimac.izmena ? i18.pet : i18.add_new_pet}</h3>
             <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" />
             <h:form id="frmLjubimac"  >
-                <div class ="row">
-                    <div class ="col-md-6 col-sm-6" style="background-color:#dddddd;margin:10px;">
-                        <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
+                <div class ="row-fluid" style="width:100%;">
+                    <div class ="col-md-6 col-sm-12 col-lg-6" style="background-color:#dddddd;background-clip: content-box;">
+                        <h:panelGrid styleClass="ui-noborder tblformaunos" rowClasses="rowColor" >
 
                             <p:row style="text-align: center">
                                 <p:column colspan="2" style="text-align: center">
@@ -81,8 +81,8 @@
                             </p:row>
                         </h:panelGrid>
                     </div>
-                    <div class ="col-md-6 col-sm-6" style="background-color: #dddddd;margin: 10px;">
-                        <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
+                    <div class ="col-md-6 col-sm-12 col-lg-6" style="background-color: #dddddd;background-clip: content-box;">
+                        <h:panelGrid styleClass="ui-noborder tblformaunos" rowClasses="rowColor" >
                             <p:row style="text-align: center">
                                 <p:column colspan="2" style="text-align: center">
                                     <h3 style="text-align:center">#{i18.pet_details}</h3>
@@ -167,22 +167,7 @@
     </body>
     
     <style>
-        .rowColor{
-            background: #dddddd;
-        }
-        
-        .rowColor td{
-            padding-top: 20px;
-        }.row {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:         flex;
-}
-.row > [class*='col-'] {
-	 display: flex;
-	 flex-direction: column;
-}
+
     </style>
 </html>
 

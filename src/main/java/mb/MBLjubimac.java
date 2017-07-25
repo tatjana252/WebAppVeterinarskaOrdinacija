@@ -1,5 +1,6 @@
 package mb;
 
+import constants.WebConstants;
 import domen.Ljubimac;
 import domen.Poseta;
 import domen.Stavkaposete;
@@ -15,6 +16,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
@@ -22,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.WebConnection;
 import kontroler.Kontroler;
 import lazy.LazyDataModelLjubimac;
 import org.primefaces.context.RequestContext;
@@ -35,6 +38,9 @@ public class MBLjubimac implements Serializable {
     private Ljubimac ljubimac;
     private boolean izmena = false;
     private boolean stariVlasnik = true;
+    
+//    @EJB(mappedName="WebConstants")
+//    WebConstants webConstants;
 
     public boolean isStariVlasnik() {
         return stariVlasnik;
@@ -71,35 +77,24 @@ public class MBLjubimac implements Serializable {
 
     @PostConstruct
     public void init() {
-        stranica = "WEB-INF/includes/ljubimac/ljubimacPregled.xhtml";
+//        stranica = webConstants.getLJUBIMAC_PREGLED();
         ljubimac = new Ljubimac();
         ljubimac.setVlasnikid(new Vlasnik(-1));
     }
 
-    public void promeniStranicu(int stranica) {
-        switch (stranica) {
-            case 1:
-                this.stranica = "WEB-INF/includes/ljubimac/ljubimacPregled.xhtml";
-                break;
-            case 2:
-                this.stranica = "WEB-INF/includes/ljubimac/ljubimacIzmena.xhtml";
-                break;
-            case 3:
-                this.stranica = "WEB-INF/includes/ljubimac/ljubimacUnos.xhtml";
-                izmena = false;
-                stariVlasnik = false;
-                ljubimac = new Ljubimac();
-                ljubimac.setVlasnikid(new Vlasnik(-1));
-        }
-    }
+//    public String getStranica() {
+//        return stranica;
+//    }
 
-    public String getStranica() {
-        return stranica;
-    }
-
-    public void setStranica(String stranica) {
-        this.stranica = stranica;
-    }
+//    public void setStranica(String stranica) {
+//        if(stranica.equals(webConstants.getLJUBIMAC_UNOS())){
+//            izmena = false;
+//                stariVlasnik = false;
+//                ljubimac = new Ljubimac();
+//                ljubimac.setVlasnikid(new Vlasnik(-1));
+//        }
+//        this.stranica = stranica;
+//    }
 
     public Ljubimac getLjubimac() {
         return ljubimac;

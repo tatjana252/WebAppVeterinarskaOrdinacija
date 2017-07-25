@@ -1,16 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html  lang="#{mbKorisnik.language}"
+    xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:components="http://xmlns.jcp.org/jsf/composite/components" style="height: 100%">
-
+      xmlns:components="http://xmlns.jcp.org/jsf/composite/components" style="height: 100%"
+      >
+    <f:view locale="#{mbKorisnik.locale}">
     <h:head >
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>#{i18.vet_clinic}</title>
         <h:outputStylesheet name="bootstrap/css/bootstrap.min.css" />
         <h:outputStylesheet name="css/base.css" />
-       
+       <h:outputScript library="js" name="localization_sr_RS.js" />
     </h:head>
 
     <h:body style="height: 100%">
@@ -25,8 +29,10 @@
             <div id="content" class="ui-g-8" style="min-width: 32em;">
                 <ui:insert name="content"></ui:insert>
             </div> 
-            <div id="right" class="ui-g-2" style="height: 100%; margin: 0 auto;">
-                <ui:insert name="right"></ui:insert>
+            <div id="right" class="ui-g-2 hidden-sm hidden-xs" style="height: 100%; margin: 0 auto;">
+                <ui:insert name="right">
+                    
+                </ui:insert>
             </div>
         </div>
         <div id="bottom">
@@ -34,5 +40,5 @@
         </div>
 
     </h:body>
-
+</f:view>
 </html>
