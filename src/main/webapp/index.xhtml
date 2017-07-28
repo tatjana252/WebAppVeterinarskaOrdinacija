@@ -10,35 +10,53 @@
     <h:head>
         <title>Veterinarska ordinacija</title>
         <h:outputStylesheet name="css/login.css"/>
+        <h:outputScript library="js" name="dropdown.js" />
+        <h:outputStylesheet name="bootstrap/css/bootstrap.min.css" />
     </h:head>
     <h:body>
         <div id="login">
-            <h1>Login</h1>
+            <div class="row">
+                <div class="pull-right">
+                    <h:form style="height:100%;">
+                        <div class="dropdown" style="width: auto;height:100%;">
+                            <button class="btn btn-default dropdown-toggle dropbtn" onclick="toogleDropdown()" type="button" style="height:100%;border-radius: 0;" >
+                                #{mbKorisnik.languageString}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-content nav nav-list" id="myDropdown" aria-labelledby="dropdownMenu1" style="margin:0;">
+                                <li style="#{mbKorisnik.languageString eq 'English' ? 'background-color: #dddddd' : ''}" class="#{mbKorisnik.languageString eq 'English' ? 'disabled' : ''}"><p:commandLink value="English" action="#{mbKorisnik.changeLocale(1)}"  process="@form" update="@all" /></li>
+                                <li style="#{mbKorisnik.languageString eq 'Srpski' ? 'background-color: #dddddd' : ''}" class="#{mbKorisnik.languageString eq 'Srpski' ? 'disabled' : ''}"><p:commandLink value="Srpski" action="#{mbKorisnik.changeLocale(2)}" process="@form" update="@all"  /></li>
+                            </ul>
+                        </div>
+                    </h:form>
+            </div></div>
+            <h1 style="margin-top:0;">Login</h1>
             <hr/>
             <h:form>
-                <h:panelGrid id="grid" cellpadding="5" columns="2" >
+                <h:panelGrid id="grid" cellpadding="5" style="
+    width: 100%;
+">
                     <f:facet name="header">
                         <p:messages id="messages" autoUpdate="true"/>
                     </f:facet>
                 </h:panelGrid>
                 <h:panelGrid columns="2">
-                    <h:outputLabel for="txtKorIme">#{i18.username}</h:outputLabel>
+                    <h:outputLabel for="txtKorIme" style="padding-right: 10px;margin-top: 10px;">#{i18.username}</h:outputLabel>
 
-                    <p:inputText id="txtKorIme" value="#{mbKorisnik.korisnik.korisnikid}" required="true">
+                    <p:inputText id="txtKorIme" value="#{mbKorisnik.korisnik.korisnikid}" required="true" style="margin-top: 10px;">
                         <f:validateLength minimum="2"/>
-                        <p:clientValidator event="keyup" />
                     </p:inputText>
                     <h:message errorStyle="color:red" for="txtKorIme" />
                     <p:spacer/>
-                    <h:outputLabel for="txtKorSifra">#{i18.password}</h:outputLabel>
+                    <h:outputLabel for="txtKorSifra" style="padding-right: 10px;margin-top: 10px;">#{i18.password}</h:outputLabel>
 
-                    <h:inputSecret id="txtKorSifra" value="#{mbKorisnik.korisnik.pass}"  >
-                        <f:validateLength minimum="5"/>
+                    <h:inputSecret id="txtKorSifra" value="#{mbKorisnik.korisnik.pass}" style="margin-top: 10px;" >
+                        <f:validateLength minimum="2"/>
                     </h:inputSecret>
                     <h:message for="txtKorSifra" />
                     <p:spacer/>
                 </h:panelGrid>
-                <p:commandButton value="#{i18.login}" id="login" action="#{mbKorisnik.login()}"  />    
+                <p:commandButton value="#{i18.login}" id="login" action="#{mbKorisnik.login()}" style="margin-top: 10px;" />    
             </h:form>
         </div>
 

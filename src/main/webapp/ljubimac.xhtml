@@ -4,49 +4,40 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition template="/WEB-INF/pages/template/base.xhtml">
 
-        <ui:define name="left">
-
-            <h:outputStylesheet name="css/left-menu.css"/>
-            <div class="bhoechie-tab-menu" style="margin-top: 2em;">
-                <div class="list-group">
-                    <h:form id="left-menu">
-                        <p:commandLink action="#{mbNavigacija.setStranica(WebConstants.LJUBIMAC_PREGLED)}" 
-                                       styleClass="list-group-item #{(mbNavigacija.stranica eq WebConstants.LJUBIMAC_PREGLED or mbNavigacija.stranicaNull) ? 'active' : ''} text-center" update=":center :left-menu " style="outline: none;"
-                                       >
-                            <h4 class="glyphicon glyphicon-search"></h4><br/>#{i18.search}
-
-                        </p:commandLink>
-                        <p:commandLink action="#{mbNavigacija.setStranica(WebConstants.LJUBIMAC_UNOS)}" 
-                                       styleClass="list-group-item #{mbNavigacija.stranica eq WebConstants.LJUBIMAC_UNOS ? 'active' : ''} text-center" update=":center :left-menu " style="outline: none;" >
-                            <h4 class="glyphicon glyphicon-plus"></h4><br/>#{i18.add_new}
-
-                        </p:commandLink>
-                    </h:form>
+            <ui:define name="left">
+                
+                <h:outputStylesheet name="css/left-menu.css"/>
+                <div class="bhoechie-tab-menu" style="margin-top: 2em;">
+                    <div class="list-group">
+                        <h:form id="left-menu">
+                            <p:commandLink action="#{mbLjubimac.promeniStranicu(1)}" 
+                                           styleClass="list-group-item #{mbLjubimac.stranica eq 'WEB-INF/includes/ljubimac/ljubimacPregled.xhtml' ? 'active' : ''} text-center" update=":center :left-menu " style="outline: none;"
+                                           >
+                                <h4 class="glyphicon glyphicon-search"></h4><br/>#{i18.search}
+                            
+                            </p:commandLink>
+                            <p:commandLink action="#{mbLjubimac.promeniStranicu(3)}" 
+                                           styleClass="list-group-item #{mbLjubimac.stranica eq 'WEB-INF/includes/ljubimac/ljubimacUnos.xhtml' ? 'active' : ''} text-center" update=":center :left-menu " style="outline: none;" >
+                                <h4 class="glyphicon glyphicon-plus"></h4><br/>#{i18.add_new}
+                              
+                            </p:commandLink>
+                        </h:form>
+                    </div>
                 </div>
-            </div>
-            
-           
-        </ui:define>
+            </ui:define>
 
-      
+            <ui:define name="right">
+            </ui:define>
 
-        <ui:define name="content">
-            
+            <ui:define name="content">
                 <h:panelGrid id="center">
-                    <c:if test="#{mbNavigacija.stranicaNull}">
-                        <ui:include src="#{WebConstants.LJUBIMAC_PREGLED}"/>
-                    </c:if>
-                    <c:if test="#{not mbNavigacija.stranicaNull}">
-                        <ui:include src="#{mbNavigacija.stranica}"/>
-                   </c:if>
+                    <ui:include src="#{mbLjubimac.stranica}"></ui:include>
                 </h:panelGrid>
-            
-        </ui:define>
+            </ui:define>
 
-    </ui:composition>
+        </ui:composition>
 </html>
 

@@ -31,11 +31,9 @@ public class StavkaposetePK implements Serializable {
     private int stavkaposeteid;
 
     public StavkaposetePK() {
-        System.out.println("**//*/*/*/*/*/*/*/*/*/**/*/*/*/*/*/*/*/*/*/*/");
     }
 
     public StavkaposetePK(int posetaid, int uslugaid, int stavkaposeteid) {
-        System.out.println("/*/*/*/*/*/*/*/**//**//*/*/*/*/**//*/*/*/*/**/");
         this.posetaid = posetaid;
         this.uslugaid = uslugaid;
         this.stavkaposeteid = stavkaposeteid;

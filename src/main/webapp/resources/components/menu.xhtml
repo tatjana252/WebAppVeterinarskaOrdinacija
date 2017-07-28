@@ -21,19 +21,8 @@
         <div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0; background-color: #B95CDA;">
             <div class="container">
                 <div class="navbar-header" style="height:50px;">
-                    
-                    <h:form style="height:100%;">
-                        <div class="dropdown" style="width: auto;height:100%;">
-                            <button class="btn btn-default dropdown-toggle dropbtn" onclick="toogleDropdown()" type="button" style="height:100%;border-radius: 0;" >
-                                #{mbKorisnik.languageString}
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-content nav nav-list" id="myDropdown" aria-labelledby="dropdownMenu1" style="margin:0;">
-                                <li style="#{mbKorisnik.languageString eq 'English' ? 'background-color: #dddddd' : ''}" class="#{mbKorisnik.languageString eq 'English' ? 'disabled' : ''}"><p:commandLink value="English" action="#{mbKorisnik.changeLocale(1)}"  process="@form" update="@all" /></li>
-                                <li style="#{mbKorisnik.languageString eq 'Srpski' ? 'background-color: #dddddd' : ''}" class="#{mbKorisnik.languageString eq 'Srpski' ? 'disabled' : ''}"><p:commandLink value="Srpski" action="#{mbKorisnik.changeLocale(2)}" process="@form" update="@all"  /></li>
-                            </ul>
-                        </div>
-                    </h:form>
+
+                  
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-ex-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -51,7 +40,46 @@
         </div>
 
 
+        <div class="navbar navbar-static-top" id="secondLevelMenu" style="margin-bottom: 0; ">
+            <div class="container">
+                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                    <ul class="nav navbar-nav navbar-left" style="height: 33px;">
+                        <li>
+                             <h:form style="height:100%;">
+                        <div class="dropdown" style="width: auto;height:100%;">
+                            <button class="btn btn-default dropdown-toggle dropbtn" onclick="toogleDropdown()" type="button" style="height:100%;border-radius: 0;" >
+                                #{mbKorisnik.languageString}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-content nav nav-list" id="myDropdown" aria-labelledby="dropdownMenu1" style="margin:0;">
+                                <li style="#{mbKorisnik.languageString eq 'English' ? 'background-color: #dddddd' : ''}" class="#{mbKorisnik.languageString eq 'English' ? 'disabled' : ''}"><p:commandLink value="English" action="#{mbKorisnik.changeLocale(1)}"  process="@form" oncomplete="window.location.replace(window.location.href);" /></li>
+                                <li style="#{mbKorisnik.languageString eq 'Srpski' ? 'background-color: #dddddd' : ''}" class="#{mbKorisnik.languageString eq 'Srpski' ? 'disabled' : ''}"><p:commandLink value="Srpski" action="#{mbKorisnik.changeLocale(2)}" process="@form" oncomplete="window.location.replace(window.location.href);"  /></li>
+                            </ul>
+                            
+                        </div>
+                    </h:form></li>
+                        </ul>
+                        
+                        <ul class="nav navbar-nav navbar-right" style="height: 33px;">
+                        <li style="
+    height: 100%;    margin-left: 10px;
+">
+                            <h:form style="height:100%;"><p:commandButton action="#{mbKorisnik.logout}" value="Log out" styleClass="btn btn-default" style="height:100%;border-radius: 0;"></p:commandButton></h:form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
+        <style>
+            #secondLevelMenu{
+                margin-bottom: 0;
+                background-color: #dddddd;
+                min-height: inherit;
+                margin: -2px;
+                padding: 5px;
+            }
+        </style>
 
     </cc:implementation>
 

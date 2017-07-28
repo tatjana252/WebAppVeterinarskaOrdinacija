@@ -144,7 +144,7 @@
                                             <p:inputTextarea id="visitDescription" rows="8" cols="33" value="#{mbPoseta.novastavkaposete.opis}"/>
                                         </div>
                                         <div>
-                                            <p:commandButton value="#{i18.add_item}" icon="ui-icon-plusthick" form=":frmStavkaPosete" update=":frmStavkaPosete :msgsUnosPosete" process=":frmStavkaPosete" action="#{mbPoseta.dodajStavku()}" />
+                                            <p:commandButton value="#{mbPoseta.izmena ? i18.edit_item : i18.add_item}" icon="ui-icon-plusthick" form=":frmStavkaPosete" update=":frmStavkaPosete :msgsUnosPosete" process=":frmStavkaPosete" action="#{mbPoseta.dodajStavku()}" />
                                         </div>
                                     </div>
                                 </p:column>

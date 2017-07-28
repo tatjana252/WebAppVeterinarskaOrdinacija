@@ -5,7 +5,6 @@
  */
 package webpageresolver;
 
-import java.util.ResourceBundle;
 import javax.faces.context.FacesContext;
 
 /**
@@ -43,7 +42,6 @@ public class Page {
     }
 
     public String getPage() {
-        
         return page;
     }
 

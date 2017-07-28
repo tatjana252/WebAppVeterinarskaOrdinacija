@@ -23,7 +23,6 @@ import webpageresolver.Page;
 public class MBUtil{
 
     List<Page> pages;
-    
 
     public List<Page> getPages() {
         return pages;
@@ -39,6 +38,7 @@ public class MBUtil{
 
     @PostConstruct
     public void init() {
+       
         ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
         String usluga = bundle.getString("pet_services");
         String ljubimac = bundle.getString("pet");

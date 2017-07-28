@@ -6,6 +6,7 @@
 package mb;
 
 import domen.Korisnik;
+import java.io.IOException;
 import javax.inject.Named;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import kontroler.Kontroler;
@@ -39,9 +41,9 @@ public class MBKorisnik implements Serializable {
 
     @PostConstruct
     public void init() {
-        try{
-        locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
-        }catch(Exception we){
+        try {
+            locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+        } catch (Exception we) {
             locale = new Locale("sr", "RS");
         }
     }
@@ -65,14 +67,14 @@ public class MBKorisnik implements Serializable {
     public void changeLocale(int i) {
         switch (i) {
             case 1:
-                locale= Locale.ENGLISH;
+                locale = Locale.ENGLISH;
                 break;
             case 2:
                 locale = new Locale("sr", "RS");
                 break;
         }
-          FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
-              
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+
     }
 
     /**
@@ -89,18 +91,30 @@ public class MBKorisnik implements Serializable {
     public Locale getLocale() {
         return locale;
     }
-    
-     public String getLanguage() {
+
+    public String getLanguage() {
         return locale.getLanguage();
     }
-     
-     public String getLanguageString(){
-        if(getLanguage().equals("en")){
+
+    public String getLanguageString() {
+        if (getLanguage().equals("en")) {
             return "English";
         }
-        if(getLanguage().equals("sr")){
+        if (getLanguage().equals("sr")) {
             return "Srpski";
-        }return "";
-     }
+        }
+        return "";
+    }
+
+    public void logout() {
+        System.out.println("Logout");
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.invalidateSession();
+        try {
+            ec.redirect(ec.getRequestContextPath() );
+        } catch (IOException ex) {
+            Logger.getLogger(MBKorisnik.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

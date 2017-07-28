@@ -1,7 +1,4 @@
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -13,7 +10,7 @@
         <h3 class="first">#{i18.pet_service_edit}</h3>
          <h:form id="frmdtUsluga">
             <p:growl id="msgs" showDetail="true"/>
-            <p:dataTable id="dtUsluge" value="#{mbUsluga.lazydmUsluga1}"  widgetVar="uslugeTable"
+            <p:dataTable id="dtUsluge" value="#{mbUsluga.lazydmUsluga}" 
                          var="usluga" paginator="true" rows="10" rowKey="#{usluga.uslugaid}"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15" sortBy="#{usluga.tipuslugeid.naziv}"
@@ -99,5 +96,5 @@
 
 
     </div>
-</html>
+</ui:composition>
 

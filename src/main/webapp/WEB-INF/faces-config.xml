@@ -18,8 +18,7 @@
             <var>i18</var>            
         </resource-bundle>
         <locale-config>
-            <default-locale>sr_RS</default-locale>      
-            <supported-locale>en</supported-locale>      
+            <default-locale>sr_RS</default-locale>            
         </locale-config>
     </application>
 </faces-config>
