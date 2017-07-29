@@ -9,8 +9,6 @@ import domen.Ljubimac;
 import domen.Poseta;
 import domen.Stavkaposete;
 import domen.StavkaposetePK;
-import domen.Usluga;
-import domen.Vlasnik;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -23,16 +21,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
-import javax.faces.model.SelectItemGroup;
 import javax.inject.Inject;
 import kontroler.Kontroler;
 import lazy.LazyDataModelLjubimac;
+import lazy.LazyDataModelPoseta;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -48,10 +43,10 @@ public class MBPoseta implements Serializable {
     private Stavkaposete novastavkaposete;
 
     @Inject
-    private LazyDataModelLjubimac lazydmLjubimac;
-
+    private LazyDataModelPoseta lazydmPoseta;
+    
     @Inject
-    private Kontroler kontroler;
+    private LazyDataModelLjubimac lazydmLjubimac;
 
     public LazyDataModelLjubimac getLazydmLjubimac() {
         return lazydmLjubimac;
@@ -59,6 +54,17 @@ public class MBPoseta implements Serializable {
 
     public void setLazydmLjubimac(LazyDataModelLjubimac lazydmLjubimac) {
         this.lazydmLjubimac = lazydmLjubimac;
+    }
+
+    @Inject
+    private Kontroler kontroler;
+
+    public LazyDataModelPoseta getLazydmPoseta() {
+        return lazydmPoseta;
+    }
+
+    public void setLazydmPoseta(LazyDataModelPoseta lazydmPoseta) {
+        this.lazydmPoseta = lazydmPoseta;
     }
 
     public MBPoseta() {

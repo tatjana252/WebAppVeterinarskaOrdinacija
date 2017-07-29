@@ -7,14 +7,14 @@
     <h:body>
         <h:form id="frmdtPosetePregled">
             <p:growl id="msgs" showDetail="true"/>
-            <p:dataTable id="dtPosetePregled" value="#{mbLjubimac.lazydmLjubimac}" 
-                         var="ljubimac" paginator="true" rows="10" rowKey="#{ljubimac.ljubimacid}"
+            <p:dataTable id="dtPosetePregled" value="#{mbPoseta.lazydmPoseta}" 
+                         var="poseta" paginator="true" rows="10" 
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink}"
-                         sortBy="#{ljubimac.ime}"
+                         sortBy="#{poseta.datum}"
                          expandableRowGroups="true"
                          rowsPerPageTemplate="5,10,15"
                          style="width: 100%;" selectionMode="single" 
-                         selection="#{mbLjubimac.ljubimac}"
+                         selection="#{mbPoseta.poseta}"
                          lazy="true" 
                          emptyMessage="#{i18.empty_message}"
                          >
@@ -23,53 +23,53 @@
                     <p:rowToggler />
                 </p:column>
 
-                <p:column headerText="#{i18.name}" sortBy="#{ljubimac.ime}" filterBy="#{ljubimac.ime}">
-                    <h:outputText value="#{ljubimac.ime}" />
+                <p:column headerText="#{i18.date_of_visit}" sortBy="#{poseta.datum}" filterBy="#{poseta.datum}">
+                    <h:outputText value="#{poseta.datum}" />
                 </p:column>
 
-                <p:column headerText="#{i18.pet_species}" sortBy="#{ljubimac.vrstazivotinjeid.naziv}"  filterBy="#{ljubimac.vrstazivotinjeid.naziv}">
-                    <h:outputText value="#{ljubimac.vrstazivotinjeid.naziv}" />
+                <p:column headerText="#{i18.pet_name}" sortBy="#{poseta.ljubimacid.ime}"  filterBy="#{poseta.ljubimacid.ime}">
+                    <h:outputText value="#{poseta.ljubimacid.ime}" />
                 </p:column>
 
-                <p:column headerText="#{i18.animal_breed}" sortBy="#{ljubimac.rasa}" filterBy="#{ljubimac.rasa}" >
-                    <h:outputText value="#{ljubimac.rasa}" />
+                <p:column headerText="#{i18.animal_breed}" sortBy="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" filterBy="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" >
+                    <h:outputText value="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" />
                 </p:column>
 
-                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{ljubimac.sifracipa}" filterBy="#{ljubimac.sifracipa}" >
-                    <h:outputText value="#{ljubimac.sifracipa}" />
+                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{poseta.vlasnikid.ime}" filterBy="#{poseta.vlasnikid.ime}" >
+                    <h:outputText value="#{poseta.vlasnikid.ime}" />
                 </p:column>
 
-                <p:column headerText="#{i18.date_of_birth}" >
-                    <h:outputText value="#{ljubimac.getDatumrodjenjaString()}" />
+                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{poseta.vlasnikid.prezime}" filterBy="#{poseta.vlasnikid.prezime}" >
+                    <h:outputText value="#{poseta.vlasnikid.prezime}" />
                 </p:column>
 
-                <p:column headerText="#{i18.name}" sortBy="#{ljubimac.vlasnikid.ime}" filterBy="#{ljubimac.vlasnikid.ime}" >
-                    <h:outputText value="#{ljubimac.vlasnikid.ime}" />
+                <p:column headerText="#{i18.name}" sortBy="#{poseta.ljubimacid.vlasnikid.ime}" filterBy="#{poseta.ljubimacid.vlasnikid.ime}" >
+                    <h:outputText value="#{mbLjubimac.vratiOpis(poseta)}" />
                 </p:column>
 
                 <p:column headerText="#{i18.last_name}" sortBy="#{ljubimac.vlasnikid.prezime}" filterBy="#{ljubimac.vlasnikid.prezime}" >
                     <h:outputText value="#{ljubimac.vlasnikid.prezime}" />
                 </p:column>
-                
+
                 <p:rowExpansion>
-            <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
-                <f:facet name="header">
-                    <p:graphicImage name="demo/images/car/#{car.brand}-big.gif"/> 
-                </f:facet>
- 
-                <h:outputText value="Id:" />
-                <h:outputText value="#{car.id}" />
- 
-                <h:outputText value="Year" />
-                <h:outputText value="#{car.year}" />
- 
-                <h:outputText value="Color:" />
-                <h:outputText value="#{car.color}" style="color:#{car.color}"/>
- 
-                <h:outputText value="Price" />
-                <h:outputText value="$#{car.price}" />
-            </p:panelGrid>
-        </p:rowExpansion>
+                    <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
+                        <f:facet name="header">
+                            <p:graphicImage name="demo/images/car/#{car.brand}-big.gif"/> 
+                        </f:facet>
+
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{car.id}" />
+
+                        <h:outputText value="Year" />
+                        <h:outputText value="#{car.year}" />
+
+                        <h:outputText value="Color:" />
+                        <h:outputText value="#{car.color}" style="color:#{car.color}"/>
+
+                        <h:outputText value="Price" />
+                        <h:outputText value="$#{car.price}" />
+                    </p:panelGrid>
+                </p:rowExpansion>
 
 
             </p:dataTable>

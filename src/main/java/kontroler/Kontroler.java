@@ -92,7 +92,9 @@ public class Kontroler implements Serializable {
 
     public List<Usluga> ucitajUsluge() throws Exception {
         UslugaREST uslugaREST = new UslugaREST();
-        Response response = uslugaREST.ucitajSve_XML(Response.class);
+        System.out.println("pozivam servis");
+        Response response = uslugaREST.ucitajSve_XML(getRequest(null));
+        System.out.println("pozvan servis primeljen odgovor");
         GenericType<List<Usluga>> gt = new GenericType<List<Usluga>>() {
         };
         return (List<Usluga>) getObject(response, gt);
@@ -117,11 +119,17 @@ public class Kontroler implements Serializable {
 
     private <T> T getObject(Response response, GenericType<T> type) throws Exception {
         try {
-            if (Response.Status.fromStatusCode(response.getStatus()) == Response.Status.NOT_FOUND) {
-                String odg = response.readEntity(String.class);
-                throw new Exception(odg);
-            } else if (Response.Status.fromStatusCode(response.getStatus()) == Response.Status.OK) {
-                return response.readEntity(type);
+            System.out.println("response status " +response.getStatusInfo() +response.getStringHeaders() +response.getEntity() + response.getEntityTag());
+            if (null == Response.Status.fromStatusCode(response.getStatus())) {
+                
+            } else switch (Response.Status.fromStatusCode(response.getStatus())) {
+                case NOT_FOUND:
+                    String odg = response.readEntity(String.class);
+                    throw new Exception(odg);
+                case OK:
+                    return response.readEntity(type);
+                default:
+                    break;
             }
         } catch (Exception ne) {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ne);
@@ -133,7 +141,7 @@ public class Kontroler implements Serializable {
     public List<Usluga> pretrazi(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         try {
             UslugaREST uslugaREST = new UslugaREST();
-            Response response = uslugaREST.pretrazi(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters));
+            Response response = uslugaREST.pretrazi(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)));
             GenericType<List<Usluga>> gt = new GenericType<List<Usluga>>() {
             };
             List<Usluga> usluge = getObject(response, gt);
@@ -152,12 +160,12 @@ public class Kontroler implements Serializable {
 
     public void obrisiUslugu(Usluga odabranaUsluga) {
         UslugaREST uslugaREST = new UslugaREST();
-        uslugaREST.obrisi(getRequest(odabranaUsluga));
+        uslugaREST.obrisi_XML(getRequest(odabranaUsluga));
     }
 
     public List<Vlasnik> ucitajVlasnike() throws Exception {
         VlasnikREST vlasnikREST = new VlasnikREST();
-        Response response = vlasnikREST.ucitajSve_XML(Response.class);
+        Response response = vlasnikREST.ucitajSve_XML(getRequest(null));
         GenericType<List<Vlasnik>> gt = new GenericType<List<Vlasnik>>() {
         };
         List<Vlasnik> vlasnici = getObject(response, gt);
@@ -167,7 +175,7 @@ public class Kontroler implements Serializable {
 
     public List<Vrstazivotinje> ucitajVrsteZivotinje() throws Exception {
         VrstazivotinjeREST ljubimacREST = new VrstazivotinjeREST();
-        Response response = ljubimacREST.ucitajSve_XML(Response.class);
+        Response response = ljubimacREST.ucitajSve_XML(getRequest(null));
         GenericType<List<Vrstazivotinje>> gt = new GenericType<List<Vrstazivotinje>>() {
         };
         vrsteZivotinja = getObject(response, gt);
@@ -200,7 +208,7 @@ public class Kontroler implements Serializable {
         try {
 
             LjubimacREST ljubimacREST = new LjubimacREST();
-            Response response = ljubimacREST.pretrazi(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters));
+            Response response = ljubimacREST.pretrazi(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)) );
             GenericType<List<Ljubimac>> gt = new GenericType<List<Ljubimac>>() {
             };
             List<Ljubimac> ljubimac = getObject(response, gt);
@@ -213,7 +221,9 @@ public class Kontroler implements Serializable {
 
     public List<Ljubimac> ucitajLjubimce() throws Exception {
         LjubimacREST ljubimacREST = new LjubimacREST();
-        Response response = ljubimacREST.ucitajSve_XML(Response.class);
+        System.out.println("pokusavam da ucitam ljubimce");
+        Response response = ljubimacREST.ucitajSve_XML(getRequest(null));
+        System.out.println("odgovor je primljen");
         GenericType<List<Ljubimac>> gt = new GenericType<List<Ljubimac>>() {
         };
         return (List<Ljubimac>) getObject(response, gt);
@@ -266,9 +276,38 @@ public class Kontroler implements Serializable {
     }
 
     public void sacuvajPosetu(Poseta poseta) {
-        System.out.println("cuvam posetu");
         PosetaREST posetaRest = new PosetaREST();
         Response response = posetaRest.sacuvaj_XML(getRequest(poseta));
+    }
+
+    public List<Poseta> ucitajPosete() {
+        try {
+            PosetaREST posetaREST = new PosetaREST();
+            Response response = posetaREST.ucitajSve_XML(getRequest(null));
+            System.out.println(response);
+            GenericType<List<Poseta>> gt = new GenericType<List<Poseta>>() {
+            };
+            System.out.println("UCITAJ POSETE");
+            System.out.println(getObject(response, gt));
+            System.out.println(((List<Poseta>) getObject(response, gt)).size());
+            return (List<Poseta>) getObject(response, gt);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public List<Poseta> pretraziPosete(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) throws Exception {
+         try {
+            PosetaREST posetaREST = new PosetaREST();
+            Response response = posetaREST.pretrazi(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)) );
+            GenericType<List<Poseta>> gt = new GenericType<List<Poseta>>() {
+            };
+            List<Poseta> poseta = getObject(response, gt);
+            return poseta;
+        } catch (Exception e) {
+            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, e);
+            throw e;
+        }
     }
 
     

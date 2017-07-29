@@ -25,27 +25,32 @@ import javax.ws.rs.core.Response;
  */
 public class TipUslugeREST {
 
-    private WebTarget webTarget;
-    private Client client;
-    private static final String BASE_URI = "http://localhost:8080/VeterinarskaOrdinacijaREST/api";
+        private WebTarget webTarget;
+        private Client client;
+        private static final String BASE_URI = "http://localhost:8080/VeterinarskaOrdinacijaREST/api";
 
-    public TipUslugeREST() {
-        client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("tipusluge");
-    }
+        public TipUslugeREST() {
+            client = javax.ws.rs.client.ClientBuilder.newClient();
+            webTarget = client.target(BASE_URI).path("tipusluge");
+        }
 
-    public Response prikazi() throws ClientErrorException {
-        return webTarget.path("prikazi").request().post(null, Response.class);
-    }
+        public Response prikazi_XML(Object requestEntity) throws ClientErrorException {
+            return webTarget.path("prikazi").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+        }
 
-    public <T> T ucitajSve(Class<T> responseType) throws ClientErrorException {
-        WebTarget resource = webTarget;
-        resource = resource.path("ucitajsve");
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-    }
+        public Response prikazi_JSON(Object requestEntity) throws ClientErrorException {
+            return webTarget.path("prikazi").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
+        }
 
-    public void close() {
-        client.close();
+        public Response ucitajSve_XML(Object requestEntity) throws ClientErrorException {
+            return webTarget.path("ucitajsve").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+        }
+
+        public Response ucitajSve_JSON(Object requestEntity) throws ClientErrorException {
+            return webTarget.path("ucitajsve").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
+        }
+
+        public void close() {
+            client.close();
+        }
     }
-    
-}

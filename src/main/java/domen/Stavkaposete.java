@@ -36,22 +36,20 @@ public class Stavkaposete implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    
     protected StavkaposetePK stavkaposetePK;
     @Size(max = 1000)
     @Column(name = "opis", length = 1000)
     private String opis;
-    @JoinColumn(name = "uslugaid", referencedColumnName = "uslugaid", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "uslugaid", referencedColumnName = "uslugaid", nullable = false)
     @ManyToOne(optional = false)
     @MapsId("uslugaid")
     private Usluga usluga;
-    @JoinColumn(name = "posetaid", referencedColumnName = "posetaid", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "posetaid", referencedColumnName = "posetaid", nullable = false)
     @ManyToOne(optional = false)
     @MapsId("posetaid")
     private Poseta poseta;
-
+    
     public Stavkaposete() {
-        this.stavkaposetePK = new StavkaposetePK();
     }
 
     public Stavkaposete(StavkaposetePK stavkaposetePK) {
@@ -84,17 +82,15 @@ public class Stavkaposete implements Serializable {
 
     public void setUsluga(Usluga usluga) {
         this.usluga = usluga;
-        stavkaposetePK.setUslugaid(usluga.getUslugaid());
     }
 
+    @XmlTransient
     public Poseta getPoseta() {
         return poseta;
     }
 
-    @XmlTransient
     public void setPoseta(Poseta poseta) {
         this.poseta = poseta;
-        stavkaposetePK.setPosetaid(poseta.getPosetaid());
     }
 
     @Override
@@ -121,5 +117,5 @@ public class Stavkaposete implements Serializable {
     public String toString() {
         return "domen.Stavkaposete[ stavkaposetePK=" + stavkaposetePK + " ]";
     }
-    
+
 }
