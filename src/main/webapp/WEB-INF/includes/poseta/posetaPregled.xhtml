@@ -18,13 +18,13 @@
                          lazy="true" 
                          emptyMessage="#{i18.empty_message}"
                          >
+                <p:column headerText="#{i18.visit_date}" sortBy="#{poseta.datum}" filterBy="#{poseta.datum}">
 
-                <p:column style="width:16px">
-                    <p:rowToggler />
-                </p:column>
+                    <f:facet name="filter" >
+                       
+                    </f:facet>
 
-                <p:column headerText="#{i18.date_of_visit}" sortBy="#{poseta.datum}" filterBy="#{poseta.datum}">
-                    <h:outputText value="#{poseta.datum}" />
+                    <h:outputText value="#{poseta.datumString}" />
                 </p:column>
 
                 <p:column headerText="#{i18.pet_name}" sortBy="#{poseta.ljubimacid.ime}"  filterBy="#{poseta.ljubimacid.ime}">
@@ -35,41 +35,18 @@
                     <h:outputText value="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" />
                 </p:column>
 
-                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{poseta.vlasnikid.ime}" filterBy="#{poseta.vlasnikid.ime}" >
-                    <h:outputText value="#{poseta.vlasnikid.ime}" />
+                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{poseta.ljubimacid.vlasnikid.ime}" filterBy="#{poseta.ljubimacid.vlasnikid.ime}" >
+                    <h:outputText value="#{poseta.ljubimacid.vlasnikid.ime}" />
                 </p:column>
 
-                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{poseta.vlasnikid.prezime}" filterBy="#{poseta.vlasnikid.prezime}" >
-                    <h:outputText value="#{poseta.vlasnikid.prezime}" />
+                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{poseta.ljubimacid.vlasnikid.prezime}" filterBy="#{poseta.ljubimacid.vlasnikid.prezime}" >
+                    <h:outputText value="#{poseta.ljubimacid.vlasnikid.prezime}" />
                 </p:column>
 
-                <p:column headerText="#{i18.name}" sortBy="#{poseta.ljubimacid.vlasnikid.ime}" filterBy="#{poseta.ljubimacid.vlasnikid.ime}" >
-                    <h:outputText value="#{mbLjubimac.vratiOpis(poseta)}" />
+                <p:column headerText="#{i18.name}" sortBy="#{poseta.ljubimacid.vlasnikid.ime}" filterBy="#{poseta.ljubimacid.vlasnikid.ime}" colspan="2" >
+                    <h:outputText value="#{mbLjubimac.vratiOpis(poseta)}" style="display: block;max-height: 5em;overflow: auto;"/>
                 </p:column>
 
-                <p:column headerText="#{i18.last_name}" sortBy="#{ljubimac.vlasnikid.prezime}" filterBy="#{ljubimac.vlasnikid.prezime}" >
-                    <h:outputText value="#{ljubimac.vlasnikid.prezime}" />
-                </p:column>
-
-                <p:rowExpansion>
-                    <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
-                        <f:facet name="header">
-                            <p:graphicImage name="demo/images/car/#{car.brand}-big.gif"/> 
-                        </f:facet>
-
-                        <h:outputText value="Id:" />
-                        <h:outputText value="#{car.id}" />
-
-                        <h:outputText value="Year" />
-                        <h:outputText value="#{car.year}" />
-
-                        <h:outputText value="Color:" />
-                        <h:outputText value="#{car.color}" style="color:#{car.color}"/>
-
-                        <h:outputText value="Price" />
-                        <h:outputText value="$#{car.price}" />
-                    </p:panelGrid>
-                </p:rowExpansion>
 
 
             </p:dataTable>

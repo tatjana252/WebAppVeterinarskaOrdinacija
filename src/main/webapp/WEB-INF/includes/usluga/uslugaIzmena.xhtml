@@ -10,7 +10,7 @@
         <h3 class="first">#{i18.pet_service_edit}</h3>
          <h:form id="frmdtUsluga">
             <p:growl id="msgs" showDetail="true"/>
-            <p:dataTable id="dtUsluge" value="#{mbUsluga.lazydmUsluga}" 
+            <p:dataTable id="dtUsluge" value="#{mbUsluga.lazydmUsluga}"  widgetVar="uslugeTable"
                          var="usluga" paginator="true" rows="10" rowKey="#{usluga.uslugaid}"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="5,10,15" sortBy="#{usluga.tipuslugeid.naziv}"

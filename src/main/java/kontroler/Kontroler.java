@@ -118,24 +118,13 @@ public class Kontroler implements Serializable {
     }
 
     private <T> T getObject(Response response, GenericType<T> type) throws Exception {
-        try {
-            System.out.println("response status " +response.getStatusInfo() +response.getStringHeaders() +response.getEntity() + response.getEntityTag());
-            if (null == Response.Status.fromStatusCode(response.getStatus())) {
-                
-            } else switch (Response.Status.fromStatusCode(response.getStatus())) {
-                case NOT_FOUND:
-                    String odg = response.readEntity(String.class);
-                    throw new Exception(odg);
-                case OK:
-                    return response.readEntity(type);
-                default:
-                    break;
-            }
-        } catch (Exception ne) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ne);
-            throw new Exception("");
+         if (Response.Status.fromStatusCode(response.getStatus()) == Response.Status.NOT_FOUND) {
+            String odg = response.readEntity(String.class);
+            throw new Exception(odg);
+        } else if (Response.Status.fromStatusCode(response.getStatus()) == Response.Status.OK) {
+            return response.readEntity(type);
         }
-        return null;
+        throw new Exception("");
     }
 
     public List<Usluga> pretrazi(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
@@ -288,8 +277,6 @@ public class Kontroler implements Serializable {
             GenericType<List<Poseta>> gt = new GenericType<List<Poseta>>() {
             };
             System.out.println("UCITAJ POSETE");
-            System.out.println(getObject(response, gt));
-            System.out.println(((List<Poseta>) getObject(response, gt)).size());
             return (List<Poseta>) getObject(response, gt);
         } catch (Exception ex) {
             return null;

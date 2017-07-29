@@ -61,6 +61,7 @@ public class LazyDataModelPoseta extends LazyDataModel<Poseta> {
     @Override
     public Poseta getRowData(String rowKey) {
        List<Poseta> posete = (List<Poseta>) getWrappedData();
+        System.out.println("    nja"+posete);
         for (Poseta poseta : posete) {
             if(poseta.getPosetaid()== Integer.parseInt(rowKey)){
                 return poseta;
