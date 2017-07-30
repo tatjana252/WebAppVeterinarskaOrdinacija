@@ -11,20 +11,22 @@
                     <h3>#{i18.add_new_pet_service}</h3>
                     <h:form id="frmUsluga"  >
                         <p:growl id="msgsUnos" showDetail="true" sticky="true" />
-                        <h:panelGrid columns="2"  styleClass="ui-noborder tblusluga" >
+                        <h:panelGrid columns="3"  styleClass="ui-noborder tblusluga" >
 
                             <h:outputLabel for="serviceName" value="#{i18.service_name}" />
-                            <p:inputText id = "serviceName" value = "#{mbUsluga.u.naziv}" style="width:20em;" />
+                            <p:inputText id = "serviceName" value = "#{mbUsluga.u.naziv}" style="width:20em;" required="true" />
+                            <p:message for="serviceName" id="msgsServiceName"/>
 
                             <h:outputLabel for="price" value="#{i18.price}" />
-                            <p:spinner id="price" value="#{mbUsluga.u.cena}" stepFactor="10" min="0" prefix="#{i18.currency}" />
+                            <p:spinner id="price" value="#{mbUsluga.u.cena}" stepFactor="10" min="0" prefix="#{i18.currency}" required="true"  />
+                            <p:message for="price" id="msgsPrice"/>
 
                             <h:outputText value="#{i18.service_type}"  />
                             <p:selectOneMenu id="cbTipUsluge" value="#{mbUsluga.u.tipuslugeid}" converter="#{tipuslugeCNV}" style="width: 20em;
-                                             padding: 0;">
+                                             padding: 0; " required="true">
                                 <f:selectItems value="#{mbUsluga.ucitajTipoveUsluga()}" var="tu" itemValue="#{tu}" itemLabel="#{tu.naziv}" />
                             </p:selectOneMenu>
-                            <p:message for="cbTipUsluge" />
+                            <p:message for="cbTipUsluge" id="msgsCbTupUsluge"/>
                             <p:commandButton value="Sacuvaj" action="#{mbUsluga.sacuvaj()}" id="btnSacuvaj"  update=":frmUsluga :frmUsluga:msgsUnos">
                             </p:commandButton>
                         </h:panelGrid>

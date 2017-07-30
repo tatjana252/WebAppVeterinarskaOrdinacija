@@ -45,9 +45,15 @@
                 </p:dataList>
             </p:rowExpansion>
 
+            <f:facet name="footer">
+                        <p:commandButton class="btn btn-lg" value="Unesi posetu" 
+                                         process="@this" action="#{mbPoseta.unesiPosetu(mbLjubimac.ljubimac)}"
+                                         style="border: #dddddd;margin-top:20px;
+                                         border-style: solid;" />
+            </f:facet>
 
         </p:dataTable>
-    </h:form>
+</h:form>    
     <style>
         #frmdtPosetePregled .ui-widget-content{
             padding: 10px 20px;

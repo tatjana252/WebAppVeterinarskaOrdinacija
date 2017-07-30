@@ -33,30 +33,28 @@
             <h1 style="margin-top:0;">Login</h1>
             <hr/>
             <h:form>
-                <h:panelGrid id="grid" cellpadding="5" style="
-    width: 100%;
-">
+                <h:panelGrid id="grid" cellpadding="5" style="width: 100%;">
                     <f:facet name="header">
-                        <p:messages id="messages" autoUpdate="true"/>
+                        <p:messages id="messages" globalOnly="true"/>
                     </f:facet>
                 </h:panelGrid>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="3" cellpadding="5" >
                     <h:outputLabel for="txtKorIme" style="padding-right: 10px;margin-top: 10px;">#{i18.username}</h:outputLabel>
 
                     <p:inputText id="txtKorIme" value="#{mbKorisnik.korisnik.korisnikid}" required="true" style="margin-top: 10px;">
-                        <f:validateLength minimum="2"/>
+                        <f:validateLength minimum="5"/>
                     </p:inputText>
-                    <h:message errorStyle="color:red" for="txtKorIme" />
-                    <p:spacer/>
+                    <p:message  for="txtKorIme" id="msgsKorIme"/>
+                    
                     <h:outputLabel for="txtKorSifra" style="padding-right: 10px;margin-top: 10px;">#{i18.password}</h:outputLabel>
 
                     <h:inputSecret id="txtKorSifra" value="#{mbKorisnik.korisnik.pass}" style="margin-top: 10px;" >
-                        <f:validateLength minimum="2"/>
+                        <f:validateLength minimum="5"/>
                     </h:inputSecret>
-                    <h:message for="txtKorSifra" />
+                    <p:message for="txtKorSifra" id="msgsKorSifra" />
                     <p:spacer/>
                 </h:panelGrid>
-                <p:commandButton value="#{i18.login}" id="login" action="#{mbKorisnik.login()}" style="margin-top: 10px;" />    
+                <p:commandButton value="#{i18.login}" id="login" action="#{mbKorisnik.login()}" style="margin-top: 10px;" update="messages msgsKorIme msgsKorSifra" />    
             </h:form>
         </div>
 

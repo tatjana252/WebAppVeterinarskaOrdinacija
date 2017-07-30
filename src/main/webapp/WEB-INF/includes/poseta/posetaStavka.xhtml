@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <p:dataTable id="dtStavkePosete" value="#{mbPoseta.poseta.stavkaposeteList}"  widgetVar="stavkePoseteTable"
                  var="stavka" paginator="true" rows="10"
                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -33,14 +34,16 @@
         </p:column>
 
         <p:column style="width: 5em;text-align: center" headerText="#{i18.edit}">
-            <p:commandButton update=":frmStavkaPosete" icon="ui-icon-pencil" title="#{i18.edit}" actionListener="#{mbPoseta.izmeniStavku(stavka)}">
+            <p:commandButton update=":frmStavkaPosete :msgsUnosPosete" icon="#{mbPoseta.prikazDetalja ? 'ui-icon-search' : 'ui-icon-pencil'}" title="#{mbPoseta.prikazDetalja ? i18.details : i18.edit}" actionListener="#{mbPoseta.izmeniStavku(stavka)}">
             </p:commandButton>
         </p:column>
         
+        <c:if test="#{not mbPoseta.prikazDetalja}" >
         <p:column style="width: 5em;text-align: center" headerText="#{i18.delete}">
-            <p:commandButton update=":frmStavkaPosete" icon="ui-icon-closethick" title="#{i18.delete}" actionListener="#{mbPoseta.obrisiStavku(stavka)}">
+            <p:commandButton update=":frmStavkaPosete :msgsUnosPosete" icon="ui-icon-closethick" title="#{i18.delete}" actionListener="#{mbPoseta.obrisiStavku(stavka)}">
             </p:commandButton>
         </p:column>
+        </c:if>
     </p:dataTable>
 </html>
 

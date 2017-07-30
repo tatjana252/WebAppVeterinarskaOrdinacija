@@ -6,6 +6,7 @@ import domen.Stavkaposete;
 import domen.Vlasnik;
 import domen.Vrstazivotinje;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -151,6 +152,10 @@ public class MBLjubimac implements Serializable {
     }
 
     public void sacuvaj() {
+        if(ljubimac.getVlasnikid() == null || ljubimac.getVlasnikid().getVlasnikid()==-1){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ljubimac mora imati vlasnika!"));
+            return;
+        }
         if (!izmena) {
             try {
                 kontroler.sacuvaj(ljubimac);
@@ -171,6 +176,12 @@ public class MBLjubimac implements Serializable {
             }
         }
     }
+    
+    public String prikaziPoseteLjubimca(Ljubimac ljubimac){
+        this.ljubimac = ljubimac;
+        prikaziLjubimca();
+        return "pretty:ljubimac";
+    }
 
     public void postavidatumrodjenja(SelectEvent e) {
         ljubimac.setDatumrodjenja((Date) e.getObject());
@@ -178,7 +189,7 @@ public class MBLjubimac implements Serializable {
 
     public void prikaziLjubimca() {
         try {
-            ljubimac.setPosetaList(kontroler.prikaziLjubimca(ljubimac));
+            ljubimac = kontroler.prikaziLjubimca(ljubimac);
             izmena = true;
             stranica = "WEB-INF/includes/ljubimac/ljubimacDetalji.xhtml";
         } catch (Exception ex) {
@@ -194,6 +205,10 @@ public class MBLjubimac implements Serializable {
             }
         }
         return opis;
+    }
+    
+    public String getCurrentDate(){
+        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     }
     
    

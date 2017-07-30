@@ -9,7 +9,7 @@
 
         <div id="center" class="container-fluid">
             <h3>#{mbLjubimac.izmena ? i18.pet : i18.add_new_pet}</h3>
-            <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" />
+            <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" globalOnly="true" />
             <h:form id="frmLjubimac"  >
                 <div class ="row">
                     <div class ="col-md-6 col-sm-6" style="background-color:#dddddd;margin:10px;">
@@ -40,7 +40,11 @@
                                     <h:outputLabel for="petOwnerName" value="#{i18.name}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;"/>
+                                    <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;" required="true">
+                                    </p:inputText>
+                                </p:column>  
+                                <p:column>
+                                     <p:message for="petOwnerName" id="msgsPetOwnerName"/>
                                 </p:column>  
                             </p:row>
 
@@ -49,8 +53,11 @@
                                     <h:outputLabel for="petOwnerLastname" value="#{i18.last_name}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="petOwnerLastname" value="#{mbLjubimac.ljubimac.vlasnikid.prezime}" style="width:20em;"/>
+                                    <p:inputText id="petOwnerLastname" value="#{mbLjubimac.ljubimac.vlasnikid.prezime}" style="width:20em;" required="true"/>
                                 </p:column>
+                                <p:column>
+                                     <p:message for="petOwnerLastname" id="msgsPetOwnerLastname"/>
+                                </p:column> 
                             </p:row>
 
                             <p:row>
@@ -58,8 +65,13 @@
                                     <h:outputLabel for="petOwnerJMBG" value="#{i18.jmbg}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;" readonly="#{mbLjubimac.izmena and mbLjubimac.stariVlasnik}"/>
+                                    <p:inputText id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;" readonly="#{mbLjubimac.izmena and mbLjubimac.stariVlasnik}" rendered="true">
+                                        <f:validator validatorId="JMBGValidator" />
+                                    </p:inputText>
                                 </p:column>
+                                <p:column>
+                                     <p:message for="petOwnerJMBG" id="msgsPetOwnerJMBG"/>
+                                </p:column> 
                             </p:row>
 
                             <p:row>
@@ -67,8 +79,11 @@
                                     <h:outputLabel for="petOwnerAddress" value="#{i18.address}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="petOwnerAddress" value="#{mbLjubimac.ljubimac.vlasnikid.adresa}" style="width:20em;"/>
+                                    <p:inputText id="petOwnerAddress" value="#{mbLjubimac.ljubimac.vlasnikid.adresa}" style="width:20em;" required="true"/>
                                 </p:column>
+                                <p:column>
+                                     <p:message for="petOwnerAddress" id="msgsPetOwnerAddress"/>
+                                </p:column> 
                             </p:row>
 
                             <p:row>
@@ -76,8 +91,13 @@
                                     <h:outputLabel for="petOwnerNumber" value="#{i18.phone_number}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="petOwnerNumber" value="#{mbLjubimac.ljubimac.vlasnikid.brojtelefona}" style="width:20em; margin-bottom: 68px;"/>
+                                    <p:inputText id="petOwnerNumber" value="#{mbLjubimac.ljubimac.vlasnikid.brojtelefona}" style="width:20em;">
+                                        <f:validator validatorId="phoneNumberValidator" />
+                                    </p:inputText>
                                 </p:column>
+                                <p:column style=" margin-bottom: 68px;">
+                                     <p:message for="petOwnerNumber" id="msgsPetOwnerNumber"/>
+                                </p:column> 
                             </p:row>
                         </h:panelGrid>
                     </div>
@@ -95,15 +115,21 @@
                                     <h:outputLabel for="petName" value="#{i18.pet_name}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="petName" value="#{mbLjubimac.ljubimac.ime}" style="width:20em;" readonly="#{mbLjubimac.izmena}"/>
+                                    <p:inputText id="petName" value="#{mbLjubimac.ljubimac.ime}" style="width:20em;" readonly="#{mbLjubimac.izmena}" required="true"/>
                                 </p:column>
+                                <p:column>
+                                     <p:message for="petName" id="msgsPetName"/>
+                                </p:column> 
                             </p:row>
 
                             <p:row><p:column>
                                     <h:outputLabel for="petDateOfBirth" value="#{i18.date_of_birth}" styleClass="labels" /></p:column><p:column>
-                                    <p:calendar id="petDateOfBirth" value="#{mbLjubimac.ljubimac.datumrodjenja}" pattern="dd-MM-yyyy" inputStyle="width:20em;" readonly="#{mbLjubimac.izmena}">
+                                        <p:calendar id="petDateOfBirth" value="#{mbLjubimac.ljubimac.datumrodjenja}" pattern="dd-MM-yyyy" inputStyle="width:20em;" readonly="#{mbLjubimac.izmena}" required="true" maxdate="#{mbLjubimac.currentDate}">
                                         <p:ajax event="dateSelect" listener="#{mbLjubimac.postavidatumrodjenja}" update=":frmLjubimac:petDateOfBirth" />
                                     </p:calendar></p:column>
+                                <p:column>
+                                     <p:message for="petDateOfBirth" id="msgsPetDateOfBirth"/>
+                                </p:column> 
                             </p:row>
 
                             <p:row>
@@ -111,11 +137,14 @@
                                     <h:outputLabel for="cbVrstaZivotinje" value="#{i18.pet_species}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneMenu id="cbVrstaZivotinje" value="#{mbLjubimac.ljubimac.vrstazivotinjeid}" converter="#{vrstazivotinjeCNV}" style="width: 20em; vertical-align: middle;
-                                                     padding: 0;" disabled="#{mbLjubimac.izmena}">
+                                    <p:selectOneMenu id="cbVrstaZivotinje" value="#{mbLjubimac.ljubimac.vrstazivotinjeid}" converter="#{vrstazivotinjeCNV}" style="width: 20em; vertical-align: middle;padding: 0;"
+                                                     disabled="#{mbLjubimac.izmena}" required="true">
                                         <f:selectItems value="#{mbLjubimac.ucitajVrsteZivotinje()}" var="tu" itemValue="#{tu}" itemLabel="#{tu.naziv}" />
                                     </p:selectOneMenu>
                                 </p:column>
+                                <p:column>
+                                     <p:message for="cbVrstaZivotinje" id="msgsCbVrstaZivotinje"/>
+                                </p:column> 
                             </p:row>
 
                             <p:row>
@@ -125,6 +154,7 @@
                                 <p:column>
                                     <p:inputText id="animalBreed" value="#{mbLjubimac.ljubimac.rasa}" style="width:20em;" />
                                 </p:column>
+                                
                             </p:row>
 
                             <p:row>
@@ -132,8 +162,13 @@
                                     <h:outputLabel for="chipID" value="#{i18.pet_chip_id}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="chipID" value="#{mbLjubimac.ljubimac.sifracipa}" type="number" style="width:20em;"/>
+                                    <p:inputText id="chipID" value="#{mbLjubimac.ljubimac.sifracipa}" type="number" style="width:20em;">
+                                        <f:validator validatorId="chipIDValidator"/>
+                                    </p:inputText>
                                 </p:column>
+                                <p:column>
+                                     <p:message for="chipID" id="msgsChipID"/>
+                                </p:column> 
                             </p:row>
 
                             <p:row>
@@ -141,11 +176,14 @@
                                     <h:outputLabel for="pol" value="#{i18.gender}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:selectOneButton value="#{mbLjubimac.ljubimac.pol}" disabled="#{mbLjubimac.izmena}" id="pol">
+                                    <p:selectOneButton value="#{mbLjubimac.ljubimac.pol}" disabled="#{mbLjubimac.izmena}" id="pol" required="true">
                                         <f:selectItem itemLabel="#{i18.male}" itemValue="M" />
                                         <f:selectItem itemLabel="#{i18.female}" itemValue="Z" />
                                     </p:selectOneButton>
                                 </p:column>
+                                <p:column>
+                                     <p:message for="pol" id="msgsPol"/>
+                                </p:column> 
                             </p:row>
                             <p:row>
                                 <p:column><h:outputLabel value="" styleClass="labels" /></p:column>        

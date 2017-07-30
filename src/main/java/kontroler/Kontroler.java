@@ -218,12 +218,15 @@ public class Kontroler implements Serializable {
         return (List<Ljubimac>) getObject(response, gt);
     }
 
-    public List<Poseta> prikaziLjubimca(Ljubimac odabraniLjubimac) throws Exception {
+    public Ljubimac prikaziLjubimca(Ljubimac odabraniLjubimac) throws Exception {
         LjubimacREST ljubimacREST = new LjubimacREST();
         Response response = ljubimacREST.prikazi_XML(getRequest(odabraniLjubimac));
         GenericType<List<Poseta>> gt = new GenericType<List<Poseta>>() {
         };
-        return (List<Poseta>) getObject(response, gt);
+        List<Poseta> posete = (List<Poseta>) getObject(response, gt);
+        Ljubimac lj = posete.get(0).getLjubimacid();
+        lj.setPosetaList(posete);
+        return lj;
     }
 
     public String izmeni(Ljubimac ljubimac) {
@@ -236,20 +239,20 @@ public class Kontroler implements Serializable {
         ArrayList<SelectItem> categories = new ArrayList<>();
         List<Tipusluge> tipoviUsluga = ucitajTipoveUsluga();
         List<Usluga> usluge = ucitajUsluge();
+        System.out.println(tipoviUsluga);
         for (Tipusluge tipusluge : tipoviUsluga) {
             SelectItemGroup grupa = new SelectItemGroup(tipusluge.getNaziv().toUpperCase());
             List<SelectItem> uslugel = new ArrayList<>();
             for (int i = 0; i < usluge.size(); i++) {
-                if (usluge.get(i).getTipuslugeid().getNaziv() == null ? tipusluge.getNaziv() == null : usluge.get(i).getTipuslugeid().getNaziv().equals(tipusluge.getNaziv())) {
+                if (usluge.get(i).getTipuslugeid().equals(tipusluge)) {
                     uslugel.add(new SelectItem(usluge.get(i), usluge.get(i).getNaziv()));
-                    usluge.remove(usluge.get(i));
+//                    usluge.remove(usluge.get(i));
                 }
             }
             SelectItem[] items = new SelectItem[uslugel.size()];
             for (int i = 0; i < items.length; i++) {
                 items[i] = uslugel.get(i);
             }
-            
             grupa.setSelectItems(items);
             categories.add(grupa);
         }
@@ -258,6 +261,7 @@ public class Kontroler implements Serializable {
 
     public Object vratiUslugu(String value) throws Exception {
         List<Usluga> usluge = ucitajUsluge();
+        System.out.println("trazim uslugu " + value);
         for (Usluga usluga : usluge) {
             if(usluga.getNaziv().equals(value)) return usluga;
         }
@@ -286,7 +290,7 @@ public class Kontroler implements Serializable {
     public List<Poseta> pretraziPosete(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) throws Exception {
          try {
             PosetaREST posetaREST = new PosetaREST();
-            Response response = posetaREST.pretrazi(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)) );
+            Response response = posetaREST.pretrazi_XML(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)) );
             GenericType<List<Poseta>> gt = new GenericType<List<Poseta>>() {
             };
             List<Poseta> poseta = getObject(response, gt);
@@ -295,6 +299,12 @@ public class Kontroler implements Serializable {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, e);
             throw e;
         }
+    }
+
+    public Poseta prikaziPosetu(Poseta poseta) throws Exception {
+        PosetaREST posetaREST = new PosetaREST();
+        Response response = posetaREST.prikazi_XML(getRequest(poseta));
+        return (Poseta) getObject(response, Poseta.class);
     }
 
     

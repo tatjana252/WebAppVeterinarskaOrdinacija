@@ -30,10 +30,6 @@ import lazy.LazyDataModelPoseta;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
-/**
- *
- * @author hp
- */
 @Named(value = "mbPoseta")
 @SessionScoped
 public class MBPoseta implements Serializable {
@@ -41,41 +37,23 @@ public class MBPoseta implements Serializable {
     private String stranica;
     private Poseta poseta;
     private Stavkaposete novastavkaposete;
+    private boolean prikazDetalja = false;
 
     @Inject
     private LazyDataModelPoseta lazydmPoseta;
-    
+
     @Inject
     private LazyDataModelLjubimac lazydmLjubimac;
 
-    public LazyDataModelLjubimac getLazydmLjubimac() {
-        return lazydmLjubimac;
-    }
-
-    public void setLazydmLjubimac(LazyDataModelLjubimac lazydmLjubimac) {
-        this.lazydmLjubimac = lazydmLjubimac;
-    }
-
     @Inject
     private Kontroler kontroler;
-
-    public LazyDataModelPoseta getLazydmPoseta() {
-        return lazydmPoseta;
-    }
-
-    public void setLazydmPoseta(LazyDataModelPoseta lazydmPoseta) {
-        this.lazydmPoseta = lazydmPoseta;
-    }
 
     public MBPoseta() {
     }
 
     @PostConstruct
     public void init() {
-        poseta = new Poseta();
-        poseta.setStavkaposeteList(new ArrayList<Stavkaposete>());
-        poseta.setDatum(new Date());
-        novastavkaposete = new Stavkaposete();
+        initNovaPoseta();
         stranica = "WEB-INF/includes/poseta/posetaPregled.xhtml";
     }
 
@@ -86,16 +64,18 @@ public class MBPoseta implements Serializable {
                 break;
             case 2:
                 this.stranica = "WEB-INF/includes/poseta/posetaUnos.xhtml";
+                initNovaPoseta();
                 break;
         }
     }
 
-    public String getStranica() {
-        return stranica;
-    }
-
-    public void setStranica(String stranica) {
-        this.stranica = stranica;
+    private void initNovaPoseta() {
+        poseta = new Poseta();
+        poseta.setStavkaposeteList(new ArrayList<Stavkaposete>());
+        poseta.setDatum(new Date());
+        novastavkaposete = new Stavkaposete();
+        izmenaStavke = false;
+        prikazDetalja=false;
     }
 
     public void otvoriDialog() {
@@ -110,28 +90,11 @@ public class MBPoseta implements Serializable {
         Ljubimac ljubimac = (Ljubimac) event.getObject();
         poseta.setLjubimacid(ljubimac);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pet Owner Selected", "");
-
         FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    public Poseta getPoseta() {
-        return poseta;
-    }
-
-    public void setPoseta(Poseta poseta) {
-        this.poseta = poseta;
     }
 
     public void postaviDatum(SelectEvent e) {
         poseta.setDatum((Date) e.getObject());
-    }
-
-    public Stavkaposete getNovastavkaposete() {
-        return novastavkaposete;
-    }
-
-    public void setNovastavkaposete(Stavkaposete novastavkaposete) {
-        this.novastavkaposete = novastavkaposete;
     }
 
     public List<SelectItem> vratiKategorijeUsluga() {
@@ -152,21 +115,25 @@ public class MBPoseta implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Morate da odaberete uslugu!", null));
             return;
         }
-        if (!izmena) {
+        if (!izmenaStavke) {
             novastavkaposete.setStavkaposetePK(new StavkaposetePK(0, 0, (poseta.getStavkaposeteList().size() + 1)));
             poseta.getStavkaposeteList().add(novastavkaposete);
         }
         novastavkaposete = new Stavkaposete();
-        izmena = false;
+        izmenaStavke = false;
     }
 
     public void izmeniStavku(Stavkaposete sp) {
         novastavkaposete = sp;
-        izmena = true;
+        izmenaStavke = true;
     }
 
     public void obrisiStavku(Stavkaposete sp) {
         poseta.getStavkaposeteList().remove(sp);
+        sredirednebrojeve();
+    }
+
+    private void sredirednebrojeve() {
         if (!poseta.getStavkaposeteList().isEmpty()) {
             for (int i = 0; i < poseta.getStavkaposeteList().size(); i++) {
                 poseta.getStavkaposeteList().get(i).getStavkaposetePK().setStavkaposeteid((i + 1));
@@ -174,7 +141,7 @@ public class MBPoseta implements Serializable {
         }
     }
 
-    boolean izmena = false;
+    boolean izmenaStavke = false;
 
     public void sacuvajPosetu() {
         String error_details = "";
@@ -192,13 +159,73 @@ public class MBPoseta implements Serializable {
             return;
         }
         kontroler.sacuvajPosetu(poseta);
-        poseta = new Poseta();
-        poseta.setStavkaposeteList(new ArrayList<Stavkaposete>());
-        poseta.setDatum(new Date());
-        novastavkaposete = new Stavkaposete();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Poseta je sacuvana!", ""));
+        initNovaPoseta();
     }
 
-    public boolean isIzmena() {
-        return izmena;
+    public void prikaziPosetu() {
+        try {
+            poseta = kontroler.prikaziPosetu(poseta);
+            stranica = "WEB-INF/includes/poseta/posetaUnos.xhtml";
+            sredirednebrojeve();
+            prikazDetalja=true;
+        } catch (Exception ex) {
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String unesiPosetu(Ljubimac ljubimac){
+        promeniStranicu(2);
+        poseta.setLjubimacid(ljubimac);
+        return "pretty:poseta";
+    }
+
+    public LazyDataModelLjubimac getLazydmLjubimac() {
+        return lazydmLjubimac;
+    }
+
+    public void setLazydmLjubimac(LazyDataModelLjubimac lazydmLjubimac) {
+        this.lazydmLjubimac = lazydmLjubimac;
+    }
+
+    public LazyDataModelPoseta getLazydmPoseta() {
+        return lazydmPoseta;
+    }
+
+    public void setLazydmPoseta(LazyDataModelPoseta lazydmPoseta) {
+        this.lazydmPoseta = lazydmPoseta;
+    }
+
+    public String getStranica() {
+        return stranica;
+    }
+
+    public void setStranica(String stranica) {
+        this.stranica = stranica;
+    }
+
+    public Poseta getPoseta() {
+        return poseta;
+    }
+
+    public void setPoseta(Poseta poseta) {
+        this.poseta = poseta;
+    }
+
+    public Stavkaposete getNovastavkaposete() {
+        return novastavkaposete;
+    }
+
+    public void setNovastavkaposete(Stavkaposete novastavkaposete) {
+
+        this.novastavkaposete = novastavkaposete;
+    }
+
+    public boolean isIzmenaStavke() {
+        return izmenaStavke;
+    }
+    
+    public boolean isPrikazDetalja() {
+        return prikazDetalja;
     }
 }

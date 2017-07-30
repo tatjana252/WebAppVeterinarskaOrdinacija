@@ -12,14 +12,17 @@
             <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
         </application>
         
-        <!-- <message-bundle>poruke.porukeValidatora</message-bundle>        -->
+        <locale-config>
+            <default-locale>sr_RS</default-locale>        
+            <supported-locale>en</supported-locale>    
+        </locale-config>
+        
+       <message-bundle>internationalization.validation.validation_messages</message-bundle>
         <resource-bundle>
             <base-name>internationalization.messages</base-name>
             <var>i18</var>            
         </resource-bundle>
-        <locale-config>
-            <default-locale>sr_RS</default-locale>            
-        </locale-config>
+        
     </application>
 </faces-config>
 

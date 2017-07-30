@@ -4,11 +4,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
-        
+
         <div id="center" class="container-fluid">
-            <h2 style="text-align: left; margin-bottom: 10px;">#{i18.add_a_new_visit}</h2>
+            <h2 style="text-align: left; margin-bottom: 10px;">#{mbPoseta.prikazDetalja ? i18.visit : i18.add_a_new_visit}</h2>
             <p:growl id="msgsUnosPosete" showDetail="true" sticky="true" />
             <div class ="row-fluid" style="width:100%;">
                 <div class="col-md-12 col-sm-12 col-lg-12">
@@ -19,7 +20,7 @@
                                     <h:outputLabel for="petVisitDate" value="#{i18.visit_date}" style="width: 9em; margin-left: -20px;" />
                                 </p:column>
                                 <p:column>
-                                    <p:calendar id="petVisitDate" value="#{mbPoseta.poseta.datum}" pattern="dd-MM-yyyy" inputStyle="width:20em;">
+                                    <p:calendar id="petVisitDate" value="#{mbPoseta.poseta.datum}" pattern="dd-MM-yyyy" inputStyle="width:20em;" disabled="#{mbPoseta.prikazDetalja}">
                                         <p:ajax event="dateSelect" listener="#{mbPoseta.postaviDatum}" update=":frmDatum:petVisitDate" />
                                     </p:calendar>
 
@@ -40,17 +41,18 @@
                                             <hr style="height: 4px;margin: 0;background-color: #dddddd;border: none;" />
                                         </p:column>  
                                     </p:row>
-                                    <p:row>                             
-                                        <p:column colspan="2">
-                                            <p:commandButton value="#{i18.select_pet_owner}" icon="ui-icon-extlink" update="@this" process="@this" onclick="PF('dlg').show();">
-                                            </p:commandButton>
-                                            <p:spacer width="10"/>
-                                            <p:commandButton value="#{i18.delete}" actionListener="#{mbPoseta.obrisiLjubimca}" update="@this" process="@this">
-                                                <p:ajax listener="#{mbPoseta.obrisiLjubimca}" update=":frmLjubimac:grid" />
-                                            </p:commandButton>
-                                        </p:column>
+                                    <c:if test="#{not mbPoseta.prikazDetalja}" >
+                                        <p:row>                             
+                                            <p:column colspan="2">
+                                                <p:commandButton value="#{i18.select_pet_owner}" icon="ui-icon-extlink" update="@this" process="@this" onclick="PF('dlg').show();">
+                                                </p:commandButton>
+                                                <p:spacer width="10"/>
+                                                <p:commandButton value="#{i18.delete}" actionListener="#{mbPoseta.obrisiLjubimca}" update="@this" process="@this">
+                                                    <p:ajax listener="#{mbPoseta.obrisiLjubimca}" update=":frmLjubimac:grid" />
+                                                </p:commandButton>
+                                            </p:column>
 
-                                    </p:row><hr style="height: 4px;margin: 0;background-color: #dddddd;border: none;" />
+                                        </p:row> <hr style="height: 4px;margin: 0;background-color: #dddddd;border: none;" /></c:if>
                                     <p:row>
                                         <p:column>
                                             <h:outputLabel for="petName" value="#{i18.pet_name}" styleClass="labels" />
@@ -129,9 +131,10 @@
                                     <hr style="height: 4px;margin: 0;background-color: white;border: none;" />
                                 </p:column>  
                             </p:row>
-                            <p:row>
+                            <p:row style="backgound:black;">
                                 <p:column class="col-md-8 col-lg-8 col-sm-12">
-                                    <p:multiSelectListbox value="#{mbPoseta.novastavkaposete.usluga}" effect="slide" header="#{i18.service_type}" showHeaders="true" styleClass="col col-md-8" converter="#{uslugaCNV}">
+                                    <p:multiSelectListbox value="#{mbPoseta.novastavkaposete.usluga}" effect="slide" header="#{i18.service_type}" 
+                                                          showHeaders="true" styleClass="col col-md-8" converter="#{uslugaCNV}" disabled="#{mbPoseta.prikazDetalja}">
                                         <f:selectItems value="#{mbPoseta.vratiKategorijeUsluga()}"  />
                                     </p:multiSelectListbox>
                                 </p:column>
@@ -141,11 +144,15 @@
                                             <h:outputLabel for="visitDescription" value="#{i18.details}" style="width: 9em;"  />
                                         </div>
                                         <div>
-                                            <p:inputTextarea id="visitDescription" rows="8" cols="33" value="#{mbPoseta.novastavkaposete.opis}"/>
+                                            <p:inputTextarea id="visitDescription" rows="8" cols="33" value="#{mbPoseta.novastavkaposete.opis}" disabled="#{mbPoseta.prikazDetalja}"/>
                                         </div>
-                                        <div>
-                                            <p:commandButton value="#{mbPoseta.izmena ? i18.edit_item : i18.add_item}" icon="ui-icon-plusthick" form=":frmStavkaPosete" update=":frmStavkaPosete :msgsUnosPosete" process=":frmStavkaPosete" action="#{mbPoseta.dodajStavku()}" />
-                                        </div>
+                                        <c:if test="#{not mbPoseta.prikazDetalja}">
+                                            <div>
+                                                <p:commandButton value="#{mbPoseta.izmenaStavke ? i18.edit_item : i18.add_item}" icon="ui-icon-plusthick" 
+                                                                 form=":frmStavkaPosete" update=":frmStavkaPosete :msgsUnosPosete" process=":frmStavkaPosete" 
+                                                                 action="#{mbPoseta.dodajStavku()}" />
+                                            </div>
+                                        </c:if>
                                     </div>
                                 </p:column>
                             </p:row>
@@ -165,13 +172,23 @@
                 </div>
             </div>
             <div class="col-md-12 col-lg-12 col-sm-12">
-                <h:form id="frmPoseta">
-                    <p:commandButton class="btn btn-lg" value="#{i18.add}" icon="ui-icon-plusthick" form=":frmPoseta" update="@all" process="@this" action="#{mbPoseta.sacuvajPosetu()}" style="border: #dddddd;margin-top:20px;
-                                     border-style: solid;" />
-                </h:form>
+                <c:if test="#{not mbPoseta.prikazDetalja}" >
+                    <h:form id="frmPoseta">
+                        <p:commandButton class="btn btn-lg" value="#{i18.add}" icon="ui-icon-plusthick" form=":frmPoseta" 
+                                         update="@all" process="@this" action="#{mbPoseta.sacuvajPosetu()}" 
+                                         style="border: #dddddd;margin-top:20px;
+                                         border-style: solid;" />
+                    </h:form></c:if>
+                <c:if test="#{mbPoseta.prikazDetalja}" >
+                    <h:form id="frmPrikaziSvePosete">
+                        <p:commandButton class="btn btn-lg" value="Prikazi sve posete za ovog ljubimca" form=":frmPrikaziSvePosete" 
+                                         process="@this" action="#{mbLjubimac.prikaziPoseteLjubimca(mbPoseta.poseta.ljubimacid)}"
+                                         style="border: #dddddd;margin-top:20px;
+                                         border-style: solid;" />
+                    </h:form></c:if>
             </div>
         </div>
-          
+
     </h:body>
 
     <style>
@@ -191,6 +208,10 @@
 
         #frmStavkaPosete textarea {
             width:100%;
+        }
+        
+        .ui-state-disabled{
+            opacity: 1;
         }
 
     </style>

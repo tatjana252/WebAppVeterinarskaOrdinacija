@@ -47,7 +47,9 @@
                     <h:outputText value="#{mbLjubimac.vratiOpis(poseta)}" style="display: block;max-height: 5em;overflow: auto;"/>
                 </p:column>
 
-
+                <f:facet name="footer">
+                    <p:commandButton process="dtPosetePregled" actionListener="#{mbPoseta.prikaziPosetu}" update=":center " icon="ui-icon-search" value="#{i18.details}" />
+                </f:facet>
 
             </p:dataTable>
         </h:form>
