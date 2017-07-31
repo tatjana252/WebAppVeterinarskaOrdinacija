@@ -15,40 +15,32 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-
 /**
  *
  * @author hp
  */
 @FacesValidator("phoneNumberValidator")
-public class PhoneNumberValidator implements Validator{
-    
-       private final ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
- 
+public class PhoneNumberValidator implements Validator {
 
-	private static final String PHONE_NUMBER_PATTERN = "(\\+)?[0-9]*/?([0-9])*((-)?[0-9])*";
+    private final ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
-	private Pattern pattern;
-	private Matcher matcher;
+    private static final String PHONE_NUMBER_PATTERN = "(\\+)?[0-9]*/?([0-9])*((-)?[0-9])*";
 
-	public PhoneNumberValidator(){
-		  pattern = Pattern.compile(PHONE_NUMBER_PATTERN);
-	}
+    private Pattern pattern;
+    private Matcher matcher;
 
-	@Override
-	public void validate(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
+    public PhoneNumberValidator() {
+        pattern = Pattern.compile(PHONE_NUMBER_PATTERN);
+    }
 
-		matcher = pattern.matcher(value.toString());
-		if(!matcher.matches()){
-
-			FacesMessage msg =
-				new FacesMessage("sdasdas", ""
-						);
-			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(msg);
-
-		}
-
-	}
+    @Override
+    public void validate(FacesContext context, UIComponent component,
+            Object value) throws ValidatorException {
+        matcher = pattern.matcher(value.toString());
+        if (!matcher.matches()) {
+            FacesMessage msg = new FacesMessage(bundle.getString("phone_number_validation_fail"));
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
+    }
 }

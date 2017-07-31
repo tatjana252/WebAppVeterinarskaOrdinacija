@@ -18,7 +18,7 @@
                             <p:message for="serviceName" id="msgsServiceName"/>
 
                             <h:outputLabel for="price" value="#{i18.price}" />
-                            <p:spinner id="price" value="#{mbUsluga.u.cena}" stepFactor="10" min="0" prefix="#{i18.currency}" required="true"  />
+                            <p:inputNumber id="price" value="#{mbUsluga.u.cena}" symbol="#{i18.currency}" symbolPosition="s" decimalSeparator="." thousandSeparator="," decimalPlaces="2" emptyValue="sign" required="true"  />
                             <p:message for="price" id="msgsPrice"/>
 
                             <h:outputText value="#{i18.service_type}"  />

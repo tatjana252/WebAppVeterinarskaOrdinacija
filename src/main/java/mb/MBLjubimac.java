@@ -132,15 +132,19 @@ public class MBLjubimac implements Serializable {
         RequestContext.getCurrentInstance().closeDialog(vlasnik);
     }
 
-    public void vlasnikOdabran(SelectEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pet Owner Selected", "");
+    public boolean isVlasnikOdabran() {
+        return vlasnikOdabran;
+    }
 
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    boolean vlasnikOdabran = false;
+    public void vlasnikOdabran(SelectEvent event) {
+        vlasnikOdabran = true;
     }
 
     public void obrisiVlasnika() {
         ljubimac.setVlasnikid(new Vlasnik(-1));
         stariVlasnik = false;
+        vlasnikOdabran = false;
     }
 
     public List<Vrstazivotinje> ucitajVrsteZivotinje() {

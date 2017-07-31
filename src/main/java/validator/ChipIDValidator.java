@@ -38,16 +38,13 @@ public class ChipIDValidator implements Validator{
 	@Override
 	public void validate(FacesContext context, UIComponent component,
 			Object value) throws ValidatorException {
-            System.out.println(value.toString().length() +" " + value);
             if(value.toString().length() > 0){
 		matcher = pattern.matcher(value.toString());
 		if(!matcher.matches()){
 			FacesMessage msg = new FacesMessage(bundle.getString("chip_id_validation_fail"));
 			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 			throw new ValidatorException(msg);
-
 		}
-
 	}
         }
 }
