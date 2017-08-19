@@ -33,6 +33,14 @@ public class PosetaREST {
             webTarget = client.target(BASE_URI).path("poseta");
         }
 
+        public Response countAll_XML(Object requestEntity) throws ClientErrorException {
+            return webTarget.path("vratisve").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+        }
+
+        public Response countAll_JSON(Object requestEntity) throws ClientErrorException {
+            return webTarget.path("vratisve").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
+        }
+
         public Response prikazi_XML(Object requestEntity) throws ClientErrorException {
             return webTarget.path("prikazi").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
         }
@@ -49,14 +57,6 @@ public class PosetaREST {
             return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
         }
 
-        public Response ucitajSve_XML(Object requestEntity) throws ClientErrorException {
-            return webTarget.path("vratisve").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
-        }
-
-        public Response ucitajSve_JSON(Object requestEntity) throws ClientErrorException {
-            return webTarget.path("vratisve").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
-        }
-
         public Response pretrazi_XML(Object requestEntity) throws ClientErrorException {
             return webTarget.path("pretraga").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
         }
@@ -68,5 +68,4 @@ public class PosetaREST {
         public void close() {
             client.close();
         }
-        
     }

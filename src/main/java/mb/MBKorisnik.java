@@ -6,6 +6,7 @@
 package mb;
 
 import domen.Korisnik;
+import exceptions.RESTException;
 import java.io.IOException;
 import javax.inject.Named;
 
@@ -54,10 +55,22 @@ public class MBKorisnik implements Serializable {
             loggedIn = true;
             return "pretty:usluga";
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(""));
+            return null;
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.toString(), ""));
             return null;
         }
-
+    }
+    
+        public void logout() {
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.invalidateSession();
+        try {
+            ec.redirect(ec.getRequestContextPath() );
+        } catch (IOException ex) {
+            Logger.getLogger(MBKorisnik.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean isLoggedIn() {
@@ -74,7 +87,6 @@ public class MBKorisnik implements Serializable {
                 break;
         }
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
-
     }
 
     /**
@@ -97,24 +109,19 @@ public class MBKorisnik implements Serializable {
     }
 
     public String getLanguageString() {
-        if (getLanguage().equals("en")) {
+        if (getLanguage().equals(new Locale("en").getLanguage())) {
             return "English";
         }
-        if (getLanguage().equals("sr")) {
+        if (getLanguage().equals(new Locale("sr").getLanguage())) {
             return "Srpski";
         }
         return "";
     }
-
-    public void logout() {
-        System.out.println("Logout");
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        ec.invalidateSession();
-        try {
-            ec.redirect(ec.getRequestContextPath() );
-        } catch (IOException ex) {
-            Logger.getLogger(MBKorisnik.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    String stranica;
+    public void otvoriFormuZaRegistraciju(){
+        
     }
+
+
 
 }

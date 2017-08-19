@@ -7,6 +7,7 @@ package mb;
 
 import domen.Tipusluge;
 import domen.Usluga;
+import exceptions.RESTException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,23 +36,12 @@ public class MBUsluga implements Serializable {
     private Usluga u;
     private Usluga odabranaUsluga;
     private String poruka;
-    private final ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
     @Inject
     private LazyDataModelUsluga lazydmUsluga;
-    
+
     @Inject
     private LazyDataModelUsluga lazydmUsluga1;
-
-    public LazyDataModelUsluga getLazydmUsluga1() {
-        return lazydmUsluga1;
-    }
-
-    public void setLazydmUsluga1(LazyDataModelUsluga lazydmUsluga1) {
-        this.lazydmUsluga1 = lazydmUsluga1;
-    }
-    
-    
 
     @Inject
     Kontroler kontroler;
@@ -60,21 +50,36 @@ public class MBUsluga implements Serializable {
         u = new Usluga();
     }
 
+    @PostConstruct
+    public void init() {
+        stranica = "WEB-INF/includes/usluga/uslugaPregled.xhtml";
+
+    }
+    
     public List<Tipusluge> ucitajTipoveUsluga() {
         try {
             return kontroler.ucitajTipoveUsluga();
         } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new ArrayList<>();
     }
 
     public String sacuvaj() {
         try {
-            kontroler.sacuvaj(u);
+            String msg = kontroler.sacuvaj(u);
             u = new Usluga();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(bundle.getString("service_saved")));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(bundle.getString("service_not_saved")));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -83,28 +88,39 @@ public class MBUsluga implements Serializable {
         try {
             odabranaUsluga = kontroler.prikaziUslugu(odabranaUsluga);
         } catch (Exception ex) {
-            Logger.getLogger(MBUsluga.class.getName()).log(Level.SEVERE, null, ex);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void onRowEdit(RowEditEvent event) {
+    public void izmeniUslugu(RowEditEvent event) {
         try {
             Usluga izmena = (Usluga) event.getObject();
-            kontroler.izmeniUslugu(izmena);
-            FacesMessage msg = new FacesMessage(bundle.getString("service_changed"));
-           FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) {
-            FacesMessage msg = new FacesMessage(bundle.getString("service_not_changed"));
+            String odg = kontroler.izmeniUslugu(izmena);
+            FacesMessage msg = new FacesMessage(odg);
             FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void obrisiUslugu() {
         try {
-            kontroler.obrisiUslugu(odabranaUsluga);
-            setPoruka(bundle.getString("service_deleted"));
-        } catch (Exception e) {
-            setPoruka(bundle.getString("service_not_deleted"));
+            String odgovor = kontroler.obrisiUslugu(odabranaUsluga);
+            setPoruka(odgovor);
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -160,9 +176,12 @@ public class MBUsluga implements Serializable {
         this.stranica = stranica;
     }
 
-    @PostConstruct
-    public void init() {
-        stranica = "WEB-INF/includes/usluga/uslugaPregled.xhtml";
-
+    public LazyDataModelUsluga getLazydmUsluga1() {
+        return lazydmUsluga1;
     }
+
+    public void setLazydmUsluga1(LazyDataModelUsluga lazydmUsluga1) {
+        this.lazydmUsluga1 = lazydmUsluga1;
+    }
+
 }

@@ -7,9 +7,11 @@ package converter;
 
 import domen.Tipusluge;
 import domen.Usluga;
+import exceptions.RESTException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -36,10 +38,11 @@ public class UslugaConverter implements Converter{
             if (value==null || value.isEmpty()) return null;
             return kontroler.vratiUslugu(value);
         } catch (Exception ex) {
-          Logger.getLogger(UslugaConverter.class.getName()).log(Level.SEVERE, null, ex);
-          
-            return null;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
         }
+       return null;
     }
 
     @Override

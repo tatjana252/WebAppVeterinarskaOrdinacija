@@ -20,7 +20,7 @@
                          editable="true"
                          emptyMessage="#{i18.empty_message}"
                          >
-                <p:ajax event="rowEdit" listener="#{mbUsluga.onRowEdit}" update=":frmdtUsluga:msgs" />
+                <p:ajax event="rowEdit" listener="#{mbUsluga.izmeniUslugu}" update=":frmdtUsluga:msgs" />
 
                 <p:column headerText="#{i18.service_name}" sortBy="#{usluga.naziv}" filterBy="#{usluga.naziv}">
                     <p:cellEditor>

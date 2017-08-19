@@ -31,19 +31,19 @@
                     <h:outputText value="#{poseta.ljubimacid.ime}" />
                 </p:column>
 
-                <p:column headerText="#{i18.animal_breed}" sortBy="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" filterBy="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" >
+                <p:column headerText="#{i18.pet_species}" sortBy="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" filterBy="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" >
                     <h:outputText value="#{poseta.ljubimacid.vrstazivotinjeid.naziv}" />
                 </p:column>
 
-                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{poseta.ljubimacid.vlasnikid.ime}" filterBy="#{poseta.ljubimacid.vlasnikid.ime}" >
+                <p:column headerText="#{i18.name}" sortBy="#{poseta.ljubimacid.vlasnikid.ime}" filterBy="#{poseta.ljubimacid.vlasnikid.ime}" >
                     <h:outputText value="#{poseta.ljubimacid.vlasnikid.ime}" />
                 </p:column>
 
-                <p:column headerText="#{i18.pet_chip_id}" sortBy="#{poseta.ljubimacid.vlasnikid.prezime}" filterBy="#{poseta.ljubimacid.vlasnikid.prezime}" >
+                <p:column headerText="#{i18.details}" sortBy="#{poseta.ljubimacid.vlasnikid.prezime}" filterBy="#{poseta.ljubimacid.vlasnikid.prezime}" >
                     <h:outputText value="#{poseta.ljubimacid.vlasnikid.prezime}" />
                 </p:column>
 
-                <p:column headerText="#{i18.name}" sortBy="#{poseta.ljubimacid.vlasnikid.ime}" filterBy="#{poseta.ljubimacid.vlasnikid.ime}" colspan="2" >
+                <p:column headerText="#{i18.name}" colspan="2" >
                     <h:outputText value="#{mbLjubimac.vratiOpis(poseta)}" style="display: block;max-height: 5em;overflow: auto;"/>
                 </p:column>
 

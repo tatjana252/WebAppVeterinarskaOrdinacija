@@ -47,15 +47,12 @@ public class JMBGValidator implements Validator {
             throw new ValidatorException(msg);
         }
         
-        String datum = value.toString().substring(0, 8);
+        String datum = value.toString().substring(0, 7);
         
         try {
-            Date date = new SimpleDateFormat("ddMMyyy").parse(datum);
-            if(date.after(new Date())){
-             throw new ParseException(datum, 0);
-            }
+            new SimpleDateFormat("ddMM").parse(datum);
         } catch (ParseException ex) {
-            FacesMessage msg = new FacesMessage("Datum nije dobar");
+            FacesMessage msg = new FacesMessage(bundle.getString("jmbg_validation_fail_date"));
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
@@ -81,7 +78,7 @@ public class JMBGValidator implements Validator {
         }
         
         if(Character.getNumericValue(value.toString().charAt(12)) != i){
-            FacesMessage msg = new FacesMessage("Nije dobra kontrolna cifra!");
+            FacesMessage msg = new FacesMessage("jmbg_validation_fail_checksum");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }

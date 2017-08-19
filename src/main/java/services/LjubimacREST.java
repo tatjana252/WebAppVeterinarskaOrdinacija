@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response;
  * @author hp
  */
 public class LjubimacREST {
+
         private WebTarget webTarget;
         private Client client;
         private static final String BASE_URI = "http://localhost:8080/VeterinarskaOrdinacijaREST/api";
@@ -31,6 +32,14 @@ public class LjubimacREST {
         public LjubimacREST() {
             client = javax.ws.rs.client.ClientBuilder.newClient();
             webTarget = client.target(BASE_URI).path("ljubimac");
+        }
+
+        public Response countAll_XML(Object requestEntity) throws ClientErrorException {
+            return webTarget.path("vratisve").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
+        }
+
+        public Response countAll_JSON(Object requestEntity) throws ClientErrorException {
+            return webTarget.path("vratisve").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
         }
 
         public Response prikazi_XML(Object requestEntity) throws ClientErrorException {
@@ -49,14 +58,6 @@ public class LjubimacREST {
             return webTarget.path("sacuvaj").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
         }
 
-        public Response ucitajSve_XML(Object requestEntity) throws ClientErrorException {
-            return webTarget.path("vratisve").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
-        }
-
-        public Response ucitajSve_JSON(Object requestEntity) throws ClientErrorException {
-            return webTarget.path("vratisve").request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON), Response.class);
-        }
-
         public Response izmeni_XML(Object requestEntity) throws ClientErrorException {
             return webTarget.path("izmeni").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Response.class);
         }
@@ -73,3 +74,4 @@ public class LjubimacREST {
             client.close();
         }
     }
+     

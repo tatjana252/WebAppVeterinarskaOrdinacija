@@ -33,6 +33,7 @@
             <h1 style="margin-top:0;">Login</h1>
             <hr/>
             <h:form>
+                
                 <h:panelGrid id="grid" cellpadding="5" style="width: 100%;">
                     <f:facet name="header">
                         <p:messages id="messages" globalOnly="true"/>
@@ -54,7 +55,12 @@
                     <p:message for="txtKorSifra" id="msgsKorSifra" />
                     <p:spacer/>
                 </h:panelGrid>
+                <div class="col-sm-12 col-md-12 col-lg-12">
                 <p:commandButton value="#{i18.login}" id="login" action="#{mbKorisnik.login()}" style="margin-top: 10px;" update="messages msgsKorIme msgsKorSifra" />    
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <p:commandLink action="#{mbKorisnik.otvoriFormuZaRegistraciju()}" />    
+                </div>
             </h:form>
         </div>
 

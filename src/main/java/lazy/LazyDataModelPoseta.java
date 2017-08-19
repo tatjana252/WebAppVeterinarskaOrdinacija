@@ -2,12 +2,16 @@ package lazy;
 
 import domen.Poseta;
 import domen.Usluga;
+import exceptions.RESTException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import kontroler.Kontroler;
@@ -31,14 +35,19 @@ public class LazyDataModelPoseta extends LazyDataModel<Poseta> {
     @PostConstruct
     public void init(){
         try {
-            this.setRowCount(kontroler.ucitajPosete().size());
-        } catch (Exception ex) {
+            this.setRowCount(kontroler.ucitajPosete());
+      } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
             this.setRowCount(0);
-        }
+       } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            this.setRowCount(0);
+       }
     }
     
     @Override
     public Object getRowKey(Poseta poseta) {
+        
         return poseta.getPosetaid();
     }    
 
@@ -53,9 +62,11 @@ public class LazyDataModelPoseta extends LazyDataModel<Poseta> {
             List<Poseta> posete = kontroler.pretraziPosete(first, pageSize, sortField, sortOrder, filters);
             return posete;
         } catch (Exception ex) {
-            Logger.getLogger(LazyDataModelPoseta.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
         }
+        return new ArrayList<>();
     }
 
     @Override

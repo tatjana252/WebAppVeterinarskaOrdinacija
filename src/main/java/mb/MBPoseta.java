@@ -9,6 +9,7 @@ import domen.Ljubimac;
 import domen.Poseta;
 import domen.Stavkaposete;
 import domen.StavkaposetePK;
+import exceptions.RESTException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -17,9 +18,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -38,6 +41,7 @@ public class MBPoseta implements Serializable {
     private Poseta poseta;
     private Stavkaposete novastavkaposete;
     private boolean prikazDetalja = false;
+    
 
     @Inject
     private LazyDataModelPoseta lazydmPoseta;
@@ -89,8 +93,8 @@ public class MBPoseta implements Serializable {
     public void ljubimacOdabran(SelectEvent event) {
         Ljubimac ljubimac = (Ljubimac) event.getObject();
         poseta.setLjubimacid(ljubimac);
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pet Owner Selected", "");
-        FacesContext.getCurrentInstance().addMessage(null, message);
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pet Owner Selected", "");
+//        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public void postaviDatum(SelectEvent e) {
@@ -100,9 +104,13 @@ public class MBPoseta implements Serializable {
     public List<SelectItem> vratiKategorijeUsluga() {
         try {
             return kontroler.vratiKategorijeUsluga();
-        } catch (Exception ex) {
-            Logger.getLogger(MBPoseta.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RESTException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            }
         return new ArrayList<>();
     }
 
@@ -112,7 +120,8 @@ public class MBPoseta implements Serializable {
 
     public void dodajStavku() {
         if (novastavkaposete.getUsluga() == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Morate da odaberete uslugu!", null));
+            ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("must_choose_pet_service"), null));
             return;
         }
         if (!izmenaStavke) {
@@ -144,23 +153,33 @@ public class MBPoseta implements Serializable {
     boolean izmenaStavke = false;
 
     public void sacuvajPosetu() {
-        String error_details = "";
-        if (poseta.getDatum() == null) {
-            error_details += "Morate uneti datum!\n";
-        }
-        if (poseta.getStavkaposeteList().isEmpty()) {
-            error_details += "Poseta mora imati stavke!\n";
-        }
-        if (poseta.getLjubimacid() == null) {
-            error_details += "Morate odabrati ljubimca!\n";
-        }
-        if (!error_details.equals("")) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Greška prilikom čuvanja posete!", error_details));
-            return;
-        }
-        kontroler.sacuvajPosetu(poseta);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Poseta je sacuvana!", ""));
-        initNovaPoseta();
+        try {
+            ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+            String error_details = "";
+            if (poseta.getDatum() == null) {
+                error_details += bundle.getString("choose_date")+"!\n";
+            }
+            if (poseta.getStavkaposeteList().isEmpty()) {
+                error_details += bundle.getString("no_items")+"!\n";;
+            }
+            if (poseta.getLjubimacid() == null) {
+                error_details += bundle.getString("choose_pet")+"!\n";;
+            }
+            if (!error_details.equals("")) {
+                
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error_saving_visit"), error_details));
+                return;
+            }
+            String odgovor = kontroler.sacuvajPosetu(poseta);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, odgovor, ""));
+            initNovaPoseta();
+       } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RESTException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     public void prikaziPosetu() {
@@ -170,8 +189,12 @@ public class MBPoseta implements Serializable {
             sredirednebrojeve();
             prikazDetalja=true;
         } catch (Exception ex) {
-            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RESTException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     
     public String unesiPosetu(Ljubimac ljubimac){

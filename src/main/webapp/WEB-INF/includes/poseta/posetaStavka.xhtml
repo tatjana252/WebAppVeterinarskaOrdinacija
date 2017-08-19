@@ -33,7 +33,7 @@
            <h:outputText value="#{stavka.opis}" />
         </p:column>
 
-        <p:column style="width: 5em;text-align: center" headerText="#{i18.edit}">
+        <p:column style="width: 5em;text-align: center" headerText="#{mbPoseta.prikazDetalja ? i18.details : i18.edit}">
             <p:commandButton update=":frmStavkaPosete :msgsUnosPosete" icon="#{mbPoseta.prikazDetalja ? 'ui-icon-search' : 'ui-icon-pencil'}" title="#{mbPoseta.prikazDetalja ? i18.details : i18.edit}" actionListener="#{mbPoseta.izmeniStavku(stavka)}">
             </p:commandButton>
         </p:column>

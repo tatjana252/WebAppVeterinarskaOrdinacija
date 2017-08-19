@@ -6,12 +6,16 @@
 package lazy;
 
 import domen.Usluga;
+import exceptions.RESTException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import kontroler.Kontroler;
@@ -36,9 +40,13 @@ public class LazyDataModelUsluga extends LazyDataModel<Usluga> {
     public void init(){
         try {
             this.setRowCount(kontroler.ucitajUsluge().size());
-        } catch (Exception ex) {
+      } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
             this.setRowCount(0);
-        }
+       } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            this.setRowCount(0);
+       }
     }
     
     @Override
@@ -56,10 +64,12 @@ public class LazyDataModelUsluga extends LazyDataModel<Usluga> {
             }
             List<Usluga> usluge = kontroler.pretrazi(first, pageSize, sortField, sortOrder, filters);
             return usluge;
-        } catch (Exception ex) {
-            Logger.getLogger(LazyDataModelUsluga.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+       } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
         }
+        return new ArrayList<>();
     }
 
     @Override

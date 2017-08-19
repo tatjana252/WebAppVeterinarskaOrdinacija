@@ -7,15 +7,20 @@ package lazy;
 
 import domen.Ljubimac;
 import domen.Usluga;
+import exceptions.RESTException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import kontroler.Kontroler;
+import mb.MBLjubimac;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -36,10 +41,15 @@ public class LazyDataModelLjubimac extends LazyDataModel<Ljubimac> {
     @PostConstruct
     public void init(){
         try {
-            this.setRowCount(kontroler.ucitajLjubimce().size());
-        } catch (Exception ex) {
+            this.setRowCount(kontroler.ucitajLjubimce());
+       } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
             this.setRowCount(0);
-        }
+       } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            this.setRowCount(0);
+       }
+       
     }
     
     @Override
@@ -58,9 +68,11 @@ public class LazyDataModelLjubimac extends LazyDataModel<Ljubimac> {
             List<Ljubimac> ljubimci = kontroler.pretraziLjubimce(first, pageSize, sortField, sortOrder, filters);
             return ljubimci;
         } catch (Exception ex) {
-            Logger.getLogger(LazyDataModelLjubimac.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
         }
+        return new ArrayList<>();
     }
 
     @Override
