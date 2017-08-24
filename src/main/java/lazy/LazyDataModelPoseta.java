@@ -60,6 +60,7 @@ public class LazyDataModelPoseta extends LazyDataModel<Poseta> {
                 filters.replace(key, String.valueOf(value));
             }
             List<Poseta> posete = kontroler.pretraziPosete(first, pageSize, sortField, sortOrder, filters);
+            this.setRowCount(kontroler.ucitajPosete());
             return posete;
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
@@ -72,7 +73,6 @@ public class LazyDataModelPoseta extends LazyDataModel<Poseta> {
     @Override
     public Poseta getRowData(String rowKey) {
        List<Poseta> posete = (List<Poseta>) getWrappedData();
-        System.out.println("    nja"+posete);
         for (Poseta poseta : posete) {
             if(poseta.getPosetaid()== Integer.parseInt(rowKey)){
                 return poseta;

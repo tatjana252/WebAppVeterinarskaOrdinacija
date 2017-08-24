@@ -21,4 +21,11 @@ public class RESTException extends Throwable {
     public String toString() {
         return (message);
     }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+    
+    
 }

@@ -66,6 +66,7 @@ public class LazyDataModelLjubimac extends LazyDataModel<Ljubimac> {
                 filters.replace(key, String.valueOf(value));
             }
             List<Ljubimac> ljubimci = kontroler.pretraziLjubimce(first, pageSize, sortField, sortOrder, filters);
+            this.setRowCount(kontroler.ucitajLjubimce());
             return ljubimci;
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));

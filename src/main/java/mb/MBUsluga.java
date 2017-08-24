@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import kontroler.Kontroler;
 import lazy.LazyDataModelUsluga;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.LazyDataModel;
 
@@ -55,7 +56,7 @@ public class MBUsluga implements Serializable {
         stranica = "WEB-INF/includes/usluga/uslugaPregled.xhtml";
 
     }
-    
+
     public List<Tipusluge> ucitajTipoveUsluga() {
         try {
             return kontroler.ucitajTipoveUsluga();
@@ -84,22 +85,28 @@ public class MBUsluga implements Serializable {
         return null;
     }
 
-    public void prikaziUslugu() {
+    public boolean prikaziUslugu() {
         try {
             odabranaUsluga = kontroler.prikaziUslugu(odabranaUsluga);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('detaljiUsluge').show();");
+            return true;
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
             Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            odabranaUsluga = null;
         } catch (RESTException ex) {
+            poruka = ex.getMessage();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
             Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            odabranaUsluga = null;
         }
+        return false;
     }
 
-    public void izmeniUslugu(RowEditEvent event) {
+    public void izmeniUslugu() {
         try {
-            Usluga izmena = (Usluga) event.getObject();
-            String odg = kontroler.izmeniUslugu(izmena);
+            String odg = kontroler.izmeniUslugu(odabranaUsluga);
             FacesMessage msg = new FacesMessage(odg);
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception ex) {
@@ -114,7 +121,8 @@ public class MBUsluga implements Serializable {
     public void obrisiUslugu() {
         try {
             String odgovor = kontroler.obrisiUslugu(odabranaUsluga);
-            setPoruka(odgovor);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(odgovor));
+
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
             Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);

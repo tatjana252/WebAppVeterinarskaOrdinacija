@@ -56,6 +56,7 @@ public class LazyDataModelUsluga extends LazyDataModel<Usluga> {
 
     @Override
     public List<Usluga> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+        System.out.println("UCITAJ");
         try {
             for (Map.Entry<String, Object> entry : filters.entrySet()) {
                 String key = entry.getKey();
@@ -63,6 +64,7 @@ public class LazyDataModelUsluga extends LazyDataModel<Usluga> {
                 filters.replace(key, String.valueOf(value));
             }
             List<Usluga> usluge = kontroler.pretrazi(first, pageSize, sortField, sortOrder, filters);
+            this.setRowCount(kontroler.ucitajUsluge().size());
             return usluge;
        } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
@@ -74,11 +76,13 @@ public class LazyDataModelUsluga extends LazyDataModel<Usluga> {
 
     @Override
     public Usluga getRowData(String rowKey) {
-       List<Usluga> usluge = (List<Usluga>) getWrappedData();
-        for (Usluga usluga : usluge) {
-            if(usluga.getUslugaid() == Integer.parseInt(rowKey)){
-                return usluga;
-            }
+        try {
+            Usluga u = new Usluga(Integer.parseInt(rowKey));
+            return kontroler.prikaziUslugu(u);
+        } catch (Exception ex) {
+           // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+        } catch (RESTException ex) {
+          //  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
         }
         return null;
     }

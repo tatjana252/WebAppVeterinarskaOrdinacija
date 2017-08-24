@@ -37,7 +37,6 @@ public class MBLjubimac implements Serializable {
     private String stranica;
     private Ljubimac ljubimac;
     private boolean izmena = false;
-    private boolean stariVlasnik = true;
     
     @Inject
     private LazyDataModelLjubimac lazydmLjubimac;
@@ -67,16 +66,19 @@ public class MBLjubimac implements Serializable {
         switch (stranica) {
             case 1:
                 this.stranica = "WEB-INF/includes/ljubimac/ljubimacPregled.xhtml";
+                izmena = false;
+                ljubimac = new Ljubimac();
+                obrisiVlasnika();
                 break;
             case 2:
                 this.stranica = "WEB-INF/includes/ljubimac/ljubimacIzmena.xhtml";
+                
                 break;
             case 3:
                 this.stranica = "WEB-INF/includes/ljubimac/ljubimacUnos.xhtml";
                 izmena = false;
-                stariVlasnik = false;
                 ljubimac = new Ljubimac();
-                ljubimac.setVlasnikid(new Vlasnik(-1));
+                obrisiVlasnika();
         }
     }
 
@@ -95,9 +97,15 @@ public class MBLjubimac implements Serializable {
 
     public void otvoriDialog() {
         Map<String, Object> options = new HashMap();
-        options.put("resizable", false);
+        options.put("resizable", true);
         options.put("draggable", true);
         options.put("modal", true);
+        
+        options.put("width", "800px");
+        options.put("height", "500px");
+        options.put("contentWidth", "100%");
+        options.put("contentHeight", "100%");
+        options.put("position", "center top");
         RequestContext.getCurrentInstance().openDialog("vlasnik", options, null);
     }
 
@@ -117,7 +125,6 @@ public class MBLjubimac implements Serializable {
 
     public void obrisiVlasnika() {
         ljubimac.setVlasnikid(new Vlasnik(-1));
-        stariVlasnik = false;
         vlasnikOdabran = false;
     }
 
@@ -144,12 +151,13 @@ public class MBLjubimac implements Serializable {
                 String odgovor = kontroler.sacuvaj(ljubimac);
                 ljubimac = new Ljubimac();
                 ljubimac.setVlasnikid(new Vlasnik(-1));
+                obrisiVlasnika();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(odgovor));
             } catch (Exception ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"", ""));
                 Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RESTException ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.toString(), ""));
             }
         } else if (izmena) {
             try {
@@ -166,9 +174,18 @@ public class MBLjubimac implements Serializable {
     }
     
     public String prikaziPoseteLjubimca(Ljubimac ljubimac){
-        this.ljubimac = ljubimac;
+        try {
+        this.ljubimac = kontroler.prikaziLjubimca(ljubimac);
         prikaziLjubimca();
         return "pretty:ljubimac";
+          } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RESTException ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return null;
     }
 
     public void postavidatumrodjenja(SelectEvent e) {
@@ -196,6 +213,7 @@ public class MBLjubimac implements Serializable {
                 opis += sp.getUsluga().getNaziv() + "; ";
             }
         }
+        System.out.println(opis);
         return opis;
     }
     
@@ -203,14 +221,6 @@ public class MBLjubimac implements Serializable {
         return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     }
     
-       public boolean isStariVlasnik() {
-        return stariVlasnik;
-    }
-
-    public void setStariVlasnik(boolean stariVlasnik) {
-        this.stariVlasnik = stariVlasnik;
-    }
-
     public boolean isIzmena() {
         return izmena;
     }
@@ -228,6 +238,7 @@ public class MBLjubimac implements Serializable {
     }
 
     public Ljubimac getLjubimac() {
+       
         return ljubimac;
     }
 

@@ -13,21 +13,18 @@
         <view-id value="/index.xhtml" />
     </url-mapping>
 
-
-    
     <url-mapping id="usluga">
-        <pattern value="/admin/usluga/" />
+        <pattern value="/admin/pet-service/" />
         <view-id value="/usluga.xhtml" />
     </url-mapping>
-
     
     <url-mapping id="ljubimac">
-        <pattern value="/admin/ljubimac/" />
+        <pattern value="/admin/pet/" />
         <view-id value="/ljubimac.xhtml" />
     </url-mapping>
     
     <url-mapping id="poseta">
-        <pattern value="/admin/poseta" />
+        <pattern value="/admin/appointments" />
         <view-id value="/poseta.xhtml" />
     </url-mapping>
 

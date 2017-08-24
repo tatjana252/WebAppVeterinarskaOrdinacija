@@ -38,6 +38,7 @@ public class MBKorisnik implements Serializable {
 
     public MBKorisnik() {
         korisnik = new Korisnik();
+        
     }
 
     @PostConstruct
@@ -88,6 +89,8 @@ public class MBKorisnik implements Serializable {
         }
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
+    
+    
 
     /**
      * ****** GETERI I SETERI ****

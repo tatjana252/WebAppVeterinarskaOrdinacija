@@ -10,10 +10,10 @@
         <div id="center" class="container-fluid">
             <h3>#{mbLjubimac.izmena ? i18.pet : i18.add_new_pet}</h3>
             <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" globalOnly="true" />
-            <h:form id="frmLjubimac"  >
-                <div class ="row">
-                    <div class ="col-md-6 col-sm-6" style="background-color:#dddddd;margin:10px;">
-                        <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
+            <h:form id="frmLjubimac"  style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;">
+                <div class ="row-fluid" style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;margin: 0 auto;">
+                    <div class ="col-md-6 col-sm-12 col-lg-6" style="background-color:#dddddd;background-clip: content-box;">
+                        <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" id="vlasnik">
 
                             <p:row style="text-align: center">
                                 <p:column colspan="2" style="text-align: center">
@@ -26,7 +26,7 @@
                                 <p:column><h:outputLabel value="" styleClass="labels" /></p:column>                               
                                 <p:column>
                                     <p:commandButton value="#{i18.select_pet_owner}" icon="ui-icon-extlink" actionListener="#{mbLjubimac.otvoriDialog}" update="@this" process="@this">
-                                        <p:ajax event="dialogReturn" listener="#{mbLjubimac.vlasnikOdabran}" update=":frmLjubimac" />
+                                        <p:ajax event="dialogReturn" listener="#{mbLjubimac.vlasnikOdabran}" update="vlasnik" />
                                     </p:commandButton>
                                     <p:spacer width="10"/>
                                     <p:commandButton value="#{i18.delete}" actionListener="#{mbLjubimac.obrisiVlasnika}" process="@this">
@@ -65,7 +65,7 @@
                                     <h:outputLabel for="petOwnerJMBG" value="#{i18.jmbg}" styleClass="labels" />
                                 </p:column>
                                 <p:column>
-                                    <p:inputMask id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;" readonly="#{mbLjubimac.izmena and mbLjubimac.stariVlasnik}" rendered="true" mask="9999999999999" disabled="#{mbLjubimac.vlasnikOdabran}">
+                                    <p:inputMask id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;" readonly="#{mbLjubimac.izmena and (not mbLjubimac.vlasnikOdabran)}" rendered="true" mask="9999999999999" disabled="#{mbLjubimac.vlasnikOdabran}">
                                         <f:validator validatorId="JMBGValidator" />
                                     </p:inputMask>
                                 </p:column>
@@ -101,7 +101,7 @@
                             </p:row>
                         </h:panelGrid>
                     </div>
-                    <div class ="col-md-6 col-sm-6" style="background-color: #dddddd;margin: 10px;">
+                    <div class ="col-md-6 col-sm-12 col-lg-6" style="background-color: #dddddd;background-clip: content-box;">
                         <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
                             <p:row style="text-align: center">
                                 <p:column colspan="2" style="text-align: center">

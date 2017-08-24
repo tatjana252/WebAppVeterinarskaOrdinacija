@@ -18,19 +18,19 @@
                             <p:message for="serviceName" id="msgsServiceName"/>
 
                             <h:outputLabel for="price" value="#{i18.price}" />
-                            <p:inputNumber id="price" value="#{mbUsluga.u.cena}" symbol="#{i18.currency}" symbolPosition="s" decimalSeparator="." thousandSeparator="," decimalPlaces="2" emptyValue="sign" required="true"  />
+                            <p:inputNumber id="price" value="#{mbUsluga.u.cena}" symbol="#{i18.currency}" symbolPosition="s" decimalSeparator="." thousandSeparator="," decimalPlaces="2" emptyValue="sign" required="true" inputStyle="width:20em;" />
                             <p:message for="price" id="msgsPrice"/>
 
-                            <h:outputText value="#{i18.service_type}"  />
+                            <h:outputLabel value="#{i18.service_type}"  />
                             <p:selectOneMenu id="cbTipUsluge" value="#{mbUsluga.u.tipuslugeid}" converter="#{tipuslugeCNV}" style="width: 20em;
                                              padding: 0; " required="true">
                                 <f:selectItems value="#{mbUsluga.ucitajTipoveUsluga()}" var="tu" itemValue="#{tu}" itemLabel="#{tu.naziv}" />
                             </p:selectOneMenu>
                             <p:message for="cbTipUsluge" id="msgsCbTupUsluge"/>
-                            <p:commandButton value="Sacuvaj" action="#{mbUsluga.sacuvaj()}" id="btnSacuvaj"  update=":frmUsluga :frmUsluga:msgsUnos">
-                            </p:commandButton>
+                            
                         </h:panelGrid>
-                        
+                        <p:commandButton value="Sacuvaj" action="#{mbUsluga.sacuvaj()}" id="btnSacuvaj"  update=":frmUsluga :frmUsluga:msgsUnos">
+                            </p:commandButton>
                     </h:form>
                     <p:blockUI block=":frmUsluga" trigger=":frmUsluga:btnSacuvaj" />
                     

@@ -97,12 +97,12 @@ public class Kontroler implements Serializable {
         Response response = uslugaREST.ucitajSve_XML(getRequest(null));
         GenericType<List<Usluga>> gt = new GenericType<List<Usluga>>() {
         };
-        System.out.println("usluge su primljene");
         return (List<Usluga>) getObject(response, gt);
     }
 
     public Usluga prikaziUslugu(Usluga odabranaUsluga) throws Exception, RESTException {
         UslugaREST uslugaRest = new UslugaREST();
+        System.out.println("saljem uslugu " +odabranaUsluga);
         Response response = uslugaRest.prikazi_XML(getRequest(odabranaUsluga));
         Usluga usluga = getObject(response, Usluga.class);
         return usluga;
@@ -193,14 +193,11 @@ public class Kontroler implements Serializable {
     }
 
     public String sacuvaj(Ljubimac ljubimac) throws Exception, RESTException {
-        try {
+
             LjubimacREST ljubimacREST = new LjubimacREST();
             Response response = ljubimacREST.sacuvaj_XML(getRequest(ljubimac));
             return getObject(response, String.class);
-        } catch (Exception e) {
-            Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, e);
-            throw e;
-        }
+        
     }
 
     public List<Ljubimac> pretraziLjubimce(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) throws Exception, RESTException {
@@ -232,9 +229,7 @@ public class Kontroler implements Serializable {
         GenericType<LjubimacSaPosetama> gt = new GenericType<LjubimacSaPosetama>() {
         };
         LjubimacSaPosetama ljp = (LjubimacSaPosetama) getObject(response, gt);
-        Ljubimac lj = ljp.getLj();
-        List<Poseta> poseteLJ = ljp.getPosete();
-        lj.setPosetaList(poseteLJ);
+        Ljubimac lj = ljp.vratiLjubimca();
         return lj;
     }
 
@@ -249,7 +244,6 @@ public class Kontroler implements Serializable {
         ArrayList<SelectItem> categories = new ArrayList<>();
         List<Tipusluge> tipoviUsluga = ucitajTipoveUsluga();
         List<Usluga> usluge = ucitajUsluge();
-        System.out.println(tipoviUsluga);
         for (Tipusluge tipusluge : tipoviUsluga) {
             SelectItemGroup grupa = new SelectItemGroup(tipusluge.getNaziv().toUpperCase());
             List<SelectItem> uslugel = new ArrayList<>();

@@ -9,6 +9,9 @@
         <property name="Password" value="admin"/>
         <property name="URL" value="jdbc:mysql://localhost:3306/veterinarskaordinacija?zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/jndiVeterinarskaOrdinacija" object-type="user" pool-name="mysql_veterinarskaordinacija_adminPool"/>
 </resources>
+
+

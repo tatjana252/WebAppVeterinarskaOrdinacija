@@ -31,11 +31,11 @@
                 </div>
                 <div class ="col-md-12 col-sm-12 col-lg-12" style="text-align:left; padding: 0;" >
 
-                    <h:form id="frmLjubimac"  >
+                    <h:form id="frmLjubimac">
                         <div class="col-md-6 col-sm-12 col-lg-6">
                             <div style="border: 5px #dddddd solid;display: inline-block;text-align: left;padding: 15px; padding-top: 0;" >
                                 <h:panelGrid styleClass="ui-noborder formaLjubimac"  id="grid" style="margin: 0; width:auto;">
-                                    <p:row >
+                                    <p:row>
                                         <p:column colspan="2" >
                                             <h3 style="text-align:left;font-size: 20px;">#{i18.pet_details}</h3>
                                             <hr style="height: 4px;margin: 0;background-color: #dddddd;border: none;" />
@@ -51,7 +51,6 @@
                                                     <p:ajax listener="#{mbPoseta.obrisiLjubimca}" update=":frmLjubimac:grid" />
                                                 </p:commandButton>
                                             </p:column>
-
                                         </p:row> <hr style="height: 4px;margin: 0;background-color: #dddddd;border: none;" /></c:if>
                                     <p:row>
                                         <p:column>
@@ -111,8 +110,8 @@
                             <p:graphicImage url="#{resource['images:slika.jpg']}" style="width: 100%;"/>
                         </div>
 
-                        <p:dialog header="#{i18.select_pet}" widgetVar="dlg" resizable="false" width="50%" >
-                            <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto;text-align: center;" >
+                        <p:dialog header="#{i18.select_pet}" widgetVar="dlg" resizable="false" style="margin: 0 auto;">
+                            <h:panelGrid cellpadding="5" style="margin: 0 auto;text-align: center;width: 900px;height: 500px;" >
                                 <ui:include src="/WEB-INF/includes/poseta/posetaIzborLjubimca.xhtml"/>
                                 <f:facet name="footer">
                                     <p:commandButton value="#{i18.select}" update=":frmLjubimac:grid" form=":frmLjubimac" process=":frmLjubimac"
@@ -181,7 +180,7 @@
                     </h:form></c:if>
                 <c:if test="#{mbPoseta.prikazDetalja}" >
                     <h:form id="frmPrikaziSvePosete">
-                        <p:commandButton class="btn btn-lg" value="Prikazi sve posete za ovog ljubimca" form=":frmPrikaziSvePosete" 
+                        <p:commandButton class="btn btn-lg" value="#{i18.show_all_visits}" form=":frmPrikaziSvePosete" 
                                          process="@this" action="#{mbLjubimac.prikaziPoseteLjubimca(mbPoseta.poseta.ljubimacid)}"
                                          style="border: #dddddd;margin-top:20px;
                                          border-style: solid;" />
@@ -199,6 +198,7 @@
 
         #multiselectUsluga .ui-multiselectlistbox .ui-multiselectlistbox-listcontainer{
             width: 49%;
+            max-height: 30em;
         }
 
         #frmLjubimac .formaLjubimac td{
