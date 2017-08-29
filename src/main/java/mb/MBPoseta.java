@@ -28,6 +28,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import kontroler.Kontroler;
+
 import lazy.LazyDataModelLjubimac;
 import lazy.LazyDataModelPoseta;
 import org.primefaces.context.RequestContext;

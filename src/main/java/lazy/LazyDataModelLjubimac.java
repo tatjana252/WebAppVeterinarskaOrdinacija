@@ -19,7 +19,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import kontroler.Kontroler;
 import mb.MBLjubimac;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -32,7 +31,7 @@ import org.primefaces.model.SortOrder;
 @Stateless
 public class LazyDataModelLjubimac extends LazyDataModel<Ljubimac> {
     @Inject
-    Kontroler kontroler;
+    kontroler.Kontroler kontroler;
 
     public LazyDataModelLjubimac() {
 

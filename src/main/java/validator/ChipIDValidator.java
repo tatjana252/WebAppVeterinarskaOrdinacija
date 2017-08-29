@@ -15,36 +15,36 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-
 /**
  *
  * @author hp
  */
 @FacesValidator("chipIDValidator")
-public class ChipIDValidator implements Validator{
-    
-       private final ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
- 
+public class ChipIDValidator implements Validator {
 
-	private static final String CHIP_ID_PATTERN = "^[0-9]{15}$";
+    private final ResourceBundle bundle = ResourceBundle.getBundle("internationalization.messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
-	private Pattern pattern;
-	private Matcher matcher;
+    private static final String CHIP_ID_PATTERN = "^[0-9]{15}$";
 
-	public ChipIDValidator(){
-		  pattern = Pattern.compile(CHIP_ID_PATTERN);
-	}
+    private Pattern pattern;
+    private Matcher matcher;
 
-	@Override
-	public void validate(FacesContext context, UIComponent component,
-			Object value) throws ValidatorException {
-            if(value.toString().length() > 0){
-		matcher = pattern.matcher(value.toString());
-		if(!matcher.matches()){
-			FacesMessage msg = new FacesMessage(bundle.getString("chip_id_validation_fail"));
-			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-			throw new ValidatorException(msg);
-		}
-	}
+    public ChipIDValidator() {
+        pattern = Pattern.compile(CHIP_ID_PATTERN);
+    }
+
+    @Override
+    public void validate(FacesContext context, UIComponent component,
+            Object value) throws ValidatorException {
+        if (value != null) {
+            if (value.toString().length() > 0) {
+                matcher = pattern.matcher(value.toString());
+                if (!matcher.matches()) {
+                    FacesMessage msg = new FacesMessage(bundle.getString("chip_id_validation_fail"));
+                    msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                    throw new ValidatorException(msg);
+                }
+            }
         }
+    }
 }

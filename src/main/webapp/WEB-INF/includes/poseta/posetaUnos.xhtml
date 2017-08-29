@@ -44,7 +44,7 @@
                                     <c:if test="#{not mbPoseta.prikazDetalja}" >
                                         <p:row>                             
                                             <p:column colspan="2">
-                                                <p:commandButton value="#{i18.select_pet_owner}" icon="ui-icon-extlink" update="@this" process="@this" onclick="PF('dlg').show();">
+                                                <p:commandButton value="#{i18.select_pet}" icon="ui-icon-extlink" update="@this" process="@this" onclick="PF('dlg').show();">
                                                 </p:commandButton>
                                                 <p:spacer width="10"/>
                                                 <p:commandButton value="#{i18.delete}" actionListener="#{mbPoseta.obrisiLjubimca}" update="@this" process="@this">
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                         <div class="col-sm-6 hidden-md hidden-sm hidden-xs">
-                            <p:graphicImage url="#{resource['images:slika.jpg']}" style="width: 100%;"/>
+                            <p:graphicImage url="#{resource['images:slika.jpg']}" style="max-width: 100%;"/>
                         </div>
 
                         <p:dialog header="#{i18.select_pet}" widgetVar="dlg" resizable="false" style="margin: 0 auto;">

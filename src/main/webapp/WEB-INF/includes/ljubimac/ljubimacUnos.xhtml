@@ -9,222 +9,228 @@
 
         <div id="center" class="container-fluid">
             <h3>#{mbLjubimac.izmena ? i18.pet : i18.add_new_pet}</h3>
-            <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" globalOnly="true" />
-            <h:form id="frmLjubimac"  style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;">
-                <div class ="row-fluid" style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;margin: 0 auto;">
-                    <div class ="col-md-6 col-sm-12 col-lg-6" style="background-color:#dddddd;background-clip: content-box;">
-                        <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" id="vlasnik">
+            <p:growl id="msgsUnosLjubimca" showDetail="true" sticky="true" globalOnly="true" />    <div class ="row-fluid" style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;margin: 0 auto; width: 100%;">
 
-                            <p:row style="text-align: center">
-                                <p:column colspan="2" style="text-align: center">
-                                    <h3 style="text-align:center">#{i18.pet_owner_details}</h3>
-                                    <hr style="height: 4px;margin: 0;color: white;background-color: white;border: none;" />
-                                </p:column>  
-                            </p:row>
+                <h:form id="frmLjubimac"  style="display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;" class="container-fluid">
+                    <div class="row equal" style="margin: 0 auto;">
+                        <div class ="col-md-6 col-sm-12 col-lg-6" style="background-color:#dddddd;background-clip: content-box;">
+                            <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" id="vlasnik">
 
-                            <p:row>
-                                <p:column><h:outputLabel value="" styleClass="labels" /></p:column>                               
-                                <p:column>
-                                    <p:commandButton value="#{i18.select_pet_owner}" icon="ui-icon-extlink" actionListener="#{mbLjubimac.otvoriDialog}" update="@this" process="@this">
-                                        <p:ajax event="dialogReturn" listener="#{mbLjubimac.vlasnikOdabran}" update="vlasnik" />
-                                    </p:commandButton>
-                                    <p:spacer width="10"/>
-                                    <p:commandButton value="#{i18.delete}" actionListener="#{mbLjubimac.obrisiVlasnika}" process="@this">
-                                        <p:ajax listener="#{mbLjubimac.obrisiVlasnika}" update=":frmLjubimac" />
-                                    </p:commandButton>
-                                </p:column>  
-                            </p:row>
+                                <p:row style="text-align: center">
+                                    <p:column colspan="2" style="text-align: center">
+                                        <h3 style="text-align:center">#{i18.pet_owner_details}</h3>
+                                        <hr style="height: 4px;margin: 0;color: white;background-color: white;border: none;" />
+                                    </p:column>  
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="petOwnerName" value="#{i18.name}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;" required="true" disabled="#{mbLjubimac.vlasnikOdabran}">
-                                    </p:inputText>
-                                </p:column>  
-                                <p:column>
-                                     <p:message for="petOwnerName" id="msgsPetOwnerName"/>
-                                </p:column>  
-                            </p:row>
+                                <p:row>
+                                    <p:column><h:outputLabel value="" styleClass="labels" /></p:column>                               
+                                    <p:column>
+                                        <p:commandButton value="#{i18.select_pet_owner}" icon="ui-icon-extlink" actionListener="#{mbLjubimac.otvoriDialog}" update="@this" process="@this">
+                                            <p:ajax event="dialogReturn" listener="#{mbLjubimac.vlasnikOdabran}" update="vlasnik" />
+                                        </p:commandButton>
+                                        <p:spacer width="10"/>
+                                        <p:commandButton value="#{i18.delete}" actionListener="#{mbLjubimac.obrisiVlasnika}" process="@this">
+                                            <p:ajax listener="#{mbLjubimac.obrisiVlasnika}" update=":frmLjubimac" />
+                                        </p:commandButton>
+                                    </p:column>  
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="petOwnerLastname" value="#{i18.last_name}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:inputText id="petOwnerLastname" value="#{mbLjubimac.ljubimac.vlasnikid.prezime}" style="width:20em;" required="true" disabled="#{mbLjubimac.vlasnikOdabran}"/>
-                                </p:column>
-                                <p:column>
-                                     <p:message for="petOwnerLastname" id="msgsPetOwnerLastname"/>
-                                </p:column> 
-                            </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="petOwnerName" value="#{i18.name}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id = "petOwnerName" value = "#{mbLjubimac.ljubimac.vlasnikid.ime}" style="width:20em;" required="true" disabled="#{mbLjubimac.vlasnikOdabran}">
+                                        </p:inputText>
+                                    </p:column>  
+                                    <p:column>
+                                        <p:message for="petOwnerName" id="msgsPetOwnerName"/>
+                                    </p:column>  
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="petOwnerJMBG" value="#{i18.jmbg}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:inputMask id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;" readonly="#{mbLjubimac.izmena and (not mbLjubimac.vlasnikOdabran)}" rendered="true" mask="9999999999999" disabled="#{mbLjubimac.vlasnikOdabran}">
-                                        <f:validator validatorId="JMBGValidator" />
-                                    </p:inputMask>
-                                </p:column>
-                                <p:column>
-                                     <p:message for="petOwnerJMBG" id="msgsPetOwnerJMBG"/>
-                                </p:column> 
-                            </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="petOwnerLastname" value="#{i18.last_name}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="petOwnerLastname" value="#{mbLjubimac.ljubimac.vlasnikid.prezime}" style="width:20em;" required="true" disabled="#{mbLjubimac.vlasnikOdabran}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:message for="petOwnerLastname" id="msgsPetOwnerLastname"/>
+                                    </p:column> 
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="petOwnerAddress" value="#{i18.address}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:inputText id="petOwnerAddress" value="#{mbLjubimac.ljubimac.vlasnikid.adresa}" style="width:20em;" required="true" disabled="#{mbLjubimac.vlasnikOdabran}"/>
-                                </p:column>
-                                <p:column>
-                                     <p:message for="petOwnerAddress" id="msgsPetOwnerAddress"/>
-                                </p:column> 
-                            </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="petOwnerJMBG" value="#{i18.jmbg}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="petOwnerJMBG" value="#{mbLjubimac.ljubimac.vlasnikid.jmbg}" style="width:20em;" readonly="#{mbLjubimac.izmena and (not mbLjubimac.vlasnikOdabran)}" rendered="true" mask="9999999999999" disabled="#{mbLjubimac.vlasnikOdabran}">
+                                            <f:validator validatorId="JMBGValidator" />
+                                        </p:inputMask>
+                                    </p:column>
+                                    <p:column>
+                                        <p:message for="petOwnerJMBG" id="msgsPetOwnerJMBG"/>
+                                    </p:column> 
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="petOwnerNumber" value="#{i18.phone_number}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:inputText id="petOwnerNumber" value="#{mbLjubimac.ljubimac.vlasnikid.brojtelefona}" style="width:20em;" required="true" disabled="#{mbLjubimac.vlasnikOdabran}">
-                                        <f:validator validatorId="phoneNumberValidator" />
-                                    </p:inputText>
-                                </p:column>
-                                <p:column style=" margin-bottom: 68px;">
-                                     <p:message for="petOwnerNumber" id="msgsPetOwnerNumber"/>
-                                </p:column> 
-                            </p:row>
-                        </h:panelGrid>
-                    </div>
-                    <div class ="col-md-6 col-sm-12 col-lg-6" style="background-color: #dddddd;background-clip: content-box;">
-                        <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
-                            <p:row style="text-align: center">
-                                <p:column colspan="2" style="text-align: center">
-                                    <h3 style="text-align:center">#{i18.pet_details}</h3>
-                                    <hr style="height: 4px;margin: 0;color: white;background-color: white;border: none;" />
-                                </p:column>  
-                            </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="petOwnerAddress" value="#{i18.address}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="petOwnerAddress" value="#{mbLjubimac.ljubimac.vlasnikid.adresa}" style="width:20em;" required="true" disabled="#{mbLjubimac.vlasnikOdabran}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:message for="petOwnerAddress" id="msgsPetOwnerAddress"/>
+                                    </p:column> 
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="petName" value="#{i18.pet_name}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:inputText id="petName" value="#{mbLjubimac.ljubimac.ime}" style="width:20em;" readonly="#{mbLjubimac.izmena}" required="true"/>
-                                </p:column>
-                                <p:column>
-                                     <p:message for="petName" id="msgsPetName"/>
-                                </p:column> 
-                            </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="petOwnerNumber" value="#{i18.phone_number}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="petOwnerNumber" value="#{mbLjubimac.ljubimac.vlasnikid.brojtelefona}" style="width:20em;" required="true" disabled="#{mbLjubimac.vlasnikOdabran}">
+                                            <f:validator validatorId="phoneNumberValidator" />
+                                        </p:inputText>
+                                    </p:column>
+                                    <p:column style=" margin-bottom: 68px;">
+                                        <p:message for="petOwnerNumber" id="msgsPetOwnerNumber"/>
+                                    </p:column> 
+                                </p:row>
+                            </h:panelGrid>
+                        </div>
+                        <div class ="col-md-6 col-sm-12 col-lg-6" style="background-color: #dddddd;background-clip: content-box;">
+                            <h:panelGrid styleClass="ui-noborder tblusluga" rowClasses="rowColor" >
+                                <p:row style="text-align: center">
+                                    <p:column colspan="2" style="text-align: center">
+                                        <h3 style="text-align:center">#{i18.pet_details}</h3>
+                                        <hr style="height: 4px;margin: 0;color: white;background-color: white;border: none;" />
+                                    </p:column>  
+                                </p:row>
 
-                            <p:row><p:column>
-                                    <h:outputLabel for="petDateOfBirth" value="#{i18.date_of_birth}" styleClass="labels" /></p:column><p:column>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="petName" value="#{i18.pet_name}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="petName" value="#{mbLjubimac.ljubimac.ime}" style="width:20em;" readonly="#{mbLjubimac.izmena}" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:message for="petName" id="msgsPetName"/>
+                                    </p:column> 
+                                </p:row>
+
+                                <p:row><p:column>
+                                        <h:outputLabel for="petDateOfBirth" value="#{i18.date_of_birth}" styleClass="labels" /></p:column><p:column>
                                         <p:calendar id="petDateOfBirth" value="#{mbLjubimac.ljubimac.datumrodjenja}" pattern="dd-MM-yyyy" inputStyle="width:20em;" readonly="#{mbLjubimac.izmena}" required="true" maxdate="#{mbLjubimac.currentDate}">
-                                        <p:ajax event="dateSelect" listener="#{mbLjubimac.postavidatumrodjenja}" update=":frmLjubimac:petDateOfBirth" />
-                                    </p:calendar></p:column>
-                                <p:column>
-                                     <p:message for="petDateOfBirth" id="msgsPetDateOfBirth"/>
-                                </p:column> 
-                            </p:row>
+                                            <p:ajax event="dateSelect" listener="#{mbLjubimac.postavidatumrodjenja}" update=":frmLjubimac:petDateOfBirth" />
+                                        </p:calendar></p:column>
+                                    <p:column>
+                                        <p:message for="petDateOfBirth" id="msgsPetDateOfBirth"/>
+                                    </p:column> 
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="cbVrstaZivotinje" value="#{i18.pet_species}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:selectOneMenu id="cbVrstaZivotinje" value="#{mbLjubimac.ljubimac.vrstazivotinjeid}" converter="#{vrstazivotinjeCNV}" style="width: 20em; vertical-align: middle;padding: 0;"
-                                                     disabled="#{mbLjubimac.izmena}" required="true">
-                                        <f:selectItems value="#{mbLjubimac.ucitajVrsteZivotinje()}" var="tu" itemValue="#{tu}" itemLabel="#{tu.naziv}" />
-                                    </p:selectOneMenu>
-                                </p:column>
-                                <p:column>
-                                     <p:message for="cbVrstaZivotinje" id="msgsCbVrstaZivotinje"/>
-                                </p:column> 
-                            </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="cbVrstaZivotinje" value="#{i18.pet_species}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="cbVrstaZivotinje" value="#{mbLjubimac.ljubimac.vrstazivotinjeid}" converter="#{vrstazivotinjeCNV}" style="width: 20em; vertical-align: middle;padding: 0;"
+                                                         disabled="#{mbLjubimac.izmena}" required="true">
+                                            <f:selectItems value="#{mbLjubimac.ucitajVrsteZivotinje()}" var="tu" itemValue="#{tu}" itemLabel="#{tu.naziv}" />
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:message for="cbVrstaZivotinje" id="msgsCbVrstaZivotinje"/>
+                                    </p:column> 
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="animalBreed" value="#{i18.animal_breed}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:inputText id="animalBreed" value="#{mbLjubimac.ljubimac.rasa}" style="width:20em;" />
-                                </p:column>
-                                
-                            </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="animalBreed" value="#{i18.animal_breed}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="animalBreed" value="#{mbLjubimac.ljubimac.rasa}" style="width:20em;" />
+                                    </p:column>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="chipID" value="#{i18.pet_chip_id}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:inputMask id="chipID" value="#{mbLjubimac.ljubimac.sifracipa}" style="width:20em;" mask="999999999999999">
-                                        <f:validator validatorId="chipIDValidator"/>
-                                    </p:inputMask>
-                                </p:column>
-                                <p:column>
-                                     <p:message for="chipID" id="msgsChipID"/>
-                                </p:column> 
-                            </p:row>
+                                </p:row>
 
-                            <p:row>
-                                <p:column>
-                                    <h:outputLabel for="pol" value="#{i18.gender}" styleClass="labels" />
-                                </p:column>
-                                <p:column>
-                                    <p:selectOneButton value="#{mbLjubimac.ljubimac.pol}" disabled="#{mbLjubimac.izmena}" id="pol" required="true">
-                                        <f:selectItem itemLabel="#{i18.male}" itemValue="M" />
-                                        <f:selectItem itemLabel="#{i18.female}" itemValue="Z" />
-                                    </p:selectOneButton>
-                                </p:column>
-                                <p:column>
-                                     <p:message for="pol" id="msgsPol"/>
-                                </p:column> 
-                            </p:row>
-                            <p:row>
-                                <p:column><h:outputLabel value="" styleClass="labels" /></p:column>        
-                                <p:column >
-                                    <p:commandButton value="#{mbLjubimac.izmena ? i18.change : i18.save}  " action="#{mbLjubimac.sacuvaj}" id="btnSacuvaj"  update=":frmLjubimac :msgsUnosLjubimca" process="@form" style="margin-bottom: 20px;">
-                                    </p:commandButton> 
-                                </p:column>
-                            </p:row>
-                        </h:panelGrid>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="chipID" value="#{i18.pet_chip_id}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputMask id="chipID" value="#{mbLjubimac.ljubimac.sifracipa}" style="width:20em;" mask="999999999999999">
+                                            <f:validator validatorId="chipIDValidator"/>
+                                        </p:inputMask>
+                                    </p:column>
+                                    <p:column>
+                                        <p:message for="chipID" id="msgsChipID"/>
+                                    </p:column> 
+                                </p:row>
 
-
-
-                    </div>       
-                </div>
-            </h:form>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputLabel for="pol" value="#{i18.gender}" styleClass="labels" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneButton value="#{mbLjubimac.ljubimac.pol}" disabled="#{mbLjubimac.izmena}" id="pol" required="true">
+                                            <f:selectItem itemLabel="#{i18.male}" itemValue="M" />
+                                            <f:selectItem itemLabel="#{i18.female}" itemValue="Z" />
+                                        </p:selectOneButton>
+                                    </p:column>
+                                    <p:column>
+                                        <p:message for="pol" id="msgsPol"/>
+                                    </p:column> 
+                                </p:row>
+                                <p:row>
+                                    <p:column><h:outputLabel value="" styleClass="labels" /></p:column>        
+                                    <p:column >
+                                        <p:commandButton value="#{mbLjubimac.izmena ? i18.change : i18.save}  " action="#{mbLjubimac.sacuvaj}" id="btnSacuvaj"  update=":frmLjubimac :msgsUnosLjubimca" process="@form" style="margin-bottom: 20px;">
+                                        </p:commandButton> 
+                                    </p:column>
+                                </p:row>
+                            </h:panelGrid>
+                        </div>       
+                    </div>
+                </h:form>
+            </div>
 
         </div>
 
     </body>
-    
+
     <style>
+        @media (min-width: 768px) {
+            .row.equal {
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+
         .rowColor{
             background: #dddddd;
         }
-        
+
         .rowColor td{
             padding-top: 20px;
         }.row {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:         flex;
-}
-.row > [class*='col-'] {
-	 display: flex;
-	 flex-direction: column;
-}
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display:         flex;
+        }
+        .row > [class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
 
-.ui-state-disabled{
-    opacity: 1;
-}
+        .ui-state-disabled{
+            opacity: 1;
+        }
     </style>
 </html>
 

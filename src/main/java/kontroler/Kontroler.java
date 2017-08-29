@@ -31,12 +31,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import mb.MBKorisnik;
 import org.primefaces.model.SortOrder;
-import services.KorisnikREST;
-import services.LjubimacREST;
-import services.PosetaREST;
-import services.UslugaREST;
-import services.VlasnikREST;
-import services.VrstazivotinjeREST;
+import services.Servis;
 
 /**
  *
@@ -48,22 +43,22 @@ public class Kontroler implements Serializable {
 
     @Inject
     MBKorisnik mbKorisnik;
+    
+    Servis servis = new Servis();
 
     public Request getRequest(Object obj) {
         return new Request(mbKorisnik.getKorisnik(), obj, mbKorisnik.getLanguage());
     }
 
     public Korisnik login(Korisnik korisnik) throws Exception, RESTException {
-        KorisnikREST korisnikREST = new KorisnikREST();
         Request request = getRequest(null);
         request.setKorisnik(korisnik);
-        Response response = korisnikREST.login(request);
+        Response response = servis.login(request);
         return getObject(response, Korisnik.class);
     }
 
     public List<Tipusluge> ucitajTipoveUsluga() throws Exception, RESTException {
-        UslugaREST uslugaREST = new UslugaREST();
-        Response response = uslugaREST.ucitajTipoveUsluga(Response.class);
+        Response response = servis.ucitajTipoveUsluga_XML(getRequest(null));
         GenericType<List<Tipusluge>> gt = new GenericType<List<Tipusluge>>() {
         };
         return getObject(response, gt);
@@ -71,8 +66,7 @@ public class Kontroler implements Serializable {
 
     public Tipusluge vratiTipUsluge(String value) throws Exception, RESTException {
         try {
-            UslugaREST uslugaREST = new UslugaREST();
-            Response response = uslugaREST.vratiTipUsluge(Response.class, value);
+            Response response = servis.prikaziTipUsluge_XML(getRequest(new Tipusluge(0, value)));
             return getObject(response, Tipusluge.class);
 
         } catch (Exception e) {
@@ -83,8 +77,8 @@ public class Kontroler implements Serializable {
 
     public String sacuvaj(Usluga u) throws Exception, RESTException {
         try {
-            UslugaREST uslugaREST = new UslugaREST();
-            Response response = uslugaREST.sacuvaj_XML(getRequest(u));
+
+            Response response = servis.sacuvajUslugu_XML(getRequest(u));
             return getObject(response, String.class);
         } catch (Exception e) {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, e);
@@ -93,17 +87,14 @@ public class Kontroler implements Serializable {
     }
 
     public List<Usluga> ucitajUsluge() throws Exception, RESTException {
-        UslugaREST uslugaREST = new UslugaREST();
-        Response response = uslugaREST.ucitajSve_XML(getRequest(null));
+        Response response = servis.ucitajUsluge_XML(getRequest(null));
         GenericType<List<Usluga>> gt = new GenericType<List<Usluga>>() {
         };
         return (List<Usluga>) getObject(response, gt);
     }
 
     public Usluga prikaziUslugu(Usluga odabranaUsluga) throws Exception, RESTException {
-        UslugaREST uslugaRest = new UslugaREST();
-        System.out.println("saljem uslugu " +odabranaUsluga);
-        Response response = uslugaRest.prikazi_XML(getRequest(odabranaUsluga));
+        Response response = servis.prikaziUslugu_XML(getRequest(odabranaUsluga));
         Usluga usluga = getObject(response, Usluga.class);
         return usluga;
     }
@@ -136,8 +127,7 @@ public class Kontroler implements Serializable {
 
     public List<Usluga> pretrazi(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) throws RESTException {
         try {
-            UslugaREST uslugaREST = new UslugaREST();
-            Response response = uslugaREST.pretrazi(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)));
+            Response response = servis.pretraziUsluge(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)));
             GenericType<List<Usluga>> gt = new GenericType<List<Usluga>>() {
             };
             List<Usluga> usluge = getObject(response, gt);
@@ -149,22 +139,19 @@ public class Kontroler implements Serializable {
     }
 
     public String izmeniUslugu(Usluga izmena) throws Exception, RESTException {
-        UslugaREST uslugaREST = new UslugaREST();
-        Response response = uslugaREST.izmeni_XML(getRequest(izmena));
+        Response response = servis.izmeniUslugu_XML(getRequest(izmena));
         String odgovor = getObject(response, String.class);
         return odgovor;
     }
 
     public String obrisiUslugu(Usluga odabranaUsluga) throws Exception, RESTException {
-        UslugaREST uslugaREST = new UslugaREST();
-        Response response = uslugaREST.obrisi_XML(getRequest(odabranaUsluga));
+        Response response = servis.obrisiUslugu_XML(getRequest(odabranaUsluga));
         String odgovor = getObject(response, String.class);
         return odgovor;
     }
 
     public List<Vlasnik> ucitajVlasnike() throws Exception, RESTException {
-        VlasnikREST vlasnikREST = new VlasnikREST();
-        Response response = vlasnikREST.ucitajSve_XML(getRequest(null));
+        Response response = servis.ucitajVlasnike_XML(getRequest(null));
         GenericType<List<Vlasnik>> gt = new GenericType<List<Vlasnik>>() {
         };
         List<Vlasnik> vlasnici = getObject(response, gt);
@@ -173,8 +160,7 @@ public class Kontroler implements Serializable {
     List<Vrstazivotinje> vrsteZivotinja;
 
     public List<Vrstazivotinje> ucitajVrsteZivotinje() throws Exception, RESTException {
-        VrstazivotinjeREST ljubimacREST = new VrstazivotinjeREST();
-        Response response = ljubimacREST.ucitajSve_XML(getRequest(null));
+        Response response = servis.ucitajVrsteZivotinja_XML(getRequest(null));
         GenericType<List<Vrstazivotinje>> gt = new GenericType<List<Vrstazivotinje>>() {
         };
         vrsteZivotinja = getObject(response, gt);
@@ -193,18 +179,14 @@ public class Kontroler implements Serializable {
     }
 
     public String sacuvaj(Ljubimac ljubimac) throws Exception, RESTException {
-
-            LjubimacREST ljubimacREST = new LjubimacREST();
-            Response response = ljubimacREST.sacuvaj_XML(getRequest(ljubimac));
+            Response response = servis.sacuvajLjubimca_XML(getRequest(ljubimac));
             return getObject(response, String.class);
         
     }
 
     public List<Ljubimac> pretraziLjubimce(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) throws Exception, RESTException {
         try {
-
-            LjubimacREST ljubimacREST = new LjubimacREST();
-            Response response = ljubimacREST.pretrazi(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)));
+            Response response = servis.pretraziLjubimce(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)));
             GenericType<List<Ljubimac>> gt = new GenericType<List<Ljubimac>>() {
             };
             List<Ljubimac> ljubimac = getObject(response, gt);
@@ -216,16 +198,14 @@ public class Kontroler implements Serializable {
     }
 
     public int ucitajLjubimce() throws Exception, RESTException {
-        LjubimacREST ljubimacREST = new LjubimacREST();
-        Response response = ljubimacREST.countAll_XML(getRequest(null));
+        Response response = servis.ucitajLjubimce_XML(getRequest(null));
         String odg = getObject(response, String.class);
         Integer poseta = Integer.parseInt(odg);
         return poseta;
     }
 
     public Ljubimac prikaziLjubimca(Ljubimac odabraniLjubimac) throws Exception, RESTException {
-        LjubimacREST ljubimacREST = new LjubimacREST();
-        Response response = ljubimacREST.prikazi_XML(getRequest(odabraniLjubimac));
+        Response response = servis.prikaziLjubimca_XML(getRequest(odabraniLjubimac));
         GenericType<LjubimacSaPosetama> gt = new GenericType<LjubimacSaPosetama>() {
         };
         LjubimacSaPosetama ljp = (LjubimacSaPosetama) getObject(response, gt);
@@ -234,8 +214,8 @@ public class Kontroler implements Serializable {
     }
 
     public String izmeni(Ljubimac ljubimac) throws Exception, RESTException {
-        LjubimacREST ljubimacREST = new LjubimacREST();
-        Response response = ljubimacREST.izmeni_XML(getRequest(ljubimac));
+        System.out.println(ljubimac.getVlasnikid().getBrojtelefona());
+        Response response = servis.izmeniLjubimca_XML(getRequest(ljubimac));
         String odgovor = getObject(response, String.class);
         return odgovor;
     }
@@ -273,16 +253,14 @@ public class Kontroler implements Serializable {
     }
 
     public String sacuvajPosetu(Poseta poseta) throws Exception, RESTException {
-        PosetaREST posetaRest = new PosetaREST();
-        Response response = posetaRest.sacuvaj_XML(getRequest(poseta));
+        Response response = servis.sacuvajPosetu_XML(getRequest(poseta));
         String odgovor = getObject(response, String.class);
         return odgovor;
     }
 
     public int ucitajPosete() throws RESTException {
         try {
-            PosetaREST posetaREST = new PosetaREST();
-            Response response = posetaREST.countAll_XML(getRequest(null));
+            Response response = servis.ucitajPosete_XML(getRequest(null));
             String odg = getObject(response, String.class);
             Integer poseta = Integer.parseInt(odg);
             return poseta;
@@ -294,8 +272,7 @@ public class Kontroler implements Serializable {
 
     public List<Poseta> pretraziPosete(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) throws Exception, RESTException {
         try {
-            PosetaREST posetaREST = new PosetaREST();
-            Response response = posetaREST.pretrazi_XML(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)));
+            Response response = servis.pretraziPosete_XML(getRequest(new Search(first, pageSize, sortField, javax.swing.SortOrder.valueOf(sortOrder.name()), filters)));
             GenericType<List<Poseta>> gt = new GenericType<List<Poseta>>() {
             };
             List<Poseta> poseta = getObject(response, gt);
@@ -307,8 +284,7 @@ public class Kontroler implements Serializable {
     }
 
     public Poseta prikaziPosetu(Poseta poseta) throws Exception, RESTException {
-        PosetaREST posetaREST = new PosetaREST();
-        Response response = posetaREST.prikazi_XML(getRequest(poseta));
+        Response response = servis.prikaziPosetu_XML(getRequest(poseta));
         return (Poseta) getObject(response, Poseta.class);
     }
 
