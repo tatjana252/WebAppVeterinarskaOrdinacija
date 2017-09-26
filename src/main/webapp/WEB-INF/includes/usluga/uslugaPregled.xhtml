@@ -36,7 +36,7 @@
                 </p:column>
 
                 <f:facet name="footer">
-                    <p:commandButton process="dtUslugePregled" actionListener="#{mbUsluga.prikaziUslugu}" update=":frmdtUslugaPregled:detaljiUsluge" icon="ui-icon-search" value="#{i18.details}" oncomplete="PF('detaljiUsluge').show()" />
+                    <p:commandButton process="dtUslugePregled" actionListener="#{mbUsluga.prikaziUslugu}" update=":frmdtUslugaPregled:detaljiUsluge :frmdtUslugaPregled:msgs :frmdtUslugaPregled:dtUslugePregled" icon="ui-icon-search" value="#{i18.details}" />
                 </f:facet>
 
 

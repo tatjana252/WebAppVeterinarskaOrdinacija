@@ -25,11 +25,11 @@
                 <p:rowToggler />
             </p:column>
 
-            <p:column headerText="#{i18.visit_date}" sortBy="#{poseta.datumString}" filterBy="#{poseta.datumString}">
+            <p:column headerText="#{i18.visit_date}">
                 <h:outputText value="#{poseta.datumString}" />
             </p:column>
 
-            <p:column headerText="#{i18.name}" sortBy="#{ljubimac.vlasnikid.ime}" filterBy="#{ljubimac.vlasnikid.ime}" >
+            <p:column headerText="#{i18.details}" >
                 <h:outputText value="#{mbLjubimac.vratiOpis(poseta)}" />
             </p:column>
 

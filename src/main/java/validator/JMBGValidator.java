@@ -56,8 +56,7 @@ public class JMBGValidator implements Validator {
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
-        
-       
+              
         
         matcher = pattern.matcher(value.toString());
         if (!matcher.matches()) {
@@ -65,22 +64,6 @@ public class JMBGValidator implements Validator {
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
-        
-         int i = 11 -( ( 7*(Character.getNumericValue(value.toString().charAt(0))+Character.getNumericValue(value.toString().charAt(6)))
-                +6*(Character.getNumericValue(value.toString().charAt(1))+Character.getNumericValue(value.toString().charAt(7)))
-                +5*(Character.getNumericValue(value.toString().charAt(2))+Character.getNumericValue(value.toString().charAt(8)))
-                +4*(Character.getNumericValue(value.toString().charAt(3))+Character.getNumericValue(value.toString().charAt(9)))
-                +3*(Character.getNumericValue(value.toString().charAt(4))+Character.getNumericValue(value.toString().charAt(10)))
-                +2*(Character.getNumericValue(value.toString().charAt(5))+Character.getNumericValue(value.toString().charAt(11)))
-                  )%11 );
-        if(i>9){
-            i = 0;
-        }
-        
-        if(Character.getNumericValue(value.toString().charAt(12)) != i){
-            FacesMessage msg = new FacesMessage("jmbg_validation_fail_checksum");
-            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-            throw new ValidatorException(msg);
-        }
+
     }
 }

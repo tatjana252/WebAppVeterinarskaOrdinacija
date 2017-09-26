@@ -68,6 +68,7 @@ public class LazyDataModelLjubimac extends LazyDataModel<Ljubimac> {
             this.setRowCount(kontroler.ucitajLjubimce());
             return ljubimci;
         } catch (Exception ex) {
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
         } catch (RESTException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
@@ -77,11 +78,12 @@ public class LazyDataModelLjubimac extends LazyDataModel<Ljubimac> {
 
     @Override
     public Ljubimac getRowData(String rowKey) {
-       List<Ljubimac> ljubimci = (List<Ljubimac>) getWrappedData();
-        for (Ljubimac ljubimac : ljubimci) {
-            if(ljubimac.getLjubimacid()== Integer.parseInt(rowKey)){
-                return ljubimac;
-            }
+        try {
+            return kontroler.prikaziLjubimca(new Ljubimac(Integer.parseInt(rowKey)));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
         }
         return null;
     }

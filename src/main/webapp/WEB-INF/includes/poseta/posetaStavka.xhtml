@@ -20,12 +20,12 @@
                 <h:outputText value="#{stavka.stavkaposetePK.stavkaposeteid}" />
         </p:column>
 
-        <p:column headerText="#{i18.price}" sortBy="#{stavka.usluga.tipuslugeid.naziv}">
+        <p:column headerText="#{i18.service_type}">
           <h:outputText value="#{stavka.usluga.tipuslugeid.naziv}" />
         </p:column>
 
 
-        <p:column headerText="#{i18.service_type}" sortBy="#{stavka.usluga.naziv}" filterBy="#{stavka.usluga.naziv}" >
+        <p:column headerText="#{i18.service_name}" >
            <h:outputText value="#{stavka.usluga.naziv}" />
         </p:column>
         

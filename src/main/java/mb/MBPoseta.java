@@ -161,10 +161,10 @@ public class MBPoseta implements Serializable {
                 error_details += bundle.getString("choose_date")+"!\n";
             }
             if (poseta.getStavkaposeteList().isEmpty()) {
-                error_details += bundle.getString("no_items")+"!\n";;
+                error_details += bundle.getString("no_items")+"!\n";
             }
             if (poseta.getLjubimacid() == null) {
-                error_details += bundle.getString("choose_pet")+"!\n";;
+                error_details += bundle.getString("choose_pet")+"!\n";
             }
             if (!error_details.equals("")) {
                 

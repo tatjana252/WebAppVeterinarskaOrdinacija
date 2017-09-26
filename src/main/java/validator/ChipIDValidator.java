@@ -34,8 +34,7 @@ public class ChipIDValidator implements Validator {
     }
 
     @Override
-    public void validate(FacesContext context, UIComponent component,
-            Object value) throws ValidatorException {
+    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         if (value != null) {
             if (value.toString().length() > 0) {
                 matcher = pattern.matcher(value.toString());

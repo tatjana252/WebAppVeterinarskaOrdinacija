@@ -210,6 +210,7 @@ public class Kontroler implements Serializable {
         };
         LjubimacSaPosetama ljp = (LjubimacSaPosetama) getObject(response, gt);
         Ljubimac lj = ljp.vratiLjubimca();
+        System.out.println("lj sifra cipa" + lj.getSifracipa());
         return lj;
     }
 

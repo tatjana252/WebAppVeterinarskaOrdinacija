@@ -33,10 +33,10 @@ public class MBLjubimac implements Serializable {
     private String stranica;
     private Ljubimac ljubimac;
     private boolean izmena = false;
-    
+
     @Inject
     private LazyDataModelLjubimac lazydmLjubimac;
-    
+
     @Inject
     Kontroler kontroler;
 
@@ -68,7 +68,7 @@ public class MBLjubimac implements Serializable {
                 break;
             case 2:
                 this.stranica = "WEB-INF/includes/ljubimac/ljubimacIzmena.xhtml";
-                
+
                 break;
             case 3:
                 this.stranica = "WEB-INF/includes/ljubimac/ljubimacUnos.xhtml";
@@ -77,8 +77,6 @@ public class MBLjubimac implements Serializable {
                 obrisiVlasnika();
         }
     }
-
-
 
     public List<Vlasnik> ucitajVlasnike() {
         try {
@@ -96,7 +94,7 @@ public class MBLjubimac implements Serializable {
         options.put("resizable", true);
         options.put("draggable", true);
         options.put("modal", true);
-        
+
         options.put("width", "800px");
         options.put("height", "500px");
         options.put("contentWidth", "100%");
@@ -116,6 +114,7 @@ public class MBLjubimac implements Serializable {
     }
 
     boolean vlasnikOdabran = false;
+
     public void vlasnikOdabran(SelectEvent event) {
     }
 
@@ -128,20 +127,16 @@ public class MBLjubimac implements Serializable {
         try {
             return kontroler.ucitajVrsteZivotinje();
         } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
-                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RESTException ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
 
     public void sacuvaj() {
-//        if(ljubimac.getVlasnikid() == null || ljubimac.getVlasnikid().getVlasnikid()==-1){
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ljubimac mora imati vlasnika!"));
-//            return;
-//        }
         if (!izmena) {
             try {
                 String odgovor = kontroler.sacuvaj(ljubimac);
@@ -150,7 +145,7 @@ public class MBLjubimac implements Serializable {
                 obrisiVlasnika();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(odgovor));
             } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"", ""));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
                 Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
             } catch (RESTException ex) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.toString(), ""));
@@ -168,19 +163,19 @@ public class MBLjubimac implements Serializable {
             }
         }
     }
-    
-    public String prikaziPoseteLjubimca(Ljubimac ljubimac){
+
+    public String prikaziPoseteLjubimca(Ljubimac ljubimac) {
         try {
-        this.ljubimac = kontroler.prikaziLjubimca(ljubimac);
-        prikaziLjubimca();
-        return "pretty:ljubimac";
-          } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
-                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RESTException ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.ljubimac = kontroler.prikaziLjubimca(ljubimac);
+            prikaziLjubimca();
+            return "pretty:ljubimac";
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
 
@@ -193,13 +188,13 @@ public class MBLjubimac implements Serializable {
             ljubimac = kontroler.prikaziLjubimca(ljubimac);
             izmena = true;
             stranica = "WEB-INF/includes/ljubimac/ljubimacDetalji.xhtml";
-       } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
-                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RESTException ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-                Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RESTException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+            Logger.getLogger(MBLjubimac.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public String vratiOpis(Poseta poseta) {
@@ -212,11 +207,11 @@ public class MBLjubimac implements Serializable {
         System.out.println(opis);
         return opis;
     }
-    
-    public String getCurrentDate(){
-        return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+
+    public String getCurrentDate() {
+        return new SimpleDateFormat("d.M.yyyy.").format(new Date());
     }
-    
+
     public boolean isIzmena() {
         return izmena;
     }
@@ -225,7 +220,7 @@ public class MBLjubimac implements Serializable {
         this.izmena = izmena;
     }
 
-       public String getStranica() {
+    public String getStranica() {
         return stranica;
     }
 
@@ -234,11 +229,12 @@ public class MBLjubimac implements Serializable {
     }
 
     public Ljubimac getLjubimac() {
-       
+
         return ljubimac;
     }
 
     public void setLjubimac(Ljubimac ljubimac) {
         this.ljubimac = ljubimac;
     }
+
 }

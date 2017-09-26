@@ -213,6 +213,7 @@ public class LjubimacSaPosetama implements Serializable {
         ljubimac.setRasa(rasa);
         ljubimac.setPosetaList(posetaList);
         ljubimac.setVrstazivotinjeid(vrstazivotinjeid);
+        ljubimac.setSifracipa(sifracipa);
         return ljubimac;
     }
     

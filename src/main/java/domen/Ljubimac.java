@@ -122,6 +122,7 @@ public class Ljubimac implements Serializable {
     }
 
     public String getSifracipa() {
+        System.out.println("get " + sifracipa);
         return sifracipa;
     }
 

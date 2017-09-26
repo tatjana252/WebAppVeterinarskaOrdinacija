@@ -10,7 +10,7 @@
 
         <div id="center" class="container-fluid">
             <h2 style="text-align: left; margin-bottom: 10px;">#{mbPoseta.prikazDetalja ? i18.visit : i18.add_a_new_visit}</h2>
-            <p:growl id="msgsUnosPosete" showDetail="true" sticky="true" />
+            <p:growl id="msgsUnosPosete" showDetail="false" sticky="false"  life="8000"/>
             <div class ="row-fluid" style="width:100%;">
                 <div class="col-md-12 col-sm-12 col-lg-12">
                     <h:form id="frmDatum" >
@@ -20,7 +20,7 @@
                                     <h:outputLabel for="petVisitDate" value="#{i18.visit_date}" style="width: 9em; margin-left: -20px;" />
                                 </p:column>
                                 <p:column>
-                                    <p:calendar id="petVisitDate" value="#{mbPoseta.poseta.datum}" pattern="dd-MM-yyyy" inputStyle="width:20em;" disabled="#{mbPoseta.prikazDetalja}">
+                                    <p:calendar id="petVisitDate" value="#{mbPoseta.poseta.datum}" pattern="dd.MM.yyyy." inputStyle="width:20em;" disabled="#{mbPoseta.prikazDetalja}">
                                         <p:ajax event="dateSelect" listener="#{mbPoseta.postaviDatum}" update=":frmDatum:petVisitDate" />
                                     </p:calendar>
 
@@ -148,7 +148,7 @@
                                         <c:if test="#{not mbPoseta.prikazDetalja}">
                                             <div>
                                                 <p:commandButton value="#{mbPoseta.izmenaStavke ? i18.edit_item : i18.add_item}" icon="ui-icon-plusthick" 
-                                                                 form=":frmStavkaPosete" update=":frmStavkaPosete :msgsUnosPosete" process=":frmStavkaPosete" 
+                                                                 form=":frmStavkaPosete" update=":frmStavkaPosete" process=":frmStavkaPosete" 
                                                                  action="#{mbPoseta.dodajStavku()}" />
                                             </div>
                                         </c:if>
@@ -174,7 +174,7 @@
                 <c:if test="#{not mbPoseta.prikazDetalja}" >
                     <h:form id="frmPoseta">
                         <p:commandButton class="btn btn-lg" value="#{i18.add}" icon="ui-icon-plusthick" form=":frmPoseta" 
-                                         update="@all" process="@this" action="#{mbPoseta.sacuvajPosetu()}" 
+                                         update=":frmPoseta :frmDatum :frmLjubimac :frmStavkaPosete " process="@this" action="#{mbPoseta.sacuvajPosetu()}" 
                                          style="border: #dddddd;margin-top:20px;
                                          border-style: solid;" />
                     </h:form></c:if>

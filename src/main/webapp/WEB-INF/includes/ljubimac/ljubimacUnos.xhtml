@@ -125,7 +125,7 @@
 
                                 <p:row><p:column>
                                         <h:outputLabel for="petDateOfBirth" value="#{i18.date_of_birth}" styleClass="labels" /></p:column><p:column>
-                                        <p:calendar id="petDateOfBirth" value="#{mbLjubimac.ljubimac.datumrodjenja}" pattern="dd-MM-yyyy" inputStyle="width:20em;" readonly="#{mbLjubimac.izmena}" required="true" maxdate="#{mbLjubimac.currentDate}">
+                                        <p:calendar id="petDateOfBirth" value="#{mbLjubimac.ljubimac.datumrodjenja}" pattern="dd.MM.yyyy." inputStyle="width:20em;" readonly="#{mbLjubimac.izmena}" required="true" maxdate="#{mbLjubimac.currentDate}">
                                             <p:ajax event="dateSelect" listener="#{mbLjubimac.postavidatumrodjenja}" update=":frmLjubimac:petDateOfBirth" />
                                         </p:calendar></p:column>
                                     <p:column>
